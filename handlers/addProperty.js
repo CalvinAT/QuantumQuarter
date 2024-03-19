@@ -1,4 +1,4 @@
-const dbConnect = require('.././dbConnection')
+const {connectToMongoDB} = require('.././dbConnection');
 const shortid = require('shortid');
 const length = 8;
 
@@ -20,7 +20,7 @@ async function addProperty(req, res) {
         status
     } = req.body;
     try {
-        const db = await dbConnect();
+        const db = await connectToMongoDB();
         const result = await db.collection('property').insertOne({
             id : shortid.generate().substring(0, length),
             agent,
