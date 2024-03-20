@@ -1,5 +1,7 @@
 const { MongoClient } = require("mongodb");
 const config = require('./config')
+const mysql = require('mysql2/promise');
+const sqlConfig = require('./sqlConfig'); 
 
 async function connectToMongoDB() {
     try {
@@ -7,8 +9,18 @@ async function connectToMongoDB() {
         await client.connect();
         return db = client.db('quantum-quarters')
     } catch (error) {
-        console.log('Gagal terhubung ke MongoDB: ', error)
+        console.log('Error connecting to MongoDB: ', error)
     }
 }
 
-module.exports = connectToMongoDB;
+async function connectToMySQL() {
+    try {
+        pool = mysql.createPool(sqlConfig);
+    } catch (error) {
+        console.error('Error connecting to MySQL:', error);
+        throw error;
+    }
+    return pool;
+}
+
+module.exports = {connectToMongoDB, connectToMySQL};
