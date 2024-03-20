@@ -1,8 +1,8 @@
-const dbConnect = require('.././dbConnection')
+const dbConnect = require('../dbConnection')
 const shortid = require('shortid');
 const length = 8;
 
-async function addProperty(req, res) {
+async function addPropertyHandler(req, res) {
     const {
         agent,
         title,
@@ -44,4 +44,4 @@ async function addProperty(req, res) {
     }
 }
 
-module.exports = addProperty;
+module.exports = addPropertyHandler;
