@@ -1,0 +1,43 @@
+.Main {
+  text-align: center;
+  background-color: #04364A;
+}
+
+.Header-logo {
+  height: 10vmin;
+  pointer-events: none;
+}
+
+
+.Header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  margin-left : 200px;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+a{
+  padding-left: 100px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.Main-link {
+  color: #61dafb;
+}
+
+/* @media (prefers-reduced-motion: no-preference) {
+  .Main-logo {
+    animation: Main-logo-spin infinite 20s linear;
+  }
+} */
+/* @keyframes Main-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
