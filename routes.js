@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const addProperty = require('./handlers/addProperty');
+
+const { addPropertyHandler, getPropertyHandler, approvePropertyHandler } = require('./handlers/propertyHandler')
 const addEmployee = require('./handlers/employeeHandler');
 const { login, logout } = require('./handlers/loginHandler');
 const upload = multer();
 
-router.post('/addproperty', upload.none(), addProperty);
+router.post('/property', upload.none(), addPropertyHandler);
+router.get('/property', upload.none(), getPropertyHandler);
+router.put('/property', upload.none(), approvePropertyHandler);
 
-router.post('/addemployee', upload.none(), addEmployee);
+router.post('/employee', upload.none(), addEmployee);
 
 router.post('/login', upload.none(), login)
 
