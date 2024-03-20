@@ -1,8 +1,15 @@
-const dbConnect = require('.././dbConnection')
+const {connectToMongoDB} = require('.././dbConnection');
+const { checkUserType } = require('./authenticationHandler');
 const shortid = require('shortid');
 const length = 8;
 
 async function addProperty(req, res) {
+    const authHeader = req.headers['authorization'];
+    if(!checkUserType(authHeader, 1)){
+        console.log("anjai agent");
+        res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
+    }
+
     const {
         agent,
         title,
@@ -20,7 +27,7 @@ async function addProperty(req, res) {
         status
     } = req.body;
     try {
-        const db = await dbConnect();
+        const db = await connectToMongoDB();
         const result = await db.collection('property').insertOne({
             id : shortid.generate().substring(0, length),
             agent,
