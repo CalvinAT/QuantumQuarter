@@ -1,10 +1,11 @@
 const { connectToMongoDB } = require('../dbConnection');
 const { getTokenData, checkUserType } = require('./authenticationHandler');
+const propertyBuilder = require('../../Model/property');
 
 const shortid = require('shortid');
 const length = 8;
 
-async function addProperty(req, res) {
+async function addPropertyHandler(req, res) {
     const authHeader = req.headers['authorization'];
     if(!checkUserType(authHeader, 1)){
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
@@ -17,16 +18,15 @@ async function addProperty(req, res) {
         type,
         area,
         price,
-        bedroom_count,
-        bathroom_count,
-        land_area,
+        bedroomCount,
+        bathroomCount,
+        landArea,
         garage,
-        floor_level
+        floorLevel
     } = req.body;
 
-    const propertyData = {};
 
-    propertyData.id = shortid.generate().substring(0, length);
+    propertyId = shortid.generate().substring(0, length);
 
     const { id } = getTokenData(authHeader);
     agent = id;
@@ -37,23 +37,20 @@ async function addProperty(req, res) {
         return;
     }
 
-    propertyData.agent = agent;
-    propertyData.title = title;
-    propertyData.desc = desc;
-    propertyData.type = type;
-    propertyData.area = type;
-    propertyData.price = price;
+    listing_date = new Date();
+    approved_date = "";
+    stat = 0;
+
+    builder = new propertyBuilder(propertyId, agent, title, desc, type, area, price, listing_date, approved_date, stat);
 
     // check undefined entries
-    if (bedroom_count !== undefined) propertyData.bedroom_count = bedroom_count;
-    if (bathroom_count !== undefined) propertyData.bathroom_count = bathroom_count;
-    if (land_area !== undefined) propertyData.land_area = land_area;
-    if (garage !== undefined) propertyData.garage = garage;
-    if (floor_level !== undefined) propertyData.floor_level = floor_level;
+    if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
+    if (bathroomCount !== undefined) builder.addBathroom(bathroomCount);
+    if (landArea !== undefined) builder.addLandArea(landArea);
+    if (garage !== undefined) builder.addGarage(garage);
+    if (floorLevel !== undefined) builder.addFloorLevel(floorLevel);
 
-    propertyData.listing_date = new Date();
-    propertyData.approved_date = "";
-    propertyData.status = 0;
+    propertyData = builder.build()
 
     try {
         const db = await connectToMongoDB();
