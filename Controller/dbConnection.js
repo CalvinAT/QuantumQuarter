@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
-const config = require('./config')
+const config = require('./config');
 const mysql = require('mysql2/promise');
-const sqlConfig = require('./sqlConfig'); 
+const sqlConfig = require('./sqlConfig');
 
 async function connectToMongoDB() {
     try {

@@ -1,5 +1,7 @@
 const { connectToMongoDB } = require('../dbConnection');
-const { checkUserType } = require('./authenticationHandler');
+const { getTokenData, checkUserType } = require('./authenticationHandler');
+const propertyBuilder = require('../../Model/property');
+
 const shortid = require('shortid');
 const length = 8;
 
@@ -9,47 +11,57 @@ async function addPropertyHandler(req, res) {
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
         return;
     }
-
+    
     const {
-        agent,
         title,
         desc,
         type,
         area,
         price,
-        bedroom_count,
-        bathroom_count,
-        land_area,
+        bedroomCount,
+        bathroomCount,
+        landArea,
         garage,
-        floor_level,
-        listing_date,
-        approved_date,
-        status
+        floorLevel
     } = req.body;
+
+
+    propertyId = shortid.generate().substring(0, length);
+
+    const { id } = getTokenData(authHeader);
+    agent = id;
+
+    // check required fields
+    if (agent === undefined || title === undefined || desc === undefined || type === undefined || area === undefined || price === undefined) {
+        res.status(400).json({ status: 400, message: 'Required fields are missing' });
+        return;
+    }
+
+    listing_date = new Date();
+    approved_date = "";
+    stat = 0;
+
+    builder = new propertyBuilder(propertyId, agent, title, desc, type, area, price, listing_date, approved_date, stat);
+
+    // check undefined entries
+    if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
+    if (bathroomCount !== undefined) builder.addBathroom(bathroomCount);
+    if (landArea !== undefined) builder.addLandArea(landArea);
+    if (garage !== undefined) builder.addGarage(garage);
+    if (floorLevel !== undefined) builder.addFloorLevel(floorLevel);
+
+    propertyData = builder.build()
+
     try {
         const db = await connectToMongoDB();
-        const result = await db.collection('property').insertOne({
-            id : shortid.generate().substring(0, length),
-            agent,
-            title,
-            desc,
-            type,
-            area,
-            price,
-            bedroom_count,
-            bathroom_count,
-            land_area,
-            garage,
-            floor_level,
-            listing_date,
-            approved_date,
-            status
-        });
-        res.status(201).json({ status: 201, message: 'Property baru berhasil ditambahkan' });
+        const result = await db.collection('property').insertOne(propertyData);
+        console.log(propertyData);
+        res.status(201).json({ status: 201, message: 'Successfully add property listing request' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
+
 
 async function getPropertyHandler(req, res) {
     const authHeader = req.headers['authorization'];
