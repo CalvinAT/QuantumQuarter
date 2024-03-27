@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tailwindcss -i ./view/src/input.css -o ./view/public/output.css --watch"
+    "build": "tailwindcss -i ./view/public/input.css -o ./view/public/output.css --watch"
   },
   "keywords": [],
   "author": "",
