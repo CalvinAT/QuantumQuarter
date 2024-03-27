@@ -17,6 +17,9 @@ function verifyToken(token) {
 }
 
 function getTokenData(token) {
+    if (token==undefined){
+        return null;
+    }
     const tokenParts = token.split(' ');
     if (tokenParts.length === 2 && tokenParts[0].toLowerCase() === 'bearer') {
         const token = tokenParts[1];
@@ -33,6 +36,9 @@ function getTokenData(token) {
 }
 
 function checkUserType(token, expected){
+    if (token==undefined){
+        return false;
+    }
     const { type } = getTokenData(token);
     return type == expected;
 }
