@@ -6,8 +6,8 @@ const length = 8;
 async function addPropertyHandler(req, res) {
     const authHeader = req.headers['authorization'];
     if(!checkUserType(authHeader, 1)){
-        console.log("anjai agent");
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
+        return;
     }
 
     const {
@@ -52,6 +52,11 @@ async function addPropertyHandler(req, res) {
 }
 
 async function getPropertyHandler(req, res) {
+    const authHeader = req.headers['authorization'];
+    if(!checkUserType(authHeader, 1)){
+        res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
+        return;
+    }
     const { type } = req.body;
     let query = {};
     try {
@@ -66,8 +71,15 @@ async function getPropertyHandler(req, res) {
     }
 }
 
-async function approvePropertyHandler(req, res) {
+async function setStatusPropertyHandler(req, res) {
+    const authHeader = req.headers['authorization'];
+    if(!checkUserType(authHeader, 1)){
+        res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
+        return;
+    }
     const { id } = req.body;
+    const method = req.method;
+    let updateDoc;
     const currentDate = new Date(); 
     const date = ("0" + currentDate.getDate()).slice(-2);
     const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
@@ -75,17 +87,27 @@ async function approvePropertyHandler(req, res) {
     try {
         const db = await connectToMongoDB();
         const filter = { id: id };
-        const updateDoc = {
-            $set: {
-              approved_date: year + "-" + month + "-" + date,
-              status: 1
-            },
-        };
-        const result = await db.collection('property').updateOne(filter, updateDoc);
-        res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
+        if (method === 'PUT') {
+            updateDoc = {
+                $set: {
+                  approved_date: year + "-" + month + "-" + date,
+                  status: 1
+                },
+            };
+            const result = await db.collection('property').updateOne(filter, updateDoc);
+            res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
+        } else {
+            updateDoc = {
+                $set: {
+                  status: 2
+                },
+            };
+            const result = await db.collection('property').updateOne(filter, updateDoc);
+            res.status(200).json({ status: 200, message: 'Property sold' });
+        }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 }
 
-module.exports = { addPropertyHandler, getPropertyHandler, approvePropertyHandler };
+module.exports = { addPropertyHandler, getPropertyHandler, setStatusPropertyHandler };
