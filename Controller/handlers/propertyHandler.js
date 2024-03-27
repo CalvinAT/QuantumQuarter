@@ -1,4 +1,5 @@
-const { connectToMongoDB } = require('../dbConnection');
+const { connectToMongoDB }  = require('../dbConnection');
+const { checkUserType } = require('./authenticationHandler');
 const { getTokenData, checkUserType } = require('./authenticationHandler');
 const propertyBuilder = require('../../Model/property');
 
@@ -53,7 +54,7 @@ async function addPropertyHandler(req, res) {
     propertyData = builder.build()
 
     try {
-        const db = await connectToMongoDB();
+        const db = await connectToMongoDB.Get();
         const result = await db.collection('property').insertOne(propertyData);
         console.log(propertyData);
         res.status(201).json({ status: 201, message: 'Successfully add property listing request' });
@@ -72,7 +73,7 @@ async function getPropertyHandler(req, res) {
     const { type } = req.body;
     let query = {};
     try {
-        const db = await connectToMongoDB();
+        const db = await connectToMongoDB.Get();
         if (type) {
             query = { type : type };
         }
@@ -97,7 +98,7 @@ async function setStatusPropertyHandler(req, res) {
     const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
     const year = currentDate.getFullYear();
     try {
-        const db = await connectToMongoDB();
+        const db = await connectToMongoDB.Get();
         const filter = { id: id };
         if (method === 'PUT') {
             updateDoc = {
