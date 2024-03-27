@@ -4,11 +4,11 @@ const shortid = require('shortid');
 const length = 8;
 
 async function addPropertyHandler(req, res) {
-    // const authHeader = req.headers['authorization'];
-    // if(!checkUserType(authHeader, 1)){
-    //     res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
-    //     return;
-    // }
+    const authHeader = req.headers['authorization'];
+    if(!checkUserType(authHeader, 1)){
+        res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
+        return;
+    }
 
     const {
         agent,
@@ -60,7 +60,7 @@ async function getPropertyHandler(req, res) {
     const { type } = req.body;
     let query = {};
     try {
-        const db = await connectToMongoDB();
+        const db = await connectToMongoDB.Get();
         if (type) {
             query = { type : type };
         }
@@ -85,7 +85,7 @@ async function setStatusPropertyHandler(req, res) {
     const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
     const year = currentDate.getFullYear();
     try {
-        const db = await connectToMongoDB();
+        const db = await connectToMongoDB.Get();
         const filter = { id: id };
         if (method === 'PUT') {
             updateDoc = {
