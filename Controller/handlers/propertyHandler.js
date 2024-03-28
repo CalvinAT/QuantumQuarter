@@ -1,5 +1,4 @@
 const { connectToMongoDB }  = require('../dbConnection');
-const { checkUserType } = require('./authenticationHandler');
 const { getTokenData, checkUserType } = require('./authenticationHandler');
 const propertyBuilder = require('../../Model/property');
 
@@ -38,11 +37,11 @@ async function addPropertyHandler(req, res) {
         return;
     }
 
-    listing_date = new Date();
-    approved_date = "";
+    listingDate = new Date();
+    approvedDate = "";
     stat = 0;
 
-    builder = new propertyBuilder(propertyId, agent, title, desc, type, area, price, listing_date, approved_date, stat);
+    builder = new propertyBuilder(propertyId, agent, title, desc, type, area, price, listingDate, approvedDate, stat);
 
     // check undefined entries
     if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
@@ -65,11 +64,6 @@ async function addPropertyHandler(req, res) {
 
 
 async function getPropertyHandler(req, res) {
-    const authHeader = req.headers['authorization'];
-    if(!checkUserType(authHeader, 1)){
-        res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
-        return;
-    }
     const { type } = req.body;
     let query = {};
     try {

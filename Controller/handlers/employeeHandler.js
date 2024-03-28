@@ -1,7 +1,14 @@
 const { connectToMySQL } = require('../dbConnection');
+const { checkUserType } = require('./authenticationHandler');
 const bcrypt = require('bcrypt');
 
 async function addEmployee(req, res) {
+    const authHeader = req.headers['authorization'];
+    if(!checkUserType(authHeader, 0)){
+        res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
+        return;
+    }
+
     const {
         id,
         name,
