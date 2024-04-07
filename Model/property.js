@@ -27,11 +27,11 @@ class propertyBuilder {
         this.property.desc = desc;
         this.property.area = area;
         this.property.type = type;
-        this.property.area = type;
+        this.property.area = area;
         this.property.price = price;
-        this.listingDate = listingDate;
-        this.approvedDate = approvedDate;
-        this.status = status;
+        this.property.listingDate = listingDate;
+        this.property.approvedDate = approvedDate;
+        this.property.status = status;
     }
 
     addBedroom(count){

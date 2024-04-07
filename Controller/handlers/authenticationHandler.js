@@ -37,7 +37,7 @@ function getTokenData(token) {
 
 function checkUserType(token, expected){
     if (token==undefined){
-        return false;
+        return null;
     }
     const { type } = getTokenData(token);
     return type == expected;

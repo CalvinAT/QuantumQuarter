@@ -5,9 +5,9 @@ const multer = require('multer');
 const { addPropertyHandler, getPropertyHandler, setStatusPropertyHandler } = require('./handlers/propertyHandler')
 const addEmployee = require('./handlers/employeeHandler');
 const { login, logout } = require('./handlers/loginHandler');
-const upload = multer();
+const upload = multer({ dest: 'uploads/' });
 
-router.post('/property', upload.none(), addPropertyHandler);
+router.post('/property', upload.array('images',5), addPropertyHandler);
 router.get('/property', upload.none(), getPropertyHandler);
 router.put('/property', upload.none(), setStatusPropertyHandler);
 router.delete('/property', upload.none(), setStatusPropertyHandler);
