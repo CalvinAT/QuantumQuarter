@@ -60,16 +60,16 @@ async function addPropertyHandler(req, res) {
 
     const approvedDate = "";
     const stat = 0;
-    const builder = new propertyBuilder(propertyId, agent, title, type, desc, area, price, listingDate, approvedDate, stat);
+    // const builder = new propertyBuilder(propertyId, agent, title, type, desc, area, price, listingDate, approvedDate, stat);
 
-    // check undefined entries
-    if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
-    if (bathroomCount !== undefined) builder.addBathroom(bathroomCount);
-    if (landArea !== undefined) builder.addLandArea(landArea);
-    if (garage !== undefined) builder.addGarage(garage);
-    if (floorLevel !== undefined) builder.addFloorLevel(floorLevel);
+    // // check undefined entries
+    // if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
+    // if (bathroomCount !== undefined) builder.addBathroom(bathroomCount);
+    // if (landArea !== undefined) builder.addLandArea(landArea);
+    // if (garage !== undefined) builder.addGarage(garage);
+    // if (floorLevel !== undefined) builder.addFloorLevel(floorLevel);
 
-    const propertyData = builder.build()
+    // const propertyData = builder.build()
 
     try {
         const db = await connectToMongoDB.Get();
@@ -96,7 +96,16 @@ async function addPropertyHandler(req, res) {
                 `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`,
             );
         }
-     
+        const builder = new propertyBuilder(propertyId, agent, title, type, desc, area, price, listingDate, approvedDate, stat, uploadedFiles);
+
+        // check undefined entries
+        if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
+        if (bathroomCount !== undefined) builder.addBathroom(bathroomCount);
+        if (landArea !== undefined) builder.addLandArea(landArea);
+        if (garage !== undefined) builder.addGarage(garage);
+        if (floorLevel !== undefined) builder.addFloorLevel(floorLevel);
+    
+        const propertyData = builder.build()
         const result = await db.collection('property').insertOne(propertyData);
         console.log(propertyData);
         res.status(201).json({ 
