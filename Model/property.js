@@ -15,11 +15,12 @@ class property {
         this.listingDate = null;
         this.approvedDate = null;
         this.status = null;
+        this.images = null;
     }
 }
 
 class propertyBuilder {
-    constructor(id, agent, title, type, desc, area, price, listingDate, approvedDate, status){
+    constructor(id, agent, title, type, desc, area, price, listingDate, approvedDate, status, images){
         this.property = new property();
         this.property.id = id;
         this.property.agent = agent;
@@ -32,6 +33,7 @@ class propertyBuilder {
         this.property.listingDate = listingDate;
         this.property.approvedDate = approvedDate;
         this.property.status = status;
+        this.property.images = images;
     }
 
     addBedroom(count){
