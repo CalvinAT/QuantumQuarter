@@ -1,6 +1,9 @@
 const { connectToMongoDB }  = require('../dbConnection');
 const { getTokenData, checkUserType } = require('./authenticationHandler');
 const propertyBuilder = require('../../Model/property');
+const path = require('path');
+
+const {Storage} = require('@google-cloud/storage');
 
 const shortid = require('shortid');
 const length = 8;
@@ -11,7 +14,17 @@ async function addPropertyHandler(req, res) {
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
         return;
     }
-    
+
+    const projectId = 'quantumquarters';
+    const keyFilename = path.resolve(__dirname, 'quantumquarters-storage.json');
+
+    const storage = new Storage({
+        projectId,
+        keyFilename
+    });
+
+    const bucketName = 'quantum-quarters-property';
+
     const {
         title,
         desc,
@@ -25,11 +38,13 @@ async function addPropertyHandler(req, res) {
         floorLevel
     } = req.body;
 
+    const files = req.files;
+    const uploadedFiles = [];
 
-    propertyId = shortid.generate().substring(0, length);
+    const propertyId = shortid.generate().substring(0, length);
 
     const { id } = getTokenData(authHeader);
-    agent = id;
+    const agent = id;
 
     // check required fields
     if (agent === undefined || title === undefined || desc === undefined || type === undefined || area === undefined || price === undefined) {
@@ -37,11 +52,15 @@ async function addPropertyHandler(req, res) {
         return;
     }
 
-    listingDate = new Date();
-    approvedDate = "";
-    stat = 0;
+    const currentDate = new Date();
+    const date = ("0" + currentDate.getDate()).slice(-2);
+    const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
+    const year = currentDate.getFullYear();
+    const listingDate = `${date}-${month}-${year}`
 
-    builder = new propertyBuilder(propertyId, agent, title, desc, type, area, price, listingDate, approvedDate, stat);
+    const approvedDate = "";
+    const stat = 0;
+    const builder = new propertyBuilder(propertyId, agent, title, type, desc, area, price, listingDate, approvedDate, stat);
 
     // check undefined entries
     if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
@@ -50,13 +69,41 @@ async function addPropertyHandler(req, res) {
     if (garage !== undefined) builder.addGarage(garage);
     if (floorLevel !== undefined) builder.addFloorLevel(floorLevel);
 
-    propertyData = builder.build()
+    const propertyData = builder.build()
 
     try {
         const db = await connectToMongoDB.Get();
+        const uniqueFolderName = `${type}/${propertyId}/`;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const filePath = file.path;
+            const fileName = file.originalname;
+      
+            console.log(filePath)
+            if(filePath){
+                await storage.bucket(bucketName).upload(filePath, {
+                    destination: `${uniqueFolderName}${fileName}`,
+                    metadata: {
+                        contentType: file.mimetype,
+                        defaultObjectAcl: 'publicRead',
+                    },
+                })
+            } else {
+                console.log('File path error')
+            }
+            uploadedFiles.push(
+                `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`,
+            );
+        }
+     
         const result = await db.collection('property').insertOne(propertyData);
         console.log(propertyData);
-        res.status(201).json({ status: 201, message: 'Successfully add property listing request' });
+        res.status(201).json({ 
+            status: 201, 
+            message: 'Successfully add property listing request', 
+            uploadedFiles
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
