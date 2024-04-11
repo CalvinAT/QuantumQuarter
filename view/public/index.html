@@ -6,40 +6,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Quantum Quarter</title>
     <link rel="stylesheet" href="./output.css">
-    <link rel="icon" type="image/png" href="./asset/qq-logo.png">
+    <link rel="icon" type="image/png" href="./asset/qq-icon.png">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+    </script>
+    <script> 
+    $(function(){
+      $("#header").load("header.html"); 
+      $("#footer").load("footer.html"); 
+    });
+    </script> 
   </head>
+
   <body class="bg-qq-primary">
-    <header class="bg-qq-secondary h-15 w-auto flex items-center">
-      <image class="object-fill h-15 w-20 ml-4" src="./asset/qq-logo.png"></image>
-      <a href="" class="text-qq-primary ml-20 font-inter">Property</a>
-      <a href="" class="text-qq-primary ml-20 font-inter">Mortgage Simulation</a>
-      <a href="" class="text-qq-primary ml-20 font-inter">Join Us</a>
-      <a href="" class="text-qq-primary ml-20 font-inter">About Us</a>
-    </header>
+    <div id="header"></div>
     <div class="mt-42 bg-qq-tertiary">----</div>
-    <footer class="bg-qq-secondary h-50">
-      <div class="flex">
-        <image class="object-fill h-10 w-20 ml-4 mt-4 mr-2" src="./asset/qq-logo.png"></image>
-        <text class="font-extrabold font-inter pt-8 text-qq-primary">Quantum Quarters</text>
-      </div>
-      <div class="ml-5 mt-1">
-        <text class="font-light font-inter pt-8 text-qq-primary">Jl. Dipati Ukur No.80, Dago, Kecamatan<br>Coblong, Kota Bandung, Jawa Barat 40132</text>
-      </div>
-      <div class="flex items-center mt-2">
-        <div><image class="object-cover h-5 w-9 ml-4" src="./asset/letter.png"></image></div>
-        <div><text class="font-light font-inter italic pt-8 text-qq-primary">info@quantumquarters.com</text></div>
-      </div>
-      <div class="flex items-center leading-none">
-      <div><image class="object-cover h-5 w-9 ml-4" src="./asset/phone.png"></image></div>
-      <div><text class="font-light font-inter pt-8 text-qq-primary">(021) 444 6666 / (021) 333 0000</text></div>
-      </div>
-      <div class="flex leading-none mt-2">
-        <image class="object-fill h-12 w-14 ml-4" src="./asset/Instagram Circle.png"></image>
-        <image class="object-fill h-12 w-14" src="./asset/Facebook.png"></image>
-        <image class="object-fill h-12 w-14" src="./asset/Twitter Circled.png"></image>
-        <image class="object-fill h-12 w-14" src="./asset/YouTube.png"></image>
-        <image class="object-fill h-12 w-14" src="./asset/LinkedIn Circled.png"></image>
-      </div>
-    </footer>
+    <div id="footer"></div>
   </body>
 </html>
