@@ -1,7 +1,14 @@
 const { connectToMySQL } = require('../dbConnection');
+const { checkUserType } = require('./authenticationHandler');
 const bcrypt = require('bcrypt');
 
 async function addEmployee(req, res) {
+    const authHeader = req.headers['authorization'];
+    if(!checkUserType(authHeader, 0)){
+        res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
+        return;
+    }
+
     const {
         id,
         name,
@@ -13,14 +20,40 @@ async function addEmployee(req, res) {
         branch_id,
         phone_number,
         whatsapp,
-        profile_path
+        profile
     } = req.body;
+
+    const projectId = 'quantumquarters';
+    const keyFilename = path.resolve(__dirname, 'quantumquarters-storage.json');
+
+    const storage = new Storage({
+        projectId,
+        keyFilename
+    });
+
+    const bucketName = 'quantum-quarters-employee';
+    const uniqueFolderName = `${id}/`;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
         const pool = await connectToMySQL();
 
+        const filePath = profile.path;
+        const fileName = profile.originalname;
+
+        if(filePath){
+            await storage.bucket(bucketName).upload(filePath, {
+                destination: `${uniqueFolderName}${fileName}`,
+                metadata: {
+                    contentType: file.mimetype,
+                    defaultObjectAcl: 'publicRead',
+                },
+            })
+        } else {
+            console.log('File path error')
+        }
+        const profile_path = `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`
         // Insert employee
         await pool.query('INSERT INTO employee (id, name, address, gender, email, password, type, currently_login) VALUES (?, ?, ?, ?, ?, ?, ?, 0);', [id, name, address, gender, email, hashedPassword, type]);
 
