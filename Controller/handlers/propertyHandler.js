@@ -1,5 +1,6 @@
 const { connectToMongoDB }  = require('../dbConnection');
 const { getTokenData, checkUserType } = require('./authenticationHandler');
+const addLog = require('./logHandler');
 const propertyBuilder = require('../../Model/property');
 const path = require('path');
 
@@ -60,16 +61,6 @@ async function addPropertyHandler(req, res) {
 
     const approvedDate = "";
     const stat = 0;
-    // const builder = new propertyBuilder(propertyId, agent, title, type, desc, area, price, listingDate, approvedDate, stat);
-
-    // // check undefined entries
-    // if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
-    // if (bathroomCount !== undefined) builder.addBathroom(bathroomCount);
-    // if (landArea !== undefined) builder.addLandArea(landArea);
-    // if (garage !== undefined) builder.addGarage(garage);
-    // if (floorLevel !== undefined) builder.addFloorLevel(floorLevel);
-
-    // const propertyData = builder.build()
 
     try {
         const db = await connectToMongoDB.Get();
@@ -113,7 +104,9 @@ async function addPropertyHandler(req, res) {
             message: 'Successfully add property listing request', 
             uploadedFiles
         });
+        addLog(req, agent, 1, "add property");
     } catch (error) {
+        addLog(req, agent, 0, "add property");
         res.status(500).json({ error: error.message });
     }
 }
@@ -136,11 +129,13 @@ async function getPropertyHandler(req, res) {
 
 async function setStatusPropertyHandler(req, res) {
     const authHeader = req.headers['authorization'];
-    if(!checkUserType(authHeader, 1)){
+    if(authHeader === undefined){
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
         return;
     }
-    const { id } = req.body;
+    let { id } = getTokenData(authHeader);
+    const employeeId = id;
+    id  = req.body;
     const method = req.method;
     let updateDoc;
     const currentDate = new Date(); 
@@ -151,6 +146,9 @@ async function setStatusPropertyHandler(req, res) {
         const db = await connectToMongoDB.Get();
         const filter = { id: id };
         if (method === 'PUT') {
+            if(!checkUserType(authHeader, 0)){
+                throw new Error("Invalid Credentials!!");
+            }
             updateDoc = {
                 $set: {
                   approved_date: year + "-" + month + "-" + date,
@@ -158,8 +156,15 @@ async function setStatusPropertyHandler(req, res) {
                 },
             };
             const result = await db.collection('property').updateOne(filter, updateDoc);
+            if(!result){
+                console.log('property not updated');
+            }
             res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
+            addLog(req, employeeId, 1, "approve property");
         } else {
+            if(!checkUserType(authHeader, 1)){
+                throw new Error("Invalid Credentials!!");
+            }
             updateDoc = {
                 $set: {
                   status: 2
@@ -167,8 +172,10 @@ async function setStatusPropertyHandler(req, res) {
             };
             const result = await db.collection('property').updateOne(filter, updateDoc);
             res.status(200).json({ status: 200, message: 'Property sold' });
+            addLog(req, employeeId, 1, "delist property");
         }
     } catch (error) {
+        addLog(req, employeeId, 0, "update property");
         res.status(500).json({ error: error.message });
     }
 }

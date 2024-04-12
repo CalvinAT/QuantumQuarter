@@ -1,6 +1,9 @@
 const { connectToMySQL } = require('../dbConnection');
 const { checkUserType } = require('./authenticationHandler');
 const bcrypt = require('bcrypt');
+const path = require('path');
+
+const {Storage} = require('@google-cloud/storage');
 
 async function addEmployee(req, res) {
     const authHeader = req.headers['authorization'];
@@ -20,8 +23,9 @@ async function addEmployee(req, res) {
         branch_id,
         phone_number,
         whatsapp,
-        profile
     } = req.body;
+
+    const profile = req.file;
 
     const projectId = 'quantumquarters';
     const keyFilename = path.resolve(__dirname, 'quantumquarters-storage.json');
@@ -46,20 +50,20 @@ async function addEmployee(req, res) {
             await storage.bucket(bucketName).upload(filePath, {
                 destination: `${uniqueFolderName}${fileName}`,
                 metadata: {
-                    contentType: file.mimetype,
+                    contentType: profile.mimetype,
                     defaultObjectAcl: 'publicRead',
                 },
             })
         } else {
             console.log('File path error')
         }
-        const profile_path = `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`
+        const profilePath = `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`
         // Insert employee
         await pool.query('INSERT INTO employee (id, name, address, gender, email, password, type, currently_login) VALUES (?, ?, ?, ?, ?, ?, ?, 0);', [id, name, address, gender, email, hashedPassword, type]);
 
         // Insert agent if type is 1
         if (type === '1') {
-            await pool.query('INSERT INTO agent (id, branch_id, phone_number, whatsapp, profile_path) VALUES (?, ?, ?, ?, ?);', [id, branch_id, phone_number, whatsapp, profile_path]);
+            await pool.query('INSERT INTO agent (id, branch_id, phone_number, whatsapp, profile_path) VALUES (?, ?, ?, ?, ?);', [id, branch_id, phone_number, whatsapp, profilePath]);
         }
 
         // Send success response
