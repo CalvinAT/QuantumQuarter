@@ -1,5 +1,6 @@
 const { connectToMongoDB }  = require('../dbConnection');
 const { getTokenData, checkUserType } = require('./authenticationHandler');
+const addLog = require('./logHandler');
 const propertyBuilder = require('../../Model/property');
 const path = require('path');
 
@@ -60,16 +61,6 @@ async function addPropertyHandler(req, res) {
 
     const approvedDate = "";
     const stat = 0;
-    // const builder = new propertyBuilder(propertyId, agent, title, type, desc, area, price, listingDate, approvedDate, stat);
-
-    // // check undefined entries
-    // if (bedroomCount !== undefined) builder.addBedroom(bedroomCount);
-    // if (bathroomCount !== undefined) builder.addBathroom(bathroomCount);
-    // if (landArea !== undefined) builder.addLandArea(landArea);
-    // if (garage !== undefined) builder.addGarage(garage);
-    // if (floorLevel !== undefined) builder.addFloorLevel(floorLevel);
-
-    // const propertyData = builder.build()
 
     try {
         const db = await connectToMongoDB.Get();
@@ -113,7 +104,9 @@ async function addPropertyHandler(req, res) {
             message: 'Successfully add property listing request', 
             uploadedFiles
         });
+        addLog(req, agent, 1, "add property");
     } catch (error) {
+        addLog(req, agent, 0, "add property");
         res.status(500).json({ error: error.message });
     }
 }
@@ -140,7 +133,9 @@ async function setStatusPropertyHandler(req, res) {
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
         return;
     }
-    const { id } = req.body;
+    let { id } = getTokenData(authHeader);
+    const employeeId = id;
+    id  = req.body;
     const method = req.method;
     let updateDoc;
     const currentDate = new Date(); 
@@ -159,6 +154,7 @@ async function setStatusPropertyHandler(req, res) {
             };
             const result = await db.collection('property').updateOne(filter, updateDoc);
             res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
+            addLog(req, employeeId, 1, "approve property");
         } else {
             updateDoc = {
                 $set: {
@@ -167,8 +163,10 @@ async function setStatusPropertyHandler(req, res) {
             };
             const result = await db.collection('property').updateOne(filter, updateDoc);
             res.status(200).json({ status: 200, message: 'Property sold' });
+            addLog(req, employeeId, 1, "delist property");
         }
     } catch (error) {
+        addLog(req, employeeId, 0, "update property");
         res.status(500).json({ error: error.message });
     }
 }
