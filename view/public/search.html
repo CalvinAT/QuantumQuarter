@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Quantum Quarter | Search</title>
+    <link rel="stylesheet" href="./output.css">
+    <link rel="icon" type="image/png" href="./asset/qq-icon.png">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+    </script>
+    <script> 
+    $(function(){
+      $("#header").load("header.html"); 
+      $("#footer").load("footer.html"); 
+    });
+    </script> 
+  </head>
+  <body class="bg-qq-primary font-inter text-qq-secondary">
+    <header id="header"></header>
+    
+    <div class="pt-32 flex font-inter items-center justify-center text-5xl font-semibold">Quantum Quarters</div>
+    <div class="pt-6 flex font-inter items-center justify-center text-2xl font-medium italic">help you find your dream house</div>
+    <div class="flex justify-center items-center">
+        <div class="pt-14 w-search">
+            <div class="bg-qq-secondary flex rounded-t-3xl"><image class="scale-50" src="./asset/qq-logo.png"/>
+                <a href="" class="pl-6 justify-center content-center text-qq-primary font-semibold">Buy</a>
+                <a href="" class="pl-12 justify-center content-center text-qq-primary font-semibold">Rent</a>
+            </div>
+            <input id="inputfield" class="bg-white placeholder:text-gray-500 text-qq-secondary p-3 w-full outline-none" placeholder="Find Location..."></input>
+            <div class="h-0.5"><div class="h-1/2 bg-black"></div></div>
+            <div class="bg-white rounded-b-3xl h-32 w-full overflow-hidden">
+                <button href="" class="flex p-3">
+                    <div class="h-7 text-xl font-semibold">Filter</div>
+                    <image class="h-7" src="./asset/Filter.png"></image>
+                </button>
+                <button href="" class="text-qq-primary bg-qq-secondary w-36 h-9 float-right mr-7 mt-5 text-center">Find</button>
+            </div>
+        </div>
+    </div>
+    <footer class="pt-24" id="footer"></footer>
+
+  </body>
+</html>

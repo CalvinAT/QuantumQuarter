@@ -13,6 +13,7 @@
     "tailwindcss": "^3.4.1"
   },
   "dependencies": {
-    "@material-tailwind/react": "^2.1.9"
+    "@material-tailwind/react": "^2.1.9",
+    "@preline/carousel": "^2.1.0"
   }
 }
