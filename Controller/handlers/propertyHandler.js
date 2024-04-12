@@ -151,7 +151,7 @@ async function setStatusPropertyHandler(req, res) {
             }
             updateDoc = {
                 $set: {
-                  approved_date: year + "-" + month + "-" + date,
+                  approvedDate: year + "-" + month + "-" + date,
                   status: 1
                 },
             };
