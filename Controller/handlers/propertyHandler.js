@@ -129,7 +129,7 @@ async function getPropertyHandler(req, res) {
 
 async function setStatusPropertyHandler(req, res) {
     const authHeader = req.headers['authorization'];
-    if(!checkUserType(authHeader, 1)){
+    if(authHeader === undefined){
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
         return;
     }
@@ -146,6 +146,9 @@ async function setStatusPropertyHandler(req, res) {
         const db = await connectToMongoDB.Get();
         const filter = { id: id };
         if (method === 'PUT') {
+            if(!checkUserType(authHeader, 0)){
+                throw new Error("Invalid Credentials!!");
+            }
             updateDoc = {
                 $set: {
                   approved_date: year + "-" + month + "-" + date,
@@ -153,9 +156,15 @@ async function setStatusPropertyHandler(req, res) {
                 },
             };
             const result = await db.collection('property').updateOne(filter, updateDoc);
+            if(!result){
+                console.log('property not updated');
+            }
             res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
             addLog(req, employeeId, 1, "approve property");
         } else {
+            if(!checkUserType(authHeader, 1)){
+                throw new Error("Invalid Credentials!!");
+            }
             updateDoc = {
                 $set: {
                   status: 2
