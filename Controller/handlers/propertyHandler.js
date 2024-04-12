@@ -135,7 +135,7 @@ async function setStatusPropertyHandler(req, res) {
     }
     let { id } = getTokenData(authHeader);
     const employeeId = id;
-    id  = req.body;
+    const { propertyId }  = req.body;
     const method = req.method;
     let updateDoc;
     const currentDate = new Date(); 
@@ -144,7 +144,7 @@ async function setStatusPropertyHandler(req, res) {
     const year = currentDate.getFullYear();
     try {
         const db = await connectToMongoDB.Get();
-        const filter = { id: id };
+        const filter = { id: propertyId };
         if (method === 'PUT') {
             if(!checkUserType(authHeader, 0)){
                 throw new Error("Invalid Credentials!!");
