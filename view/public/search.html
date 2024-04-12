@@ -18,6 +18,49 @@
       $("#footer").load("footer.html"); 
     });
     </script> 
+    <script>
+        $(document).ready(function(){
+          $("#citybutton").click(function(){
+            $("#citydd").toggle();
+          });
+        });
+        $(document).ready(function(){
+          $("#typebutton").click(function(){
+            $("#typedd").toggle();
+          });
+        });
+        $(document).ready(function(){
+          $("#pricebutton").click(function(){
+            $("#pricedd").toggle();
+          });
+        });
+        $(document).ready(function(){
+          $("#bedroombutton").click(function(){
+            $("#bedroomdd").toggle();
+          });
+        });
+        $(document).ready(function(){
+          $("#bathroombutton").click(function(){
+            $("#bathroomdd").toggle();
+          });
+        });
+        $(document).ready(function(){
+          $("#landbutton").click(function(){
+            $("#landdd").toggle();
+          });
+        });
+        $(document).ready(function(){
+          $("#garagebutton").click(function(){
+            $("#garagedd").toggle();
+          });
+        });
+        $(document).ready(function(){
+          $("#floorbutton").click(function(){
+            $("#floordd").toggle();
+          });
+        });
+        
+      </script>
   </head>
   <body class="bg-qq-primary font-inter text-qq-secondary">
     <header id="header"></header>
@@ -32,11 +75,286 @@
             </div>
             <input id="inputfield" class="bg-white placeholder:text-gray-500 text-qq-secondary p-3 w-full outline-none" placeholder="Find Location..."></input>
             <div class="h-0.5"><div class="h-1/2 bg-black"></div></div>
-            <div class="bg-white rounded-b-3xl h-32 w-full overflow-hidden">
+            <div class="bg-white rounded-b-3xl h-full pb-3 w-full overflow-hidden">
                 <button href="" class="flex p-3">
                     <div class="h-7 text-xl font-semibold">Filter</div>
                     <image class="h-7" src="./asset/Filter.png"></image>
                 </button>
+                <br>
+                <div class="items-center justify-center px-16 py-2">
+                    <div class="bg-qq-primary flex rounded-2xl">
+                        <div class="bg-qq-secondary h-14 w-16 rounded-l-2xl pl-2 pt-2">
+                            <image class="align-middle h-10 w-10" src="./asset/Location.png"></image>
+                        </div>
+                        <div class=" text-xl font-semibold align-middle w-full h-14 pl-5 pt-4">
+                            <div class="align-middle">City</div>
+                        </div>
+                        <button id="citybutton" class="h-4 w-12 pr-4 pt-6">
+                            <image src="./asset/dropdown.png"></image>
+                        </button>
+                        
+                    </div>
+                    <div id="citydd" class="hidden pl-14">
+                        <div class="grid grid-cols-3">
+                            <label class="flex bg-qq-primary px-3 py-2 my-3 cursor-pointer rounded-l-xl">
+                                <input type="radio" name="City">
+                                <i class="pl-2 font-inter font-semibold">Jakarta</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary px-3 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="City">
+                                <i class="pl-2 font-inter font-semibold">Bandung</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary px-3 py-2 my-3 cursor-pointer rounded-r-xl">
+                                <input type="radio" name="City">
+                                <i class="pl-2 font-inter font-semibold">Tangerang</i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="items-center justify-center px-16 py-2">
+                    <div class="bg-qq-primary flex rounded-2xl">
+                        <div class="bg-qq-secondary h-14 w-16 rounded-l-2xl pl-2 pt-2">
+                            <image class="align-middle h-10 w-10" src="./asset/Home.png"></image>
+                        </div>
+                        <div class=" text-xl font-semibold align-middle w-full h-14 pl-5 pt-4">
+                            <div class="align-middle">Type</div>
+                        </div>
+                        <button id="typebutton" class="h-4 w-12 pr-4 pt-6">
+                            <image src="./asset/dropdown.png"></image>
+                        </button>
+                    </div>
+                    <div id="typedd" class="pl-14 hidden">
+                        <div class="grid grid-cols-3">
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mt-3 cursor-pointer rounded-tl-xl">
+                                <input type="radio" name="Type">
+                                <i class="pl-2 font-inter font-semibold">House</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mt-3 cursor-pointer ">
+                                <input type="radio" name="Type">
+                                <i class="pl-2 font-inter font-semibold">Apartment</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mt-3 cursor-pointer rounded-tr-xl">
+                                <input type="radio" name="Type">
+                                <i class="pl-2 font-inter font-semibold">Office</i>
+                            </label>
+
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mb-3 cursor-pointer rounded-bl-xl">
+                                <input type="radio" name="Type">
+                                <i class="pl-2 font-inter font-semibold">Commercial</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mb-3 cursor-pointer ">
+                                <input type="radio" name="Type">
+                                <i class="pl-2 font-inter font-semibold">Land</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mb-3 cursor-pointer rounded-br-xl">
+                                <input type="radio" name="Type">
+                                <i class="pl-2 font-inter font-semibold">Villa</i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="items-center justify-center px-16 py-2">
+                    <div class="bg-qq-primary flex rounded-2xl">
+                        <div class="bg-qq-secondary h-14 w-16 rounded-l-2xl pl-2 pt-2">
+                            <image class="align-middle h-10 w-10" src="./asset/Banknotes.png"></image>
+                        </div>
+                        <div class=" text-xl font-semibold align-middle w-full h-14 pl-5 pt-4">
+                            <div class="align-middle">Price Range</div>
+                        </div>
+                        <button id="pricebutton" class="h-4 w-12 pr-4 pt-6">
+                            <image src="./asset/dropdown.png"></image>
+                        </button>
+                    </div>
+                    <div id="pricedd" class="hidden pl-14">
+                        <div class="grid grid-cols-2">
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
+                                <input id="min" type="number" name="price" placeholder="Min" class="pl-3 rounded-md" min="0">
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-r-xl">
+                                <input id="max" type="number" name="price" placeholder="Max" class="pl-3 rounded-md" min="0">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="items-center justify-center px-16 py-2">
+                    <div class="bg-qq-primary flex rounded-2xl">
+                        <div class="bg-qq-secondary h-14 w-16 rounded-l-2xl pl-2 pt-2">
+                            <image class="align-middle h-10 w-10" src="./asset/Sleeping in Bed.png"></image>
+                        </div>
+                        <div class=" text-xl font-semibold align-middle w-full h-14 pl-5 pt-4">
+                            <div class="align-middle">Bedroom</div>
+                        </div>
+                        <button id="bedroombutton" class="h-4 w-12 pr-4 pt-6">
+                            <image src="./asset/dropdown.png"></image>
+                        </button>
+                    </div>
+                    <div id="bedroomdd" class="hidden pl-14">
+                        <div class="grid grid-cols-4">
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
+                                <input type="radio" name="Bedroom">
+                                <i class="pl-2 font-inter font-semibold">1</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="Bedroom">
+                                <i class="pl-2 font-inter font-semibold">2</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="Bedroom">
+                                <i class="pl-2 font-inter font-semibold">3</i>
+                            </label>
+
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-r-xl">
+                                <input type="radio" name="Bedroom">
+                                <i class="pl-2 font-inter font-semibold">3+</i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="items-center justify-center px-16 py-2">
+                    <div class="bg-qq-primary flex rounded-2xl">
+                        <div class="bg-qq-secondary h-14 w-16 rounded-l-2xl pl-2 pt-2">
+                            <image class="align-middle h-10 w-10" src="./asset/Bathtub.png"></image>
+                        </div>
+                        <div class=" text-xl font-semibold align-middle w-full h-14 pl-5 pt-4">
+                            <div class="align-middle">Bathroom</div>
+                        </div>
+                        <button id="bathroombutton" class="h-4 w-12 pr-4 pt-6">
+                            <image src="./asset/dropdown.png"></image>
+                        </button>
+                    </div>
+                    <div id="bathroomdd" class="hidden pl-14">
+                        <div class="grid grid-cols-4">
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
+                                <input type="radio" name="Bathroom">
+                                <i class="pl-2 font-inter font-semibold">1</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="Bathroom">
+                                <i class="pl-2 font-inter font-semibold">2</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="Bathroom">
+                                <i class="pl-2 font-inter font-semibold">3</i>
+                            </label>
+
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-r-xl">
+                                <input type="radio" name="Bathroom">
+                                <i class="pl-2 font-inter font-semibold">3+</i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="items-center justify-center px-16 py-2">
+                    <div class="bg-qq-primary flex rounded-2xl">
+                        <div class="bg-qq-secondary h-14 w-16 rounded-l-2xl pl-2 pt-2">
+                            <image class="align-middle h-10 w-10" src="./asset/Ruler.png"></image>
+                        </div>
+                        <div class=" text-xl font-semibold align-middle w-full h-14 pl-5 pt-4">
+                            <div class="align-middle">Land Area Range</div>
+                        </div>
+                        <button id="landbutton" class="h-4 w-12 pr-4 pt-6">
+                            <image   src="./asset/dropdown.png"></image>
+                        </button>
+                    </div>
+                    <div id="landdd" class="hidden pl-14">
+                        <div class="grid grid-cols-4">
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
+                                <input type="radio" name="land">
+                                <i class="pl-1 font-inter font-semibold">0-100m²</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-1 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="land">
+                                <i class="pl-1 font-inter font-semibold">100-250m²</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-1 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="land">
+                                <i class="pl-1 font-inter font-semibold">250-400m²</i>
+                            </label>
+
+                            <label class="flex bg-qq-primary text-gray-700 px-1 py-2 my-3 cursor-pointer rounded-r-xl">
+                                <input type="radio" name="land">
+                                <i class="pl-1 font-inter font-semibold">400m² +</i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="items-center justify-center px-16 py-2">
+                    <div class="bg-qq-primary flex rounded-2xl">
+                        <div class="bg-qq-secondary h-14 w-16 rounded-l-2xl pl-2 pt-2">
+                            <image class="align-middle h-10 w-10" src="./asset/Garage.png"></image>
+                        </div>
+                        <div class=" text-xl font-semibold align-middle w-full h-14 pl-5 pt-4">
+                            <div class="align-middle">Garage Availability</div>
+                        </div>
+                        <button id="garagebutton" class="h-4 w-12 pr-4 pt-6">
+                            <image src="./asset/dropdown.png"></image>
+                        </button>
+                    </div>
+                    <div id="garagedd" class="hidden pl-14">
+                        <div class="grid grid-cols-2">
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
+                                <input type="radio" name="garage">
+                                <i class="pl-2 font-inter font-semibold">Available</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="garage">
+                                <i class="pl-2 font-inter font-semibold">Not Available</i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="items-center justify-center px-16 py-2">
+                    <div class="bg-qq-primary flex rounded-2xl">
+                        <div class="bg-qq-secondary h-14 w-16 rounded-l-2xl pl-2 pt-2">
+                            <image class="align-middle h-10 w-10" src="./asset/Stairs Up.png"></image>
+                        </div>
+                        <div class=" text-xl font-semibold align-middle w-full h-14 pl-5 pt-4">
+                            <div class="align-middle">Floor Level</div>
+                        </div>
+                        <button id="floorbutton" class="h-4 w-12 pr-4 pt-6">
+                            <image  src="./asset/dropdown.png"></image>
+                        </button>
+                    </div>
+                    <div id="floordd" class="hidden pl-14">
+                        <div class="grid grid-cols-3">
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
+                                <input type="radio" name="floor">
+                                <i class="pl-2 font-inter font-semibold">1</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="floor">
+                                <i class="pl-2 font-inter font-semibold">2</i>
+                            </label>
+                    
+                            <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
+                                <input type="radio" name="floor">
+                                <i class="pl-2 font-inter font-semibold">3+</i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
                 <button href="" class="text-qq-primary bg-qq-secondary w-36 h-9 float-right mr-7 mt-5 text-center">Find</button>
             </div>
         </div>
