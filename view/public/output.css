@@ -726,7 +726,10 @@ video {
   --tw-text-opacity: 1;
   color: rgb(23 107 135 / var(--tw-text-opacity));
 }
-
+.border-qq-secondary {
+  --tw-border-opacity: 1;
+  border-color: rgb(4 54 74 / var(--tw-border-opacity));
+}
 .font-inter {
   font-family: Inter, sans-serif;
 }
