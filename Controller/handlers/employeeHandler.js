@@ -13,7 +13,6 @@ async function addEmployee(req, res) {
     }
 
     const {
-        id,
         name,
         address,
         gender,
@@ -25,6 +24,7 @@ async function addEmployee(req, res) {
         whatsapp,
     } = req.body;
 
+    const id = shortid.generate().substring(0, length);
     // hashing password
     const hashedPassword = await bcrypt.hash(password, 10);
 
