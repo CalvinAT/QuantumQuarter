@@ -13,116 +13,88 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  </head>
+    <script>
+        const formData = new FormData();
+        formData.append('requestedBy', '1');
+
+        let queryString = '';
+        for (const [key, value] of formData.entries()) {
+            queryString += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+        }
+
+        queryString = queryString.slice(0, -1);
+
+        fetch('http://localhost:3000/property?${queryString}', {
+          method: 'GET',
+        })
+          .then(response => response.json())
+          .then(data => {
+            const myDiv = document.getElementById('carousel-inner');
+            myDiv.innerHTML = '';
+            console.log(data);
+            let count = 1;
+            for (const property in data.data) {
+                if (count > 3) {
+                    break;
+                }
+                let carClass = 'carousel-item';
+                if (count == 1){
+                    carClass = 'carousel-item active';
+                }
+                count++;
+                let title = property.title;
+                let price = property.price;
+                let landArea = property.landArea;
+                let imgPath = property.images[1];
+                let area = property.area;
+                let type = property.type;
+                myDiv.innerHTML += `<div class="${carClass}">
+                                        <a href="property.html" class="bg-white flex rounded-3xl mx-[23%] my-[3%] hover:decoration-inherit hover:no-underline">
+                                            <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
+                                                <image class="rounded-tl-3xl " src="${imgPath}"></image>
+                                                <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary" >${title}</p>
+                                                <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
+                                                    <p class="text-2xl">Rp.${price}</p>
+                                                    <p class="ml-auto text-xl pr-[4%]">${landArea}m²</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-center align-middle w-[20%] text-qq-secondary">
+                                                <p class="font-inter text-xl font-semibold pt-[25%]">${type}</p>
+                                                <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
+                                                    <image class="h-[20%]" src="./asset/BedBlue.png"></image>
+                                                    <p class="font-inter text-3xl pl-5 pt-[17%]">4</p>
+                                                </div>
+                                                <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
+                                                    <image class="h-[20%] scale-75" src="./asset/BathBlue.png"></image>
+                                                    <p class="font-inter text-3xl pl-5 pt-[10%]">3</p>
+                                                </div>
+                                                <div class="grid grid-cols-2 gap-0 scale-90 items-center">
+                                                    <image src="./asset/GarageBlue.png" class="pt-2"></image>
+                                                    <div>
+                                                        <image src="./asset/FloorBlue.png"></image>
+                                                        <div class="absolute inset-0 flex justify-center items-center">
+                                                            <div class="text-white pl-20 pb-4 text-xl font-bold">3</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="pt-[20%] font-bold justify-end">
+                                                    ${area}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>`;
+            }
+          })
+          .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+          });
+      </script>
+</head>
 
   <body>
         <div id="carouselExampleControls" class="carousel slide w-30" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <a href="property.html" class="bg-white flex rounded-3xl mx-[23%] my-[3%] hover:decoration-inherit hover:no-underline">
-                        <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
-                            <image class="rounded-tl-3xl " src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
-                            <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary" >Ruang kosong dan tangga</p>
-                            <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
-                                <p class="text-2xl">Rp.3.500.000.000</p>
-                                <p class="ml-auto text-xl pr-[4%]">200m²</p>
-                            </div>
-                        </div>
-                        <div class="text-center align-middle w-[20%] text-qq-secondary">
-                            <p class="font-inter text-xl font-semibold pt-[25%]">House</p>
-                            <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
-                                <image class="h-[20%]" src="./asset/BedBlue.png"></image>
-                                <p class="font-inter text-3xl pl-5 pt-[17%]">4</p>
-                            </div>
-                            <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
-                                <image class="h-[20%] scale-75" src="./asset/BathBlue.png"></image>
-                                <p class="font-inter text-3xl pl-5 pt-[10%]">3</p>
-                            </div>
-                            <div class="grid grid-cols-2 gap-0 scale-90 items-center">
-                                <image src="./asset/GarageBlue.png" class="pt-2"></image>
-                                <div>
-                                    <image src="./asset/FloorBlue.png"></image>
-                                    <div class="absolute inset-0 flex justify-center items-center">
-                                        <div class="text-white pl-20 pb-4 text-xl font-bold">3</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-[20%] font-bold justify-end">
-                                Jakarta Selatan DKI wkwkwk
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="property.html" class="bg-white flex rounded-3xl mx-[23%] my-[3%] hover:decoration-inherit hover:no-underline">
-                        <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
-                            <image class="rounded-tl-3xl " src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
-                            <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary" >Ruang kosong dan tangga</p>
-                            <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
-                                <p class="text-2xl">Rp.3.500.000.000</p>
-                                <p class="ml-auto text-xl pr-[4%]">200m²</p>
-                            </div>
-                        </div>
-                        <div class="text-center align-middle w-[20%] text-qq-secondary">
-                            <p class="font-inter text-xl font-semibold pt-[25%]">House</p>
-                            <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
-                                <image class="h-[20%]" src="./asset/BedBlue.png"></image>
-                                <p class="font-inter text-3xl pl-5 pt-[17%]">4</p>
-                            </div>
-                            <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
-                                <image class="h-[20%] scale-75" src="./asset/BathBlue.png"></image>
-                                <p class="font-inter text-3xl pl-5 pt-[10%]">3</p>
-                            </div>
-                            <div class="grid grid-cols-2 gap-0 scale-90 items-center">
-                                <image src="./asset/GarageBlue.png" class="pt-2"></image>
-                                <div>
-                                    <image src="./asset/FloorBlue.png"></image>
-                                    <div class="absolute inset-0 flex justify-center items-center">
-                                        <div class="text-white pl-20 pb-4 text-xl font-bold">3</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-[20%] font-bold justify-end">
-                                Jakarta Selatan DKI wkwkwk
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="carousel-item">
-                    <a href="property.html" class="bg-white flex rounded-3xl mx-[23%] my-[3%] hover:decoration-inherit hover:no-underline">
-                        <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
-                            <image class="rounded-tl-3xl " src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
-                            <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary" >Ruang kosong dan tangga</p>
-                            <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
-                                <p class="text-2xl">Rp.3.500.000.000</p>
-                                <p class="ml-auto text-xl pr-[4%]">200m²</p>
-                            </div>
-                        </div>
-                        <div class="text-center align-middle w-[20%] text-qq-secondary">
-                            <p class="font-inter text-xl font-semibold pt-[25%]">House</p>
-                            <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
-                                <image class="h-[20%]" src="./asset/BedBlue.png"></image>
-                                <p class="font-inter text-3xl pl-5 pt-[17%]">4</p>
-                            </div>
-                            <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
-                                <image class="h-[20%] scale-75" src="./asset/BathBlue.png"></image>
-                                <p class="font-inter text-3xl pl-5 pt-[10%]">3</p>
-                            </div>
-                            <div class="grid grid-cols-2 gap-0 scale-90 items-center">
-                                <image src="./asset/GarageBlue.png" class="pt-2"></image>
-                                <div>
-                                    <image src="./asset/FloorBlue.png"></image>
-                                    <div class="absolute inset-0 flex justify-center items-center">
-                                        <div class="text-white pl-20 pb-4 text-xl font-bold">3</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-[20%] font-bold justify-end">
-                                Jakarta Selatan DKI wkwkwk
-                            </div>
-                        </div>
-                    </a>
-                </div>
+            <div id="carousel-inner">
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span><image src="./asset/prev.png" aria-hidden="true"></image></span>
