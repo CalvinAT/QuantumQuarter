@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Quantum Quarter | Admin Dashboard</title>
+    <link rel="stylesheet" href="./output.css">
+    <link rel="icon" type="image/png" href="./asset/qq-icon.png">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <script>
+        $(document).ready(function(){
+          $("#citybutton").click(function(){
+            $("#citydd").toggle();
+          });
+        });
+      </script>
+  </head>
+  <body class="bg-qq-primary font-inter text-qq-secondary">
+    <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
+        <image src="./asset/qq-logo.png" class="pl-[2%]"></image>
+        <p class="text-white text-5xl pl-[2.3%] font-playfair">Admin Dashboard</p>
+        <div class="ml-auto pr-[4%] flex items-center">
+            <p class="text-white text-3xl font-playfair pr-9">Add Agent</p>
+            <a href="admin-add-agent.html"><image src="./asset/next.png" class="pl-[2%]"></image></a>
+        </div>
+    </div>
+    <div class="mx-[12%]">
+        <div class="mt-[3%] py-[2%] bg-qq-secondary align-middle">
+            <div class="flex text-qq-primary font-semibold">
+                <div class="w-[20%] text-2xl text-center">ID Listing</div>
+                <div class="w-[20%] text-2xl text-center">Agent</div>
+                <div class="w-[25%] text-2xl  text-center">Property Detail</div>
+                <div class="w-[35%] text-2xl  text-center">Action</div>
+            </div>
+        </div>
+        <div class=" shadow-xl">
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[20%] text-lg text-center">QQ-001</div>
+                <div class="w-[20%] text-lg text-center">Jonathan Abigael Hermawan</div>
+                <div class="w-[25%] text-2xl text-center">
+                    <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Detail</a>
+                </div>
+                <div class="w-[35%] grid grid-cols-2 grid-row">
+                    <div class="text-2xl text-center">
+                        <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Approve</a>
+                    </div>
+                    <div class="text-2xl text-center">
+                        <a href="" class="border-qq-secondary border-3 rounded-xl px-[14%] py-[1.6%] font-semibold">Reject</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-2 border-black opacity-30"></div>
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[20%] text-lg text-center">QQ-001</div>
+                <div class="w-[20%] text-lg text-center">Jonathan Abigael Hermawan</div>
+                <div class="w-[25%] text-2xl text-center">
+                    <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Detail</a>
+                </div>
+                <div class="w-[35%] grid grid-cols-2 grid-row">
+                    <div class="text-2xl text-center">
+                        <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Approve</a>
+                    </div>
+                    <div class="text-2xl text-center">
+                        <a href="" class="border-qq-secondary border-3 rounded-xl px-[14%] py-[1.6%] font-semibold">Reject</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+  </body>
+</html>
