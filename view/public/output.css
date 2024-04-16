@@ -740,12 +740,19 @@ video {
   border-color: rgb(23 107 135 / var(--tw-border-opacity));
 }
 .font-inter {
-  font-family: Inter, sans-serif;
+  font-family: "Inter", sans-serif;
 }
 .border-3 {
   border-width: 3px;
 }
+.border-3 {
+  border-width: 1px;
+}
 
 .pl-21 {
   padding-left: 82px;
+}
+
+.font-playfair {
+  font-family: "Playfair Display", serif;
 }
