@@ -123,7 +123,8 @@ async function getPropertyHandler(req, res) {
         bathroomCount,
         landArea,
         garage,
-        floorLevel
+        floorLevel,
+        requestedBy
     } = req.body;
     let query = {};
     try {
@@ -145,9 +146,9 @@ async function getPropertyHandler(req, res) {
             // check priceMin filter if added before
             if (priceMin !== undefined && !isNaN(priceMin)) {
                 query.price = { ...query.price, $lte: parseInt(priceMax) }; // min and max
+            } else { // without priceMin
+                query.price = { $lte: parseInt(priceMax) }; // max only
             }
-            // without priceMin
-            query.price = { $lte: parseInt(priceMax) }; // max only
         }
         // check bedroom count filter
         if (bedroomCount !== undefined) {
@@ -197,6 +198,11 @@ async function getPropertyHandler(req, res) {
                 query.floorLevel = floorLevel;
             }
         }
+        // check if requested by employee or guest
+        if (requestedBy !== undefined) { 
+            query.status = 1; // by guest
+        }
+        console.log(query);
         // try to query to db
         const data = await db.collection('property').find(query).toArray();
         res.status(200).json({ status: 200, data });
