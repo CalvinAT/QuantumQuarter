@@ -16,12 +16,13 @@
         $(function(){
         $("#header").load("header.html"); 
         $("#footer").load("footer.html"); 
+        $("#carousel1").load("carousel-property.html"); 
         });
         </script> 
         <script>
             $(document).ready(function(){
-            $("#citybutton").click(function(){
-                $("#citydd").toggle();
+            $("#carouselexit").click(function(){
+                $("#overlaycarousel").toggle();
             });
             });
         </script>
@@ -29,14 +30,20 @@
     <body class="bg-qq-primary font-inter text-qq-secondary">
         <header id="header"></header>
 
+        <div id="overlaycarousel" class="hidden z-50 fixed t-0 l-0 w-[100%] h-[100%] bg-gray-600 bg-opacity-50">
+            <div  id="carouselexit" class="fixed top-0 right-0 pr-[27%] pt-[5%] scale-50 hover:cursor-pointer">
+                <image src="./asset/x letter.png" class="shadow-inner scale-50 hover:cursor-pointer"></image>
+            </div>
+                <image class="px-[23%] pt-[3%] z-60" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
+        </div>
         <div class="flex flex-row px-[10%] pt-20 font-inter">
             <div class="w-[30%] pr-[3%]">
                 <div class="outline rounded-lg outline-qq-secondary text-center pt-4">
                     <p class="text-2xl font-bold ">House for sale</p>
                     <p class="font-semibold px-[17%] pt-3 justify-center">Rumah murga 2 lantai daerah jakarta selatanRumah murga 2 lantai daerah jakarta selatan</p>
-                    <p class="font-extralight px-[17%] py-3">Jakarta Selatan, D. K. I Jakarta</p>
+                    <p class="font-light px-[17%] py-3">Jakarta Selatan, D. K. I Jakarta</p>
                     <div class="flex-grow border-2 border-qq-secondary scale-75"></div>
-                    <p class="font-extralight text-sm px-[17%] py-3">OFFERS OVER</p>
+                    <p class="font-light text-sm px-[14%] py-3">OFFERS OVER</p>
                     <p class="text-xl font-bold font-inter">Rp. 3.500.000.000</p>
                     <a href="index.html" class="cursor-default"><div class="hover:cursor-pointer bg-qq-secondary text-white align-middle justify-center my-[3%] py-[1%] mx-[22%] text-xs">ENQUIRE NOW</div></a>
                     <div class="flex-grow border-2 my-[3%] border-qq-secondary"></div>
@@ -54,6 +61,14 @@
                 </div>
             </div>
             <div class="w-[70%]">
+                <carousel id="carousel1"></carousel>
+                <div class="flex flex-row h-[6%] p-[2%] justify-center">
+                    <image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah1.jpg"></image>
+                    <image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah2.jpg"></image>
+                    <image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
+                    <image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
+                    <image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
+                </div>
                 <div class="flex-grow border-2 border-qq-secondary"></div>
                 <p class="text-2xl font-bold font-inter">House for Sale in Jakarta Selatan, D.K.I Jakarta</p>
                 <p class="text-xl font-semibold font-inter my-[2%]">
