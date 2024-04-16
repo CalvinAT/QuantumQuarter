@@ -16,8 +16,6 @@ module.exports = withMT({
       },
     },
   },
-  plugins: [
-    require('preline/plugin'),
-  ],
+  plugins: [require("daisyui")],
 });
 
