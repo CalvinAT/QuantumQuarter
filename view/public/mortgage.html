@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Quantum Quarter</title>
+    <link rel="stylesheet" href="./output.css">
+    <link rel="icon" type="image/png" href="./asset/qq-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+    </script>
+    <script> 
+    $(function(){
+      $("#header").load("header.html"); 
+      $("#footer").load("footer.html"); 
+    });
+    </script> 
+  </head>
+
+  <body class="bg-qq-primary font-inter text-qq-secondary">
+    <header id="header"></header>
+    <div class="pt-19 flex items-center justify-center text-3xl font-semibold italic">Quantum Quarters</div>
+    <div class="pt-1 flex items-center justify-center text-xl italic">Mortgage Simulator</div>
+    <div style="padding-top : 30px ;display: flex; justify-content: center; align-items: center;">
+        <div style="width: 700px; height: 720px; background-color: rgb(4 54 74); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:25px;">
+          <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 30px;font-weight: bold;">Harga Properti (Rp)</p>
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox1" name="hargaProperti"> 
+          <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Uang Muka (Rp)</p>
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox2" name="uangMuka">
+          <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Jumlah Pinjaman (Rp)</p>
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox3" name="jumlahPinjaman"> 
+          <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Jangka Waktu Pinjaman (Tahun)</p>
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox4" name="jangkaWaktu"> 
+          <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Suku Bunga Per-Tahun (%)</p>
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox5" name="sukuBunga">
+          <div style="margin-left:220px;margin-top:15px;width: 200px; height: 100px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:25px;">
+            <p style="padding-right:25px;text-align: center;color: rgb(4 54 74); padding-top: 10px;font-weight: bold;">Angsuran Per Bulan</p>
+            <p style="padding-right:25px;text-align: center;color: rgb(4 54 74); padding-top: 10px;font-weight: bold;">-</p>
+          </div> 
+          <img style="padding-left:500px;padding-bottom:100px;"src="./asset/qq-logo.png" alt="Logo QQ"> 
+        </div>
+    </body>
+    </html>
