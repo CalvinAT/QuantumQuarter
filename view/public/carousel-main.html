@@ -17,23 +17,16 @@
         const formData = new FormData();
         formData.append('requestedBy', '1');
 
-        let queryString = '';
-        for (const [key, value] of formData.entries()) {
-            queryString += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
-        }
-
-        queryString = queryString.slice(0, -1);
-
-        fetch('http://localhost:3000/property?${queryString}', {
-          method: 'GET',
+        fetch('http://localhost:3000/getproperty', {
+          method: 'POST',
+          body: formData
         })
           .then(response => response.json())
           .then(data => {
             const myDiv = document.getElementById('carousel-inner');
-            myDiv.innerHTML = '';
-            console.log(data);
+            let htmlCode = '';
             let count = 1;
-            for (const property in data.data) {
+            for (const propertyKey in data.data) {
                 if (count > 3) {
                     break;
                 }
@@ -42,13 +35,14 @@
                     carClass = 'carousel-item active';
                 }
                 count++;
+                const property = data.data[propertyKey];
                 let title = property.title;
                 let price = property.price;
                 let landArea = property.landArea;
-                let imgPath = property.images[1];
+                let imgPath = property.images[0];
                 let area = property.area;
                 let type = property.type;
-                myDiv.innerHTML += `<div class="${carClass}">
+                htmlCode += `<div class="${carClass}">
                                         <a href="property.html" class="bg-white flex rounded-3xl mx-[23%] my-[3%] hover:decoration-inherit hover:no-underline">
                                             <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
                                                 <image class="rounded-tl-3xl " src="${imgPath}"></image>
@@ -84,6 +78,8 @@
                                         </a>
                                     </div>`;
             }
+            myDiv.innerHTML = htmlCode;
+            coinsole.log(htmlCode);
           })
           .catch(error => {
             // Handle any errors
