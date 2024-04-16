@@ -25,6 +25,7 @@ async function addEmployee(req, res) {
         whatsapp,
     } = req.body;
 
+    // hashing password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
@@ -40,6 +41,7 @@ async function addEmployee(req, res) {
             const projectId = 'quantumquarters';
             const keyFilename = path.resolve(__dirname, 'quantumquarters-storage.json');
 
+            // prepare storage
             const storage = new Storage({
                 projectId,
                 keyFilename
@@ -50,6 +52,7 @@ async function addEmployee(req, res) {
             const filePath = profile.path;
             const fileName = profile.originalname;
 
+            // uploading agent profile
             if(filePath){
                 await storage.bucket(bucketName).upload(filePath, {
                     destination: `${uniqueFolderName}${fileName}`,
@@ -57,11 +60,11 @@ async function addEmployee(req, res) {
                         contentType: profile.mimetype,
                         defaultObjectAcl: 'publicRead',
                     },
-                })
+                });
             } else {
-                console.log('File path error')
+                console.log('File path error');
             }
-            const profilePath = `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`
+            const profilePath = `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`;
             await pool.query('INSERT INTO agent (id, branch_id, phone_number, whatsapp, profile_path) VALUES (?, ?, ?, ?, ?);', [id, branchId, phoneNumber, whatsapp, profilePath]);
         }
 

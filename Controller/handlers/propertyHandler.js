@@ -53,6 +53,7 @@ async function addPropertyHandler(req, res) {
         return;
     }
 
+    // formatting date
     const currentDate = new Date();
     const date = ("0" + currentDate.getDate()).slice(-2);
     const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
@@ -113,13 +114,90 @@ async function addPropertyHandler(req, res) {
 
 
 async function getPropertyHandler(req, res) {
-    const { type } = req.body;
+    const {
+        type,
+        area,
+        priceMin,
+        priceMax,
+        bedroomCount,
+        bathroomCount,
+        landArea,
+        garage,
+        floorLevel
+    } = req.body;
     let query = {};
     try {
         const db = await connectToMongoDB.Get();
-        if (type) {
-            query = { type : type };
+        // check type filter
+        if (type !== undefined) {
+            query.type = type;
         }
+        // check area filter
+        if (area !== undefined) {
+            query.area = area;
+        }
+        // check priceMin filter
+        if (priceMin !== undefined && !isNaN(priceMin)) {
+            query.price = { $gte: parseInt(priceMin) }; // min only
+        }
+        // check priceMax filter
+        if (priceMax !== undefined && !isNaN(priceMax)) {
+            // check priceMin filter if added before
+            if (priceMin !== undefined && !isNaN(priceMin)) {
+                query.price = { ...query.price, $lte: parseInt(priceMax) }; // min and max
+            }
+            // without priceMin
+            query.price = { $lte: parseInt(priceMax) }; // max only
+        }
+        // check bedroom count filter
+        if (bedroomCount !== undefined) {
+            // check if input is 3+
+            if (bedroomCount == 4){
+                query.bedroomCount = {$gte: 3}; // return bedroom : 3+
+            } else {
+                query.bedroomCount = bedroomCount;
+            }
+        }
+        // check bathroom count filter
+        if (bathroomCount !== undefined) {
+            // check if input is 3+
+            if (bedroomCount == 4){
+                query.bathroomCount = {$gte: 3}; // return bathroom : 3+
+            } else {
+                query.bathroomCount = bathroomCount;
+            }
+        }
+        // check land area filter
+        if (landArea !== undefined) {
+            // check land area range type
+            if (landArea == 1) {
+                query.landArea = { $gte: 0, $lte: 100 }; // 0-100
+            } else if (landArea == 2) {
+                query.landArea = { $gte: 100, $lte: 250 }; // 100-250
+            } else if (landArea == 3) {
+                query.landArea = { $gte: 250, $lte: 400 }; // 250-400
+            } else {
+                query.landArea = { $gte: 400 }; // 400+
+            }
+        }
+        // check garage filter
+        if (garage !== undefined) {
+            if (garage == 1){
+                query.garage = 'true';
+            } else {
+                query.garage = 'false';
+            }
+        }
+        // check floor level filter
+        if (floorLevel !== undefined) {
+            // check if input is 3+
+            if (floorLevel == 3){
+                query.floorLevel = {$gte: parseInt(floorLevel)}; // return floorLevel : 3+
+            } else {
+                query.floorLevel = floorLevel;
+            }
+        }
+        // try to query to db
         const data = await db.collection('property').find(query).toArray();
         res.status(200).json({ status: 200, data });
     } catch (error) {
@@ -129,6 +207,7 @@ async function getPropertyHandler(req, res) {
 
 async function setStatusPropertyHandler(req, res) {
     const authHeader = req.headers['authorization'];
+    // check credentials
     if(authHeader === undefined){
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
         return;
@@ -138,6 +217,7 @@ async function setStatusPropertyHandler(req, res) {
     const { propertyId }  = req.body;
     const method = req.method;
     let updateDoc;
+    // formatting date
     const currentDate = new Date(); 
     const date = ("0" + currentDate.getDate()).slice(-2);
     const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
@@ -145,7 +225,7 @@ async function setStatusPropertyHandler(req, res) {
     try {
         const db = await connectToMongoDB.Get();
         const filter = { id: propertyId };
-        if (method === 'PUT') {
+        if (method === 'PUT') { // admin accept property
             if(!checkUserType(authHeader, 0)){
                 throw new Error("Invalid Credentials!!");
             }
@@ -161,7 +241,7 @@ async function setStatusPropertyHandler(req, res) {
             }
             res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
             addLog(req, employeeId, 1, "approve property");
-        } else {
+        } else { // agent sold property
             if(!checkUserType(authHeader, 1)){
                 throw new Error("Invalid Credentials!!");
             }
