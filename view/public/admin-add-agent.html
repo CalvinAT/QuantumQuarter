@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Quantum Quarter | Admin Add Data</title>
     <link rel="stylesheet" href="./output.css">
     <link rel="icon" type="image/png" href="./asset/qq-icon.png">
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+        </script>
     <script>
-        $(function(){
-            $("#footer").load("footeraa.html"); 
+        $(function () {
+            $("#footer").load("footeraa.html");
         });
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    
-  </head>
-  <body class="bg-qq-primary font-inter text-qq-secondary">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body class="bg-qq-primary font-inter text-qq-secondary">
     <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
         <image src="./asset/qq-logo.png" class="pl-[2%]"></image>
         <p class="text-white text-5xl pl-[2.3%] font-playfair">Admin | Add Agent</p>
         <div class="ml-auto pr-[4%] flex items-center">
             <p class="text-white text-3xl font-playfair pr-9">Dashboard</p>
-            <a href="admin-dashboard.html"><image src="./asset/prev.png" class="pl-[2%]"></image></a>
+            <a href="admin-dashboard.html">
+                <image src="./asset/prev.png" class="pl-[2%]"></image>
+            </a>
         </div>
     </div>
     <div class="mx-[26%]">
@@ -36,84 +39,173 @@
             </div>
         </div>
         <div class="shadow-xl">
-            <div class=" py-[2%] mt-[3%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Profile Picture</div>
-                <label class="w-[40%] text-2xl pl-[1.5%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="images5" type="file" class="pl-3 rounded-md" min="0">
-                </label>
-            </div>
-
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Username</div>
-                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="username" type="text" class="pl-3 rounded-md" placeholder="Joseph Gerla" min="0">
-                </label>
-            </div>
-            
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Telp</div>
-                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="telp" type="text" class="pl-3 rounded-md" placeholder="0821xxxx8582" min="0">
-                </label>
-            </div>
-
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Whatsapp</div>
-                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="whatsapp" type="text" class="pl-3 rounded-md" placeholder="0821xxxx8582" min="0">
-                </label>
-            </div>
-
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Branch</div>
-                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="branch" type="text" class="pl-3 rounded-md" placeholder="Jakarta Selatan" min="0">
-                </label>
-            </div>
-
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Address</div>
-                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="address" type="text" class="pl-3 rounded-md" placeholder="Jalan Musang no 3A" min="0">
-                </label>
-            </div>
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Gender</div>
-                <div class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl"y>
-                    <label class="flex bg-qq-primary cursor-pointer ">
-                        <input type="radio" name="gender" value="Male">
-                        <i class="pl-2 font-inter font-semibold">Male</i>
-                    </label>
-            
-                    <label class="pl-[12%] flex bg-qq-primary cursor-pointer ">
-                        <input type="radio" name="gender" value="Female">
-                        <i class="pl-2 font-inter font-semibold">Female</i>
+            <form id="formData">
+                <div class=" py-[2%] mt-[3%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Profile Picture</div>
+                    <label class="w-[40%] text-2xl pl-[1.5%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="imageinput" type="file" class="pl-3 rounded-md" min="0">
                     </label>
                 </div>
-            </div>
 
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Email</div>
-                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="email" type="text" class="pl-3 rounded-md" placeholder="example@gmail.com" min="0">
-                </label>
-            </div>
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Name</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="name" type="text" class="pl-3 rounded-md" placeholder="Name" min="0" name="Name">
+                    </label>
+                </div>
 
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Password</div>
-                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="password" type="text" class="pl-3 rounded-md" placeholder="ttg123" min="0">
-                </label>
-            </div>
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Phone Number</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="phone" type="text" class="pl-3 rounded-md" placeholder="Phone Number" min="0"
+                            name="Phone">
+                    </label>
+                </div>
 
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <button href="" class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Add</button>
-            </div>
-            <div class="border-2 border-black opacity-30"></div>
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Whatsapp</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="whatsapp" type="text" class="pl-3 rounded-md" placeholder="Whatsapp" min="0"
+                            name="Whatsapp">
+                    </label>
+                </div>
 
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Branch</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="branch" type="text" class="pl-3 rounded-md" placeholder="Branch" min="0"
+                            name="Branch">
+                    </label>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Address</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="address" type="text" class="pl-3 rounded-md" placeholder="Address" min="0"
+                            name="Address">
+                    </label>
+                </div>
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Gender</div>
+                    <div class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl" y>
+                        <label class="flex bg-qq-primary cursor-pointer ">
+                            <input type="radio" name="gender" value="Male">
+                            <i class="pl-2 font-inter font-semibold">Male</i>
+                        </label>
+
+                        <label class="pl-[12%] flex bg-qq-primary cursor-pointer ">
+                            <input type="radio" name="gender" value="Female">
+                            <i class="pl-2 font-inter font-semibold">Female</i>
+                        </label>
+                    </div>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Email</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="email" type="text" class="pl-3 rounded-md" placeholder="Email" min="0" name>
+                    </label>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Password</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="password" type="text" class="pl-3 rounded-md" placeholder="Password" min="0"
+                            name="Password">
+                    </label>
+                </div>
+
+                <div id="addButton" class=" py-[2%] align-middle flex text-qq-secondary">
+                    <button class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Add</button>
+                </div>
+                <div class="border-2 border-black opacity-30"></div>
+            </form>
         </div>
-        
     </div>
     <div id="footer"></div>
-  </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('addButton').addEventListener('click', function () {
+                const formData = new FormData();
+                try {
+                    // Get the file input element
+                    const fileInput = document.getElementById('imageinput');
+
+                    const name = document.getElementById('name').value;
+                    formData.append('name', name);
+                    alert('name : ' + formData.get('name'))
+
+                    const address = document.getElementById('address').value;
+                    formData.append('address', address);
+                    alert('address : ' + formData.get('address'))
+
+                    const gender = document.querySelector('input[name="gender"]:checked');
+                    formData.append('gender', gender.value);
+                    alert('gender : ' + formData.get('gender'))
+                    
+                    const email = document.getElementById('email').value;
+                    formData.append('email', email);
+                    alert('email : ' + formData.get('email'))
+
+                    const password = document.getElementById('password').value;
+                    formData.append('password', password);
+                    alert('password : ' + formData.get('password'))
+
+                    formData.append('type', 1)
+                    alert('type : ' + formData.get('type'))
+                    
+                    const branch = document.getElementById('branch').value;
+                    formData.append('branchId', branch);
+                    alert('branch : ' + formData.get('branchId'))
+
+                    const phone = document.getElementById('phone').value;
+                    formData.append('phoneNumber', phone);
+                    alert('phone : ' + formData.get('phoneNumber'))
+
+                    const whatsapp = document.getElementById('whatsapp').value;
+                    formData.append('whatsapp', whatsapp);
+                    alert('wa : ' + formData.get('whatsapp'))
+
+                    // Check if a file has been selected
+                    if (fileInput.files.length > 0) {
+                        // A file has been selected
+                        formData.append('image', fileInput.files[0]);
+                    } else {
+                        // No file has been selected
+                        console.log('No file selected');
+                    }
+
+                    const token = localStorage.getItem("authToken");
+
+                    fetch('http://localhost:3000/employee', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
+                            'authorization':`Bearer ${token}`
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        const status = data.status;
+                        if (status) {
+                            alert('Agent successfully added!');
+                        } else {
+                            alert('Failed to add agent!1');
+                        }
+                    })
+                    .catch(error => {
+                        alert(error);
+                        console.error('Error:', error);
+                        console.log(error)
+                    });
+                } catch (error) {
+                    alert(error);
+                }
+            });
+        });
+    </script>
+</body>
+
 </html>
