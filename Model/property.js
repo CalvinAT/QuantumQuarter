@@ -29,7 +29,7 @@ class propertyBuilder {
         this.property.area = area;
         this.property.type = type;
         this.property.area = area;
-        this.property.price = price;
+        this.property.price = parseInt(price);
         this.property.listingDate = listingDate;
         this.property.approvedDate = approvedDate;
         this.property.status = status;
@@ -37,17 +37,17 @@ class propertyBuilder {
     }
 
     addBedroom(count){
-        this.property.bedroomCount = count;
+        this.property.bedroomCount = parseInt(count);
         return this;
     }
 
     addBathroom(count){
-        this.property.bathroomCount = count;
+        this.property.bathroomCount = parseInt(count);
         return this;
     }
 
     addLandArea(area){
-        this.property.landArea = area;
+        this.property.landArea = parseInt(area);
         return this;
     }
 

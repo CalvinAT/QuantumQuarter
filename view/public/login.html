@@ -33,12 +33,45 @@
                     <input id="checkboxPassword" type="checkbox" class="rounded-md placeholder:text-inherit"> <p class="pl-2 text-xs">Show Password</p>
                 </div>  
         </div>
-        <div class=" py-[2%] align-middle flex text-qq-secondary">
+        <div class=" py-[2%] align-middle flex text-qq-secondary" id = "sign-in">
             <button href="" class="text-qq-primary bg-qq-secondary w-24 h-9 m-auto mb-[12%] my-2 text-center rounded-lg">Sign In</button>
         </div>
         </div>
         
         
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('sign-in').addEventListener('click', function() {
+                const email = document.getElementById("email").value
+                const password = document.getElementById("password").value
+                const formData = new FormData();
+                formData.append('email', email);
+                formData.append('password', password)
+                fetch('http://localhost:3000/login', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.status == 200) { // Berhasil login
+                            if (data.result.type == 1) {
+                                const token = data.result.token;
+                                sessionStorage.setItem("authToken", token);
+                                console.log(sessionStorage.getItem("authToken"))
+                                window.location.href = `agent-main.html?id=${data.result.id}`
+                            } else if (data.result.type == 0){
+                                window.location.href = 'admin-dashboard.html'
+                            }
+                        } else if (data.status == 401){ // Invalid credentials
+                            alert('Invalid Credentials')
+                        } else { // Internal server error
+                            alert('Internal Server Error')
+                        }
+                    })
+            });
+        });
+    </script>
   </body>
 </html>

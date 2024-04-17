@@ -12,6 +12,48 @@
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
     </script>
+    <script>
+    const formData = new FormData();
+    formData.append('requestedBy', '2');
+
+    fetch('http://localhost:3000/getproperty', {
+          method: 'POST',
+          body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const myDiv = document.getElementById('property-data');
+            let htmlCode = '';
+            for (const propertyKey in data.data) {
+                const property = data.data[propertyKey];
+                const propertyId = property.id;
+                const agent = property.agent;
+                htmlCode += `<div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[20%] text-lg text-center">${propertyId}</div>
+                <div class="w-[20%] text-lg text-center">${agent}</div>
+                <div class="w-[25%] text-2xl text-center">
+                    <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Detail</a>
+                </div>
+                <div class="w-[35%] grid grid-cols-2 grid-row">
+                    <div class="text-2xl text-center">
+                        <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Approve</a>
+                    </div>
+                    <div class="text-2xl text-center">
+                        <a href="" class="border-qq-secondary border-3 rounded-xl px-[14%] py-[1.6%] font-semibold">Reject</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-2 border-black opacity-30"></div>`
+            }  
+            myDiv.innerHTML = htmlCode;
+            console.log(htmlCode)
+        })
+        .catch(error => {
+            console.error('Error: ', error)
+        });
+
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
   </head>
@@ -34,7 +76,9 @@
             </div>
         </div>
         <div class=" shadow-xl">
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
+            <div id = "property-data">
+            </div>
+            <!-- <div class=" py-[2%] align-middle flex text-qq-secondary">
                 <div class="w-[20%] text-lg text-center">QQ-001</div>
                 <div class="w-[20%] text-lg text-center">Jonathan Abigael Hermawan</div>
                 <div class="w-[25%] text-2xl text-center">
@@ -64,7 +108,7 @@
                         <a href="" class="border-qq-secondary border-3 rounded-xl px-[14%] py-[1.6%] font-semibold">Reject</a>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
         
     </div>

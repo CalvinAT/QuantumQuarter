@@ -10,7 +10,7 @@ const {getFeedback, addFeedback} = require('./handlers/feedbackHandler')
 const upload = multer({ dest: 'uploads/' });
 
 router.post('/property', upload.array('images',5), addPropertyHandler);
-router.get('/property', upload.none(), getPropertyHandler);
+router.post('/getproperty', upload.none(), getPropertyHandler);
 router.put('/property', upload.none(), setStatusPropertyHandler);
 router.delete('/property', upload.none(), setStatusPropertyHandler);
 
