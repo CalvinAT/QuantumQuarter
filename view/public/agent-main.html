@@ -13,9 +13,19 @@
     crossorigin="anonymous">
     </script>
     <script>
+        
         $(document).ready(function(){
+            if (document.getElementById("status").innerHTML === "Active") {
+                document.getElementById("setsold").classList.remove("invisible");
+                document.getElementById("setsold").classList.add("visible");
+            } else {
+                document.getElementById("setsold").classList.remove("visible");
+                document.getElementById("setsold").classList.add("invisible");
+            }
           $("#setsold").click(function(){
             document.getElementById("status").innerHTML = "Sold";
+                document.getElementById("setsold").classList.remove("visible");
+                document.getElementById("setsold").classList.add("invisible");
           });
         });
         $(function(){
@@ -28,7 +38,6 @@
   <body class="bg-qq-primary font-inter text-qq-secondary">
     <script>
         const queryString = window.location.search.substring(1);
-        alert(queryString)
     </script>
     <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
         <image src="./asset/qq-logo.png" class="pl-[2%]"></image>
@@ -84,13 +93,11 @@
                         <div class="w-[23%] text-lg text-center">22-1-2023</div>
                         <div class="w-[30%] text-lg text-center">-</div>
                         <div id="status" class="w-[17%] text-lg text-center font-semibold">Active</div>
-                        
                         <div class="w-[10%] text-lg text-center pr-[2%]">
-                            <button id="setsold" class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold" >Set Sold</button>
+                            <button id="setsold" class="invisible w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold">Set Sold</button>
                         </div>
                     </div>
                     <div class="border-2 border-black opacity-30"></div>
-                    
                 </div>
                 
             </div>
