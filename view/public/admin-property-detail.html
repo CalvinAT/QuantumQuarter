@@ -19,6 +19,113 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
+    <script>
+        const queryString = window.location.search.substring(1);
+        const parts = queryString.split('=')
+        const propertyId = decodeURIComponent(parts[1])
+
+        const formData = new FormData();
+        formData.append('id', propertyId);
+
+        fetch('http://localhost:3000/getproperty', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                const property = data.data[0]
+                const myDiv = document.getElementById('results')
+                let htmlCode = ''
+                htmlCode += `<div class="pt-[5%] py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Title</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="title" type="text" class="pl-3 rounded-md" value="${property.title}" min="0" readonly>
+                </label>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Description</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="desc" type="text" class="pl-3 rounded-md" value="${property.desc}" min="0" readonly>
+                    </label>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Type</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="type" type="text" class="pl-3 rounded-md" value="${property.type}" min="0" readonly>
+                    </label>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Area</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="area" type="text" class="pl-3 rounded-md" value="${property.area}" min="0" readonly>
+                    </label>
+                </div>
+
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Price</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="price" type="text" class="pl-3 rounded-md" value="${property.price}" min="0" readonly>
+                    </label>
+                </div>
+
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Bedroom</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="bedroomCount" type="text" class="pl-3 rounded-md" value="${property.bedroomCount}" min="0" readonly>
+                    </label>
+                </div>
+
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Bathroom</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="bathroomCount" type="text" class="pl-3 rounded-md" value="${property.bathroomCount}" min="0" readonly>
+                    </label>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Land Area</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="landArea" type="text" class="pl-3 rounded-md" value="${property.landArea}" min="0" readonly>
+                    </label>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Garage</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="garage" type="text" class="pl-3 rounded-md" value="garage" min="0" readonly>
+                    </label>
+                </div>
+
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <div class="w-[30%] text-2xl pl-[6%]">Floor Level</div>
+                    <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                        <input id="floorLevel" type="text" class="pl-3 rounded-md" value="${property.floorLevel}" min="0" readonly>
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-2 gap-5 h-[6%] p-[2%] justify-center">`
+
+                let i = 0;
+                for(const image in property.images) {
+                    i++;
+                    htmlCode += `<div><image class="px-6" src="${property.images[image]}"></image><p class=" text-center">Image ${i}</p></div>`
+                }
+                htmlCode+='</div>'
+                console.log(htmlCode)
+                myDiv.innerHTML = htmlCode
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error('Error:', error);
+            });
+    </script>
   </head>
   <body class="bg-qq-primary font-inter text-qq-secondary">
     <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
@@ -35,8 +142,10 @@
             </div>
         </div>
         <div class="shadow-xl">
-            
-            <div class="pt-[5%] py-[2%] align-middle flex text-qq-secondary">
+            <div id="results">
+
+            </div>
+            <!-- <div class="pt-[5%] py-[2%] align-middle flex text-qq-secondary">
                 <div class="w-[30%] text-2xl pl-[6%]">Title</div>
                 <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
                     <input id="title" type="text" class="pl-3 rounded-md" value="Title" min="0" readonly>
@@ -116,7 +225,7 @@
                 <div><image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image><p class=" text-center">Image 3</p></div>
                 <div><image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image><p class=" text-center">Image 4</p></div>
                 <div><image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image><p class=" text-center">Image 5</p></div>
-            </div>
+            </div>-->
 
             <div class="border-2 border-black opacity-30"></div>
 

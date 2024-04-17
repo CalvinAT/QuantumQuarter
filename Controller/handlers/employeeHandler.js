@@ -5,12 +5,17 @@ const path = require('path');
 
 const {Storage} = require('@google-cloud/storage');
 
+const shortid = require('shortid');
+const length = 8;
+
 async function addEmployee(req, res) {
+    console.log('masuk 1')
     const authHeader = req.headers['authorization'];
     if(!checkUserType(authHeader, 0)){
         res.status(401).json({ status: 401, message: 'Error: Invalid credentials' });
         return;
     }
+    console.log('masuk 2')
 
     const {
         name,
@@ -26,16 +31,21 @@ async function addEmployee(req, res) {
 
     const id = shortid.generate().substring(0, length);
     // hashing password
+    console.log(req.body);
+    console.log(password);
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    console.log('masuk 3')
     try {
+        console.log('masuk 4')
         const pool = await connectToMySQL();
 
         // Insert employee
         await pool.query('INSERT INTO employee (id, name, address, gender, email, password, type, currently_login) VALUES (?, ?, ?, ?, ?, ?, ?, 0);', [id, name, address, gender, email, hashedPassword, type]);
 
         // Insert agent if type is 1
-        if (type === '1') {
+        if (type == 1) {
+            console.log('masuk 5')
             const profile = req.file;
 
             const projectId = 'quantumquarters';
