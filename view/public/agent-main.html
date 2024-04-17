@@ -27,8 +27,9 @@
     <script>
         const token = localStorage.getItem("authToken");
         const queryString = window.location.search.substring(1);
-        const parts = queryString.split('=')
-        const agentName = decodeURIComponent(parts[1])
+        const queryParameter = queryString.split('&');
+        const parts = queryParameter[0].split('=');
+        const agentId = decodeURIComponent(parts[1]);
         fetch('http://localhost:3000/getemployee', {
             method: 'POST',
             headers: {
@@ -75,9 +76,35 @@
         });
     </script>
     <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('sold')) {
+            const soldId = urlParams.get('id');
+            const formData2 = new FormData();
+            formData2.append('propertyId', soldId);
+
+            fetch('http://localhost:3000/deleteproperty', {
+                method: 'POST',
+                headers: {'authorization' : `Bearer ${token}`},
+                body: formData2
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    const status = data.status;
+                    if(status == 200){
+                        alert('Property sold!');
+                        window.location.href=`agent-main.html?agentId=${agentId}`;
+                    } else {
+                        alert('Failed to update property status!');
+                        window.location.href=`agent-main.html?agentId=${agentId}`;
+                    }
+            });
+        }
+    </script>
+    <script>
         const formData = new FormData();
-        formData.append('agent', agentName)
-        console.log(agentName)
+        formData.append('agent', agentId)
+        console.log(agentId)
         console.log(formData.get('agent'))
         fetch('http://localhost:3000/getproperty', {
             method: 'POST',
@@ -94,8 +121,8 @@
             for (const propertyKey in data.data){
                 const property = data.data[propertyKey];
                 const propertyId = property.id;
-                const listing_date = property.listing_date
-                const approved_date = property.approved_date
+                const listing_date = property.listingDate
+                const approved_date = property.approvedDate
                 const agent = property.agent;
                 let status = ''
                 if (property.status == 0) {
@@ -112,7 +139,7 @@
                         <div id="status" class="w-[17%] text-lg text-center font-semibold">${status}</div>`
                 if (status == 'Listed') {
                     htmlCodeListings += `<div class="w-[10%] text-lg text-center pr-[2%]">
-                <button class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold set-sold-btn" data-property-id="${propertyId}">Set Sold</button>
+                <button class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold set-sold-btn" data-property-id="${propertyId}"><a href="agent-main.html?agentId=${agent}&sold=${propertyId}">Set Sold</a></button>
             </div>`
                 }
 
