@@ -31,6 +31,8 @@ async function addEmployee(req, res) {
 
     const id = shortid.generate().substring(0, length);
     // hashing password
+    console.log(req.body);
+    console.log(password);
     const hashedPassword = await bcrypt.hash(password, 10);
 
     console.log('masuk 3')
