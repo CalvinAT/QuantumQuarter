@@ -65,10 +65,9 @@
                     .then(data => {
                         console.log(data)
                         if (data.status == 200) { // Berhasil login
+                            const token = data.result.token;
+                            localStorage.setItem("authToken", token);
                             if (data.result.type == 1) {
-                                const token = data.result.token;
-                                sessionStorage.setItem("authToken", token);
-                                console.log(sessionStorage.getItem("authToken"))
                                 window.location.href = `agent-main.html?id=${data.result.id}`
                             } else if (data.result.type == 0){
                                 window.location.href = 'admin-dashboard.html'
