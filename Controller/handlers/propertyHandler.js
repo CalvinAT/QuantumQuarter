@@ -200,8 +200,13 @@ async function getPropertyHandler(req, res) {
         }
         // check if requested by employee or guest
         if (requestedBy !== undefined) { 
-            query.status = 1; // by guest
+            if (requestedBy == 1 ) {
+                query.status = 1; // by guest
+            } else if (requestedBy == 2) {
+                query.status = 0; // by admin
+            }
         }
+
         console.log(query);
         // try to query to db
         const data = await db.collection('property').find(query).toArray();
