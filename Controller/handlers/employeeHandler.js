@@ -131,9 +131,16 @@ async function getProfile(req, res){
             throw new Error("Invalid Credentials.");
         }
         const { id } = getTokenData(authHeader);
+        console.log(id)
         const pool = await connectToMySQL();
-        const data = await pool.query(`SELECT * FROM employee e INNER JOIN agent a ON e.id = a.id WHERE e.id = ${id}`);
-        res.status(201).json({ status: 201, data});
+        const data = await pool.query(
+            `SELECT * FROM employee 
+            INNER JOIN agent 
+            ON employee.id = agent.id 
+            WHERE employee.id = '${id}'`
+        );
+        console.log(data)
+        res.status(201).json({ status: 201, data: data[0]});
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

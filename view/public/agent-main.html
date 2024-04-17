@@ -21,54 +21,132 @@
         $(function(){
             $("#footer").load("footeraa.html"); 
         });
+        
     </script> 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    
-  </head>
-  <body class="bg-qq-primary font-inter text-qq-secondary">
     <script>
+        const token = localStorage.getItem("authToken");
         const queryString = window.location.search.substring(1);
-        alert(queryString)
-    </script>
-    <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
-        <image src="./asset/qq-logo.png" class="pl-[2%]"></image>
-        <p class="text-white text-5xl pl-[2.3%] font-playfair">Agent | Dashboard</p>
-    </div>
-    <div class="flex mt-[4%] mx-[8%]">
-        <div class="w-[20%] bg-qq-primary shadow-2xl rounded-t-full rounded-b-2xl">
-            <image src="./asset/koja.jpg" class="border-6 border-qq-secondary w-full rounded-full"></image>
-            <p class="text-4xl text-center my-[3%]">Alexander Juan</p>
+        const parts = queryString.split('=')
+        const agentName = decodeURIComponent(parts[1])
+        fetch('http://localhost:3000/getemployee', {
+            method: 'POST',
+            headers: {
+                'authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data)
+            const agent = data.data[0]
+            const myDiv = document.getElementById('results');
+            let htmlCodeProfile = '';
+            htmlCodeProfile += `<image src="${agent.profile_path}" class="border-6 border-qq-secondary w-full rounded-full"></image>
+            <p class="text-4xl text-center my-[3%]">${agent.name}</p>
             <div class="border-2 border-black opacity-30 scale-90 my-8"></div>
             <div class="items-center align-middle pl-[12%]">
                 <div class="flex flex-row items-center">
                     <div class="w-[30%] justify-center items-center align-middle">
                         <image src="./asset/PhoneBlack.png" class="p-[3%] w-10"></image>
                     </div>
-                    <p class="w-[70%]">082128818582</p>
+                    <p class="w-[70%]">${agent.phone_number}</p>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="w-[30%]">
                         <image src="./asset/WhatsAppBlack.png" class="p-[3%] w-10"></image>
                     </div>
-                    <p class="w-[70%]">082128818582</p>
+                    <p class="w-[70%]">${agent.whatsapp}</p>
                 </div>
                 <div class="flex flex-row items-center">
                     <div class="w-[30%]">
                         <image src="./asset/email.png" class="p-[3%] w-10"></image>
                     </div>
-                    <p class="w-[70%]">susrini@gmail.com</p>
+                    <p class="w-[70%]">${agent.email}</p>
                 </div>
             </div>
             <a href="agent-add-listing.html" class="">
                 <div class="text-white bg-qq-secondary mx-12 my-[5%] mb-12 border-2 text-center align-middle rounded-full text-2xl py-[1%] hover:cursor-pointer">EDIT</div>
-            </a>
+            </a>`
+            myDiv.innerHTML = htmlCodeProfile;
+        })
+        .catch(error => {
+                // Handle any errors
+                console.error('Error:', error);
+        });
+    </script>
+    <script>
+        const formData = new FormData();
+        formData.append('agent', agentName)
+        console.log(agentName)
+        console.log(formData.get('agent'))
+        fetch('http://localhost:3000/getproperty', {
+            method: 'POST',
+            headers: {
+                'authorization': `Bearer ${token}`
+            },
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const listingDiv = document.getElementById('listingResults')
+            console.log(data)
+            let htmlCodeListings = ''
+            for (const propertyKey in data.data){
+                const property = data.data[propertyKey];
+                const propertyId = property.id;
+                const listing_date = property.listing_date
+                const approved_date = property.approved_date
+                const agent = property.agent;
+                let status = ''
+                if (property.status == 0) {
+                    status = 'Pending'
+                } else if (property.status == 1) {
+                    status = 'Listed'
+                } else if (property.status == 2) {
+                    status = 'Sold'
+                }
+                htmlCodeListings += `<div class=" py-[2%] align-middle flex text-qq-secondary">
+                        <div class="w-[20%] text-lg text-center">${propertyId}</div>
+                        <div class="w-[23%] text-lg text-center">${listing_date}</div>
+                        <div class="w-[30%] text-lg text-center">${approved_date}</div>
+                        <div id="status" class="w-[17%] text-lg text-center font-semibold">${status}</div>`
+                if (status == 'Listed') {
+                    htmlCodeListings += `<div class="w-[10%] text-lg text-center pr-[2%]">
+                <button class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold set-sold-btn" data-property-id="${propertyId}">Set Sold</button>
+            </div>`
+                }
+
+                htmlCodeListings += `</div>
+                    <div class="border-2 border-black opacity-30"></div>`
+
+            }
+            listingDiv.innerHTML = htmlCodeListings;
+        })
+    </script>
+    <script>
+        document.querySelectorAll('set-sold-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const propertyId = this.dataset.propertyId;
+            alert(propertyId)
+        });
+    });
+    </script>
+  </head>
+  <body class="bg-qq-primary font-inter text-qq-secondary">
+    <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
+        <image src="./asset/qq-logo.png" class="pl-[2%]"></image>
+        <p class="text-white text-5xl pl-[2.3%] font-playfair">Agent | Dashboard</p>
+    </div>
+    <div class="flex mt-[4%] mx-[8%]">
+        <div class="w-[20%] bg-qq-primary shadow-2xl rounded-t-full rounded-b-2xl">
+            <div id="results">
+            </div>
         </div>
         <div class="w-[80%]">
             <div class="ml-[4%]">
                     <div class="text-qq-secondary border-qq-secondary border-2 text-center align-middle w-[20%] rounded-full text-2xl py-[1%] hover:cursor-pointer">
                         <a href="agent-add-listing.html" class="">New Listing</a>
                     </div>
-                
                 <div class="mt-[3%] py-[2%] bg-qq-secondary align-middle">
                     <div class="flex text-qq-primary font-semibold">
                         <div class="w-[20%] text-2xl text-center">ID Listing</div>
@@ -79,18 +157,8 @@
                     </div>
                 </div>
                 <div class=" shadow-xl">
-                    <div class=" py-[2%] align-middle flex text-qq-secondary">
-                        <div class="w-[20%] text-lg text-center">QQ-001</div>
-                        <div class="w-[23%] text-lg text-center">22-1-2023</div>
-                        <div class="w-[30%] text-lg text-center">-</div>
-                        <div id="status" class="w-[17%] text-lg text-center font-semibold">Active</div>
-                        
-                        <div class="w-[10%] text-lg text-center pr-[2%]">
-                            <button id="setsold" class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold" >Set Sold</button>
-                        </div>
-                    </div>
-                    <div class="border-2 border-black opacity-30"></div>
-                    
+                    <div id="listingResults">
+                    </div>  
                 </div>
                 
             </div>

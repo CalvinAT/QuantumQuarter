@@ -125,7 +125,8 @@ async function getPropertyHandler(req, res) {
         landArea,
         garage,
         floorLevel,
-        requestedBy
+        requestedBy,
+        agent
     } = req.body;
     let query = {};
     try {
@@ -211,10 +212,15 @@ async function getPropertyHandler(req, res) {
                 query.status = 0; // by admin
             }
         }
+        // check agent name
+        if (agent !== undefined) { 
+                query.agent = agent;
+        }
 
         console.log(query);
         // try to query to db
         const data = await db.collection('property').find(query).toArray();
+        console.log(data)
         res.status(200).json({ status: 200, data });
     } catch (error) {
         res.status(500).json({ error: error.message });
