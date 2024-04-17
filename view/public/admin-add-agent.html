@@ -115,8 +115,8 @@
                     </label>
                 </div>
 
-                <div id="addButton" class=" py-[2%] align-middle flex text-qq-secondary">
-                    <button class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Add</button>
+                <div class=" py-[2%] align-middle flex text-qq-secondary">
+                    <button id="addButton" class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Add</button>
                 </div>
                 <div class="border-2 border-black opacity-30"></div>
             </form>
@@ -133,38 +133,29 @@
 
                     const name = document.getElementById('name').value;
                     formData.append('name', name);
-                    alert('name : ' + formData.get('name'))
 
                     const address = document.getElementById('address').value;
                     formData.append('address', address);
-                    alert('address : ' + formData.get('address'))
 
                     const gender = document.querySelector('input[name="gender"]:checked');
                     formData.append('gender', gender.value);
-                    alert('gender : ' + formData.get('gender'))
                     
                     const email = document.getElementById('email').value;
                     formData.append('email', email);
-                    alert('email : ' + formData.get('email'))
 
                     const password = document.getElementById('password').value;
                     formData.append('password', password);
-                    alert('password : ' + formData.get('password'))
 
                     formData.append('type', 1)
-                    alert('type : ' + formData.get('type'))
                     
                     const branch = document.getElementById('branch').value;
                     formData.append('branchId', branch);
-                    alert('branch : ' + formData.get('branchId'))
 
                     const phone = document.getElementById('phone').value;
                     formData.append('phoneNumber', phone);
-                    alert('phone : ' + formData.get('phoneNumber'))
 
                     const whatsapp = document.getElementById('whatsapp').value;
                     formData.append('whatsapp', whatsapp);
-                    alert('wa : ' + formData.get('whatsapp'))
 
                     // Check if a file has been selected
                     if (fileInput.files.length > 0) {
@@ -180,28 +171,24 @@
                     fetch('http://localhost:3000/employee', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'multipart/form-data; boundary=<calculated when request is sent>',
-                            'authorization':`Bearer ${token}`
+                            'authorization':`Bearer ${token}`,
                         },
                         body: formData
                     })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data);
                         const status = data.status;
-                        if (status) {
+                        alert 
+                        if (status == 200) {
                             alert('Agent successfully added!');
                         } else {
                             alert('Failed to add agent!1');
                         }
                     })
                     .catch(error => {
-                        alert(error);
-                        console.error('Error:', error);
-                        console.log(error)
+                        alert('Error lol:', error);
                     });
                 } catch (error) {
-                    alert(error);
                 }
             });
         });

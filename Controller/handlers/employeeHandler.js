@@ -29,14 +29,15 @@ async function addEmployee(req, res) {
         whatsapp,
     } = req.body;
 
-    const id = shortid.generate().substring(0, length);
-    // hashing password
-    console.log(req.body);
-    console.log(password);
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    console.log('masuk 3')
     try {
+        const id = shortid.generate().substring(0, length);
+        // hashing password
+        console.log(req.body);
+        console.log(password);
+        console.log(name);
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        console.log('masuk 3')
         console.log('masuk 4')
         const pool = await connectToMySQL();
 
