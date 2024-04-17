@@ -22,7 +22,7 @@
             // Query parameter 'param1' exists in the URL
             const propertyId = urlParams.get('id');
             const formData = new FormData();
-            formData.append('id', propertyId);
+            formData.append('propertyId', propertyId);
 
             fetch('http://localhost:3000/property', {
                 method: 'PUT',
