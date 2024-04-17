@@ -103,7 +103,8 @@ async function addPropertyHandler(req, res) {
         res.status(201).json({ 
             status: 201, 
             message: 'Successfully add property listing request', 
-            uploadedFiles
+            uploadedFiles,
+            agentId: agent
         });
         addLog(req, agent, 1, "add property");
     } catch (error) {
@@ -216,11 +217,8 @@ async function getPropertyHandler(req, res) {
         if (agent !== undefined) { 
                 query.agent = agent;
         }
-
-        console.log(query);
         // try to query to db
         const data = await db.collection('property').find(query).toArray();
-        console.log(data)
         res.status(200).json({ status: 200, data });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -261,7 +259,6 @@ async function setStatusPropertyHandler(req, res) {
             if(!result){
                 console.log('property not updated');
             }
-            console.log(result);
             res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
             addLog(req, employeeId, 1, "approve property");
         } else { // agent sold property
@@ -274,6 +271,7 @@ async function setStatusPropertyHandler(req, res) {
                 },
             };
             const result = await db.collection('property').updateOne(filter, updateDoc);
+            console.log(filter);
             res.status(200).json({ status: 200, message: 'Property sold' });
             addLog(req, employeeId, 1, "delist property");
         }

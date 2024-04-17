@@ -68,7 +68,7 @@
                             const token = data.result.token;
                             localStorage.setItem("authToken", token);
                             if (data.result.type == 1) {
-                                window.location.href = `agent-main.html?name=${data.result.name}`
+                                window.location.href = `agent-main.html?agentId=${data.result.id}`
                             } else if (data.result.type == 0){
                                 window.location.href = 'admin-dashboard.html'
                             }
