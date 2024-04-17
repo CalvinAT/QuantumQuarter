@@ -128,39 +128,39 @@
                     if (garage == undefined) {
                         garageImg = 'Garage-not.png';
                     }
-                    htmlCode += `<a href="property.html?id=${propertyId}" class="bg-white flex rounded-3xl mx-[23%] my-[3%] hover:decoration-inherit hover:no-underline">
-                                                <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
-                                                    <image class="rounded-tl-3xl " src="${imgPath}"></image>
-                                                    <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary" >${title}</p>
-                                                    <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
-                                                        <p class="text-2xl">Rp.${price}</p>
-                                                        <p class="ml-auto text-xl pr-[4%]">${landArea}m²</p>
-                                                    </div>
-                                                </div>
-                                                <div class="text-center align-middle w-[20%] text-qq-secondary">
-                                                    <p class="font-inter text-xl font-semibold pt-[25%]">${type}</p>
-                                                    <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
-                                                        <image class="h-[20%]" src="./asset/${bedroomImg}"></image>
-                                                        <p class="font-inter text-3xl pl-5 pt-[17%]">${bedroomCount}</p>
-                                                    </div>
-                                                    <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
-                                                        <image class="h-[20%] scale-75" src="./asset/${bathroomImg}"></image>
-                                                        <p class="font-inter text-3xl pl-5 pt-[10%]">${bathroomCount}</p>
-                                                    </div>
-                                                    <div class="grid grid-cols-2 gap-0 scale-90 items-center">
-                                                        <image src="./asset/${garageImg}" class="pt-2"></image>
-                                                        <div>
-                                                            <image src="./asset/FloorBlue.png"></image>
-                                                            <div class="absolute inset-0 flex justify-center items-center">
-                                                                <div class="text-white pl-20 pb-4 text-xl font-bold">${floorLevel}</div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="pt-[20%] font-bold justify-end">
-                                                        ${area}
-                                                    </div>
-                                                </div>
-                                            </a>`;
+                    htmlCode += `<a href="property.html?id=${propertyId}" class="bg-white flex rounded-3xl mx-[12%] my-[3%] hover:decoration-inherit hover:no-underline">
+                <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
+                    <image class="rounded-tl-3xl " src="${imgPath}"></image>
+                    <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary" >${title}</p>
+                    <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
+                        <p class="text-2xl">Rp.${price}</p>
+                        <p class="ml-auto text-xl pr-[4%]">${landArea}m²</p>
+                    </div>
+                </div>
+                <div class="text-center align-middle w-[20%] text-qq-secondary">
+                    <p class="font-inter text-xl font-semibold pt-[25%]">${type}</p>
+                    <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
+                        <image class="h-[20%]" src="./asset/${bedroomImg}"></image>
+                        <p class="font-inter text-3xl pl-5 pt-[17%]">${bedroomCount}</p>
+                    </div>
+                    <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
+                        <image class="h-[20%] scale-75" src="./asset/${bathroomImg}"></image>
+                        <p class="font-inter text-3xl pl-5 pt-[10%]">${bathroomCount}</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-0 scale-90 items-center">
+                        <image src="./asset/${garageImg}" class="pt-2"></image>
+                        <div>
+                            <image src="./asset/FloorBlue.png"></image>
+                            <div class="absolute inset-0 flex justify-center items-center">
+                                <div class="text-white pl-20 pb-4 text-xl font-bold">${floorLevel}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-[20%] font-bold justify-end">
+                        ${area}
+                    </div>
+                </div>
+            </a>`;
                 }
                 myDiv.innerHTML = htmlCode;
             })
@@ -466,10 +466,7 @@
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-2 gap-10 px-[7%] py-16">
-        <div class="bg-white flex rounded-3xl ">
-            <div id="results"></div>
-        </div>
+    <div id="results" class="grid grid-cols-2 gap-5 px-[7%] py-16">
     </div>
     <footer class="pt-24" id="footer"></footer>
     <script>
