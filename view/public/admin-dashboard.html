@@ -13,6 +13,11 @@
     crossorigin="anonymous">
     </script>
     <script>
+        $(function(){
+            $("#footer").load("footeraa.html"); 
+        });
+    </script>
+    <script>
     const formData = new FormData();
     formData.append('requestedBy', '2');
 
@@ -112,5 +117,6 @@
         </div>
         
     </div>
+    <div id="footer"></div>
   </body>
 </html>

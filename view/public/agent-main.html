@@ -18,7 +18,10 @@
             document.getElementById("status").innerHTML = "Sold";
           });
         });
-    </script>
+        $(function(){
+            $("#footer").load("footeraa.html"); 
+        });
+    </script> 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
   </head>
@@ -62,9 +65,10 @@
         </div>
         <div class="w-[80%]">
             <div class="ml-[4%]">
-                <a href="agent-add-listing.html" class="">
-                    <div class="text-qq-secondary border-qq-secondary border-2 text-center align-middle w-[20%] rounded-full text-2xl py-[1%] hover:cursor-pointer">New Listing</div>
-                </a>
+                    <div class="text-qq-secondary border-qq-secondary border-2 text-center align-middle w-[20%] rounded-full text-2xl py-[1%] hover:cursor-pointer">
+                        <a href="agent-add-listing.html" class="">New Listing</a>
+                    </div>
+                
                 <div class="mt-[3%] py-[2%] bg-qq-secondary align-middle">
                     <div class="flex text-qq-primary font-semibold">
                         <div class="w-[20%] text-2xl text-center">ID Listing</div>
@@ -92,5 +96,6 @@
             </div>
         </div>
     </div>
+    <div id="footer"></div>
   </body>
 </html>
