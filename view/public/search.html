@@ -89,17 +89,6 @@
             });
             formData.append('requestedBy', '1');
 
-            alert(formDataObject);
-
-                    // Check if a file has been selected
-                    if (fileInput.files.length > 0) {
-                        // A file has been selected
-                        formData.append('image', fileInput.files[0]);
-                    } else {
-                        // No file has been selected
-                        console.log('No file selected');
-                    }
-
             fetch('http://localhost:3000/getproperty', {
             method: 'POST',
             body: formData
