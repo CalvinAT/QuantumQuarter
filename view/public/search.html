@@ -59,8 +59,117 @@
             $("#floordd").toggle();
           });
         });
-        
-      </script>
+    </script>
+    <script>
+        // Function to parse query parameters from URL
+        function getQueryParams() {
+            const queryString = window.location.search.substring(1);
+            const queryParams = {};
+            const pairs = queryString.split('&');
+
+            pairs.forEach(pair => {
+                const parts = pair.split('=');
+                const key = decodeURIComponent(parts[0]);
+                const value = decodeURIComponent(parts[1]);
+                queryParams[key] = value;
+            });
+
+            return queryParams;
+        }
+
+        // Get the query parameters
+        const queryParams = getQueryParams();
+        if (queryParams !== undefined){
+            // Create a new FormData object
+            const formData = new FormData();
+
+            // Loop through the queryParams object and append each key-value pair to the FormData object
+            Object.keys(queryParams).forEach(key => {
+                formData.append(key, queryParams[key]);
+            });
+            formData.append('requestedBy', '1');
+
+            fetch('http://localhost:3000/getproperty', {
+            method: 'POST',
+            body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const myDiv = document.getElementById('results');
+                let htmlCode = '';
+                for (const propertyKey in data.data) {
+                    const property = data.data[propertyKey];
+                    let propertyId = property.id;
+                    let title = property.title;
+                    let price = property.price;
+                    let landArea = property.landArea;
+                    let imgPath = property.images[0];
+                    let area = property.area;
+                    let type = property.type;
+                    let floorLevel = property.floorLevel;
+                    if (floorLevel == undefined) {
+                        floorLevel = 1;
+                    };
+                    let bedroomCount = property.bedroomCount;
+                    let bedroomImg = 'BedBlue.png';
+                    if (bedroomCount == undefined) {
+                        bedroomCount = 0;
+                        bedroomImg = 'Bed-not.png';
+                    };
+                    let bathroomCount = property.bathroomCount;
+                    let bathroomImg = 'BathBlue.png';
+                    if (bathroomCount == undefined) {
+                        bathroomCount = 0;
+                        bathroomImg = 'Bathtub-not.png'
+                    }
+                    let garage = property.garage;
+                    let garageImg = 'GarageBlue.png';
+                    if (garage == undefined) {
+                        garageImg = 'Garage-not.png';
+                    }
+                    htmlCode += `<a href="property.html?id=${propertyId}" class="bg-white flex rounded-3xl mx-[23%] my-[3%] hover:decoration-inherit hover:no-underline">
+                                                <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
+                                                    <image class="rounded-tl-3xl " src="${imgPath}"></image>
+                                                    <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary" >${title}</p>
+                                                    <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
+                                                        <p class="text-2xl">Rp.${price}</p>
+                                                        <p class="ml-auto text-xl pr-[4%]">${landArea}m²</p>
+                                                    </div>
+                                                </div>
+                                                <div class="text-center align-middle w-[20%] text-qq-secondary">
+                                                    <p class="font-inter text-xl font-semibold pt-[25%]">${type}</p>
+                                                    <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
+                                                        <image class="h-[20%]" src="./asset/${bedroomImg}"></image>
+                                                        <p class="font-inter text-3xl pl-5 pt-[17%]">${bedroomCount}</p>
+                                                    </div>
+                                                    <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
+                                                        <image class="h-[20%] scale-75" src="./asset/${bathroomImg}"></image>
+                                                        <p class="font-inter text-3xl pl-5 pt-[10%]">${bathroomCount}</p>
+                                                    </div>
+                                                    <div class="grid grid-cols-2 gap-0 scale-90 items-center">
+                                                        <image src="./asset/${garageImg}" class="pt-2"></image>
+                                                        <div>
+                                                            <image src="./asset/FloorBlue.png"></image>
+                                                            <div class="absolute inset-0 flex justify-center items-center">
+                                                                <div class="text-white pl-20 pb-4 text-xl font-bold">${floorLevel}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pt-[20%] font-bold justify-end">
+                                                        ${area}
+                                                    </div>
+                                                </div>
+                                            </a>`;
+                }
+                myDiv.innerHTML = htmlCode;
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error('Error:', error);
+            });
+        }
+    </script>
   </head>
   <body class="bg-qq-primary font-inter text-qq-secondary">
     <header id="header"></header>
@@ -95,17 +204,17 @@
                     <div id="citydd" class="hidden pl-14">
                         <div class="grid grid-cols-3">
                             <label class="flex bg-qq-primary px-3 py-2 my-3 cursor-pointer rounded-l-xl">
-                                <input type="radio" name="City">
+                                <input type="radio" name="City" value="Jakarta">
                                 <i class="pl-2 font-inter font-semibold">Jakarta</i>
                             </label>
                     
                             <label class="flex bg-qq-primary px-3 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="City">
+                                <input type="radio" name="City" value="Bandung">
                                 <i class="pl-2 font-inter font-semibold">Bandung</i>
                             </label>
                     
                             <label class="flex bg-qq-primary px-3 py-2 my-3 cursor-pointer rounded-r-xl">
-                                <input type="radio" name="City">
+                                <input type="radio" name="City" value="Tangerang">
                                 <i class="pl-2 font-inter font-semibold">Tangerang</i>
                             </label>
                         </div>
@@ -127,32 +236,32 @@
                     <div id="typedd" class="pl-14 hidden">
                         <div class="grid grid-cols-3">
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mt-3 cursor-pointer rounded-tl-xl">
-                                <input type="radio" name="Type">
+                                <input type="radio" name="Type" value="House">
                                 <i class="pl-2 font-inter font-semibold">House</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mt-3 cursor-pointer ">
-                                <input type="radio" name="Type">
+                                <input type="radio" name="Type" value="Apartment">
                                 <i class="pl-2 font-inter font-semibold">Apartment</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mt-3 cursor-pointer rounded-tr-xl">
-                                <input type="radio" name="Type">
+                                <input type="radio" name="Type" value="Office">
                                 <i class="pl-2 font-inter font-semibold">Office</i>
                             </label>
 
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mb-3 cursor-pointer rounded-bl-xl">
-                                <input type="radio" name="Type">
+                                <input type="radio" name="Type" value="Commercial">
                                 <i class="pl-2 font-inter font-semibold">Commercial</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mb-3 cursor-pointer ">
-                                <input type="radio" name="Type">
+                                <input type="radio" name="Type" value="Land">
                                 <i class="pl-2 font-inter font-semibold">Land</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 mb-3 cursor-pointer rounded-br-xl">
-                                <input type="radio" name="Type">
+                                <input type="radio" name="Type" value="Villa">
                                 <i class="pl-2 font-inter font-semibold">Villa</i>
                             </label>
                         </div>
@@ -199,22 +308,22 @@
                     <div id="bedroomdd" class="hidden pl-14">
                         <div class="grid grid-cols-4">
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
-                                <input type="radio" name="Bedroom">
+                                <input type="radio" name="Bedroom" value="1">
                                 <i class="pl-2 font-inter font-semibold">1</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="Bedroom">
+                                <input type="radio" name="Bedroom" value="2">
                                 <i class="pl-2 font-inter font-semibold">2</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="Bedroom">
+                                <input type="radio" name="Bedroom" value="3">
                                 <i class="pl-2 font-inter font-semibold">3</i>
                             </label>
 
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-r-xl">
-                                <input type="radio" name="Bedroom">
+                                <input type="radio" name="Bedroom" value="4">
                                 <i class="pl-2 font-inter font-semibold">3+</i>
                             </label>
                         </div>
@@ -236,22 +345,22 @@
                     <div id="bathroomdd" class="hidden pl-14">
                         <div class="grid grid-cols-4">
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
-                                <input type="radio" name="Bathroom">
+                                <input type="radio" name="Bathroom" value="1">
                                 <i class="pl-2 font-inter font-semibold">1</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="Bathroom">
+                                <input type="radio" name="Bathroom" value="2">
                                 <i class="pl-2 font-inter font-semibold">2</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="Bathroom">
+                                <input type="radio" name="Bathroom" value="3">
                                 <i class="pl-2 font-inter font-semibold">3</i>
                             </label>
 
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-r-xl">
-                                <input type="radio" name="Bathroom">
+                                <input type="radio" name="Bathroom" value="4">
                                 <i class="pl-2 font-inter font-semibold">3+</i>
                             </label>
                         </div>
@@ -273,22 +382,22 @@
                     <div id="landdd" class="hidden pl-14">
                         <div class="grid grid-cols-4">
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
-                                <input type="radio" name="land">
+                                <input type="radio" name="land" value="1">
                                 <i class="pl-1 font-inter font-semibold">0-100m²</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-1 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="land">
+                                <input type="radio" name="land" value="2">
                                 <i class="pl-1 font-inter font-semibold">100-250m²</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-1 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="land">
+                                <input type="radio" name="land" value="3">
                                 <i class="pl-1 font-inter font-semibold">250-400m²</i>
                             </label>
 
                             <label class="flex bg-qq-primary text-gray-700 px-1 py-2 my-3 cursor-pointer rounded-r-xl">
-                                <input type="radio" name="land">
+                                <input type="radio" name="land" value="4">
                                 <i class="pl-1 font-inter font-semibold">400m² +</i>
                             </label>
                         </div>
@@ -310,12 +419,12 @@
                     <div id="garagedd" class="hidden pl-14">
                         <div class="grid grid-cols-2">
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
-                                <input type="radio" name="garage">
+                                <input type="radio" name="garage" value='1'>
                                 <i class="pl-2 font-inter font-semibold">Available</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="garage">
+                                <input type="radio" name="garage" value="0">
                                 <i class="pl-2 font-inter font-semibold">Not Available</i>
                             </label>
                         </div>
@@ -337,95 +446,79 @@
                     <div id="floordd" class="hidden pl-14">
                         <div class="grid grid-cols-3">
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer rounded-l-xl">
-                                <input type="radio" name="floor">
+                                <input type="radio" name="floor" value="1">
                                 <i class="pl-2 font-inter font-semibold">1</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="floor">
+                                <input type="radio" name="floor" value="2">
                                 <i class="pl-2 font-inter font-semibold">2</i>
                             </label>
                     
                             <label class="flex bg-qq-primary text-gray-700 px-3 py-2 my-3 cursor-pointer ">
-                                <input type="radio" name="floor">
+                                <input type="radio" name="floor" value="3">
                                 <i class="pl-2 font-inter font-semibold">3+</i>
                             </label>
                         </div>
                     </div>
                 </div>
-                <button href="" class="text-qq-primary bg-qq-secondary w-36 h-9 float-right mr-7 mt-5 text-center">Find</button>
+                <button href="" id="findButton" class="text-qq-primary bg-qq-secondary w-36 h-9 float-right mr-7 mt-5 text-center">Find</button>
             </div>
         </div>
     </div>
     <div class="grid grid-cols-2 gap-10 px-[7%] py-16">
-        <div class="bg-white flex rounded-3xl ">
-            <div class="w-[80%]">
-                <image class="rounded-tl-3xl " src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah1.jpg"></image>
-                <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary">Rumah harga murah luas</p>
-                <div class="flex items-center font-inter rounded-bl-3xl bg-qq-secondary pl-[4%] pb-2 text-qq-primary">
-                    <p class="text-2xl">Rp.3.500.000.000</p>
-                    <p class="ml-auto text-xl pr-[4%]">200m²</p>
-                </div>
-            </div>
-            <div class="text-center align-middle w-[20%]">
-                <p class="font-inter text-xl font-semibold pt-[25%]">House</p>
-                <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
-                    <image class="h-[20%]" src="./asset/BedBlue.png"></image>
-                    <p class="font-inter text-3xl pl-5 pt-[17%]">1</p>
-                </div>
-                <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
-                    <image class="h-[20%] scale-75" src="./asset/BathBlue.png"></image>
-                    <p class="font-inter text-3xl pl-5 pt-[10%]">2</p>
-                </div>
-                <div class="grid grid-cols-2 gap-0 scale-90 items-center">
-                    <image src="./asset/GarageBlue.png" class="pt-2"></image>
-                    <div>
-                        <image src="./asset/FloorBlue.png"></image>
-                        <div class="absolute inset-0 flex justify-center items-center">
-                            <div class="text-white pl-20 pb-4 text-xl font-bold">1</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-[20%] font-bold justify-end">
-                    Jakarta Selatan DKI wkwkwk
-                </div>
-            </div>
+        <div id="results" class="bg-white flex rounded-3xl ">
         </div>
-        <a href="property.html" class="bg-white flex rounded-3xl ">
-            <div class="w-[80%]">
-                <image class="rounded-tl-3xl " src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
-                <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary">Ruang kosong dan tangga</p>
-                <div class="flex items-center font-inter rounded-bl-3xl bg-qq-secondary pl-[4%] pb-2 text-qq-primary">
-                    <p class="text-2xl">Rp.3.500.000.000</p>
-                    <p class="ml-auto text-xl pr-[4%]">200m²</p>
-                </div>
-            </div>
-            <div class="text-center align-middle w-[20%]">
-                <p class="font-inter text-xl font-semibold pt-[25%]">House</p>
-                <div class="flex align-middle font-inter items-center font-semibold pl-[15%]">
-                    <image class="h-[20%]" src="./asset/BedBlue.png"></image>
-                    <p class="font-inter text-3xl pl-5 pt-[17%]">4</p>
-                </div>
-                <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[15%]">
-                    <image class="h-[20%] scale-75" src="./asset/BathBlue.png"></image>
-                    <p class="font-inter text-3xl pl-5 pt-[10%]">3</p>
-                </div>
-                <div class="grid grid-cols-2 gap-0 scale-90 items-center">
-                    <image src="./asset/GarageBlue.png" class="pt-2"></image>
-                    <div>
-                        <image src="./asset/FloorBlue.png"></image>
-                        <div class="absolute inset-0 flex justify-center items-center">
-                            <div class="text-white pl-20 pb-4 text-xl font-bold">3</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="pt-[20%] font-bold justify-end">
-                    Jakarta Selatan DKI wkwkwk
-                </div>
-            </div>
-          </a>
     </div>
     <footer class="pt-24" id="footer"></footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('findButton').addEventListener('click', function() {
+                const queryString = constructQueryString();
+                const currentURL = window.location.href.split('?')[0];
+                const newURL = `${currentURL}${queryString ? `?${queryString}` : ''}`;
+                window.location.href = newURL;
+            });
+        });
+    
+        function constructQueryString() {
+            const queryParams = {};
 
+            // Get the values of the input fields
+            const city = document.querySelector('input[name="City"]:checked');
+            if (city) queryParams.city = city.value;
+
+            const type = document.querySelector('input[name="Type"]:checked');
+            if (type) queryParams.type = type.value;
+
+            const minPrice = document.getElementById('min').value;
+            if (minPrice) queryParams.minPrice = minPrice;
+
+            const maxPrice = document.getElementById('max').value;
+            if (maxPrice) queryParams.maxPrice = maxPrice;
+
+            const bedroom = document.querySelector('input[name="Bedroom"]:checked');
+            if (bedroom) queryParams.bedroom = bedroom.value;
+
+            const bathroom = document.querySelector('input[name="Bathroom"]:checked');
+            if (bathroom) queryParams.bathroom = bathroom.value;
+
+            const land = document.querySelector('input[name="land"]:checked');
+            if (land) queryParams.land = land.value;
+
+            const garage = document.querySelector('input[name="garage"]:checked');
+            if (garage) queryParams.garage = garage.value;
+
+            const floor = document.querySelector('input[name="floor"]:checked');
+            if (floor) queryParams.floor = floor.value;
+
+            // Construct the query string
+            const queryString = Object.keys(queryParams)
+                .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(queryParams[key])}`)
+                .join('&');
+
+            return queryString;
+        }
+    </script>
   </body>
 </html>
