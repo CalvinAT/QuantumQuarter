@@ -115,6 +115,7 @@ async function addPropertyHandler(req, res) {
 
 async function getPropertyHandler(req, res) {
     const {
+        id,
         type,
         area,
         priceMin,
@@ -129,6 +130,10 @@ async function getPropertyHandler(req, res) {
     let query = {};
     try {
         const db = await connectToMongoDB.Get();
+        // check id filter
+        if (id !== undefined) {
+            query.id = id;
+        }
         // check type filter
         if (type !== undefined) {
             query.type = type;
@@ -250,6 +255,7 @@ async function setStatusPropertyHandler(req, res) {
             if(!result){
                 console.log('property not updated');
             }
+            console.log(result);
             res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
             addLog(req, employeeId, 1, "approve property");
         } else { // agent sold property

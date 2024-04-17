@@ -13,10 +13,46 @@
     crossorigin="anonymous">
     </script>
     <script>
+        const token = localStorage.getItem("authToken");
+        console.log(token)
+        // Get the current URL
+        const urlParams = new URLSearchParams(window.location.search);
+        // Check if there are any query parameters
+        if (urlParams.has('id')) {
+            // Query parameter 'param1' exists in the URL
+            const propertyId = urlParams.get('id');
+            const formData = new FormData();
+            formData.append('id', propertyId);
+
+            fetch('http://localhost:3000/property', {
+                method: 'PUT',
+                headers: {'authorization' : `Bearer ${token}`},
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    const status = data.status;
+                    if(status == 200){
+                        alert('Property approved!');
+                        window.location.href='admin-dashboard.html';
+                    } else {
+                        alert('Failed to approve property!');
+                        window.location.href='admin-dashboard.html';
+                    }
+            });
+        } else {
+            // Query parameter 'param1' does not exist in the URL
+            console.log('No query parameter found.');
+        }
+    </script>
+
+    <script>
         $(function(){
             $("#footer").load("footeraa.html"); 
         });
     </script>
+
     <script>
     const formData = new FormData();
     formData.append('requestedBy', '2');
@@ -27,7 +63,6 @@
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data)
             const myDiv = document.getElementById('property-data');
             let htmlCode = '';
             for (const propertyKey in data.data) {
@@ -35,17 +70,17 @@
                 const propertyId = property.id;
                 const agent = property.agent;
                 htmlCode += `<div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[20%] text-lg text-center">${propertyId}</div>
+                <div class="w-[20%] text-lg text-center" id="propertyId">${propertyId}</div>
                 <div class="w-[20%] text-lg text-center">${agent}</div>
                 <div class="w-[25%] text-2xl text-center">
-                    <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Detail</a>
+                    <a href="admin-property-detail.html?id=${propertyId}" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold" >Detail</a>
                 </div>
                 <div class="w-[35%] grid grid-cols-2 grid-row">
                     <div class="text-2xl text-center">
-                        <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Approve</a>
+                        <a href="admin-dashboard.html?id=${propertyId}" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Approve</a>
                     </div>
                     <div class="text-2xl text-center">
-                        <a href="" class="border-qq-secondary border-3 rounded-xl px-[14%] py-[1.6%] font-semibold">Reject</a>
+                        <a class="border-qq-secondary border-3 rounded-xl px-[14%] py-[1.6%] font-semibold">Reject</a>
                     </div>
                 </div>
             </div>
@@ -60,8 +95,7 @@
 
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
-    
-  </head>
+</head>
   <body class="bg-qq-primary font-inter text-qq-secondary">
     <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
         <image src="./asset/qq-logo.png" class="pl-[2%]"></image>
@@ -83,39 +117,7 @@
         <div class=" shadow-xl">
             <div id = "property-data">
             </div>
-            <!-- <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[20%] text-lg text-center">QQ-001</div>
-                <div class="w-[20%] text-lg text-center">Jonathan Abigael Hermawan</div>
-                <div class="w-[25%] text-2xl text-center">
-                    <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Detail</a>
-                </div>
-                <div class="w-[35%] grid grid-cols-2 grid-row">
-                    <div class="text-2xl text-center">
-                        <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Approve</a>
-                    </div>
-                    <div class="text-2xl text-center">
-                        <a href="" class="border-qq-secondary border-3 rounded-xl px-[14%] py-[1.6%] font-semibold">Reject</a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-2 border-black opacity-30"></div>
-            <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[20%] text-lg text-center">QQ-001</div>
-                <div class="w-[20%] text-lg text-center">Jonathan Abigael Hermawan</div>
-                <div class="w-[25%] text-2xl text-center">
-                    <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Detail</a>
-                </div>
-                <div class="w-[35%] grid grid-cols-2 grid-row">
-                    <div class="text-2xl text-center">
-                        <a href="" class="bg-qq-secondary text-qq-primary rounded-xl px-[14%] py-[2%] font-semibold">Approve</a>
-                    </div>
-                    <div class="text-2xl text-center">
-                        <a href="" class="border-qq-secondary border-3 rounded-xl px-[14%] py-[1.6%] font-semibold">Reject</a>
-                    </div>
-                </div>
-            </div> -->
         </div>
-        
     </div>
     <div id="footer"></div>
   </body>
