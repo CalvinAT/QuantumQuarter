@@ -13,7 +13,6 @@ async function addEmployee(req, res) {
     }
 
     const {
-        id,
         name,
         address,
         gender,
@@ -25,6 +24,8 @@ async function addEmployee(req, res) {
         whatsapp,
     } = req.body;
 
+    const id = shortid.generate().substring(0, length);
+    // hashing password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
@@ -40,6 +41,7 @@ async function addEmployee(req, res) {
             const projectId = 'quantumquarters';
             const keyFilename = path.resolve(__dirname, 'quantumquarters-storage.json');
 
+            // prepare storage
             const storage = new Storage({
                 projectId,
                 keyFilename
@@ -50,6 +52,7 @@ async function addEmployee(req, res) {
             const filePath = profile.path;
             const fileName = profile.originalname;
 
+            // uploading agent profile
             if(filePath){
                 await storage.bucket(bucketName).upload(filePath, {
                     destination: `${uniqueFolderName}${fileName}`,
@@ -57,11 +60,11 @@ async function addEmployee(req, res) {
                         contentType: profile.mimetype,
                         defaultObjectAcl: 'publicRead',
                     },
-                })
+                });
             } else {
-                console.log('File path error')
+                console.log('File path error');
             }
-            const profilePath = `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`
+            const profilePath = `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`;
             await pool.query('INSERT INTO agent (id, branch_id, phone_number, whatsapp, profile_path) VALUES (?, ?, ?, ?, ?);', [id, branchId, phoneNumber, whatsapp, profilePath]);
         }
 
@@ -111,4 +114,19 @@ async function updateAgentProfile(req, res){
     }
 }
 
-module.exports = {addEmployee, updateAgentProfile};
+async function getProfile(req, res){
+    try {
+        const authHeader = req.headers['authorization'];
+        if(authHeader === undefined || !checkUserType(authHeader, 1)){
+            throw new Error("Invalid Credentials.");
+        }
+        const { id } = getTokenData(authHeader);
+        const pool = await connectToMySQL();
+        const data = await pool.query(`SELECT * FROM employee e INNER JOIN agent a ON e.id = a.id WHERE e.id = ${id}`);
+        res.status(201).json({ status: 201, data});
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+module.exports = {addEmployee, updateAgentProfile, getProfile};
