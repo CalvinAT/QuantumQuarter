@@ -114,4 +114,19 @@ async function updateAgentProfile(req, res){
     }
 }
 
-module.exports = {addEmployee, updateAgentProfile};
+async function getProfile(req, res){
+    try {
+        const authHeader = req.headers['authorization'];
+        if(authHeader === undefined || !checkUserType(authHeader, 1)){
+            throw new Error("Invalid Credentials.");
+        }
+        const { id } = getTokenData(authHeader);
+        const pool = await connectToMySQL();
+        const data = await pool.query(`SELECT * FROM employee e INNER JOIN agent a ON e.id = a.id WHERE e.id = ${id}`);
+        res.status(201).json({ status: 201, data});
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+module.exports = {addEmployee, updateAgentProfile, getProfile};

@@ -47,7 +47,7 @@ async function login(req, res) {
             }
         } catch (error) {
             console.error('Error during login:', error);
-            addLog(req, employee.id, 0, "login");
+            // addLog(req, employee.id, 0, "login");
             res.status(500).json({ status: 500, message: 'Error: Internal Server Error' });
         }
     }
