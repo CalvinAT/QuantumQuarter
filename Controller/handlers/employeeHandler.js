@@ -29,14 +29,15 @@ async function addEmployee(req, res) {
         whatsapp,
     } = req.body;
 
-    const id = shortid.generate().substring(0, length);
-    // hashing password
-    console.log(req.body);
-    console.log(password);
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    console.log('masuk 3')
     try {
+        const id = shortid.generate().substring(0, length);
+        // hashing password
+        console.log(req.body);
+        console.log(password);
+        console.log(name);
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        console.log('masuk 3')
         console.log('masuk 4')
         const pool = await connectToMySQL();
 
@@ -51,17 +52,20 @@ async function addEmployee(req, res) {
             const projectId = 'quantumquarters';
             const keyFilename = path.resolve(__dirname, 'quantumquarters-storage.json');
 
+            console.log('masuk 6')
             // prepare storage
             const storage = new Storage({
                 projectId,
                 keyFilename
             });
 
+            console.log('masuk 7')
             const bucketName = 'quantum-quarters-employee';
             const uniqueFolderName = `${id}/`;
             const filePath = profile.path;
             const fileName = profile.originalname;
 
+            console.log('masuk 8')
             // uploading agent profile
             if(filePath){
                 await storage.bucket(bucketName).upload(filePath, {
@@ -71,14 +75,18 @@ async function addEmployee(req, res) {
                         defaultObjectAcl: 'publicRead',
                     },
                 });
+                console.log('masuk 9')
             } else {
                 console.log('File path error');
             }
+
+            console.log('masuk 10')
             const profilePath = `https://storage.googleapis.com/${bucketName}/${uniqueFolderName}${fileName}`;
             await pool.query('INSERT INTO agent (id, branch_id, phone_number, whatsapp, profile_path) VALUES (?, ?, ?, ?, ?);', [id, branchId, phoneNumber, whatsapp, profilePath]);
         }
 
         // Send success response
+        console.log('masuk 11')
         res.status(201).json({ status: 201, message: 'User registered successfully' });
     } catch (error) {
         console.error('Error registering user:', error);
