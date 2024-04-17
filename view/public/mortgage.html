@@ -28,20 +28,47 @@
     <div style="padding-top : 30px ;display: flex; justify-content: center; align-items: center;">
         <div style="width: 700px; height: 720px; background-color: rgb(4 54 74); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:25px;">
           <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 30px;font-weight: bold;">Harga Properti (Rp)</p>
-          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox1" name="hargaProperti"> 
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="hargaProperti" required> 
           <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Uang Muka (Rp)</p>
-          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox2" name="uangMuka">
-          <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Jumlah Pinjaman (Rp)</p>
-          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox3" name="jumlahPinjaman"> 
-          <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Jangka Waktu Pinjaman (Tahun)</p>
-          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox4" name="jangkaWaktu"> 
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="uangMuka" required>
+          <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Lama Pinjaman (Tahun)</p>
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="jangkaWaktu" required> 
           <p style="padding-left:80px;color: rgb(218 255 251);margin: 1; padding-top: 10px;font-weight: bold;">Suku Bunga Per-Tahun (%)</p>
-          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="textbox5" name="sukuBunga">
-          <div style="margin-left:220px;margin-top:15px;width: 200px; height: 100px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:25px;">
+          <input type="text" style= "margin-top:10px;margin-left:50px;width: 550px; height: 50px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:15px" id="sukuBunga" required>
+          <div id="angsuran" style="margin-left:220px;margin-top:15px;width: 200px; height: 100px; background-color: rgb(218 255 251); border-top-left-radius: 50px; border-bottom-left-radius: 50px;border-top-right-radius:50px;border-bottom-right-radius: 50px;padding-left:25px;">
             <p style="padding-right:25px;text-align: center;color: rgb(4 54 74); padding-top: 10px;font-weight: bold;">Angsuran Per Bulan</p>
-            <p style="padding-right:25px;text-align: center;color: rgb(4 54 74); padding-top: 10px;font-weight: bold;">-</p>
+            <p id="angsuranPerBulan" style="padding-right:25px;text-align: center;color: rgb(4 54 74); padding-top: 10px;font-weight: bold;">-</p>
           </div> 
+          <div href="" class="text-qq-primary bg-qq-secondary w-36 h-9 float-right mr-7 mt-5 text-center" id="submit">Submit</div>
           <img style="padding-left:500px;padding-bottom:100px;"src="./asset/qq-logo.png" alt="Logo QQ"> 
         </div>
+      </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+          document.getElementById('submit').addEventListener('click', function () {
+            const hargaProperti = document.getElementById("hargaProperti").value;
+            const uangMuka = document.getElementById('uangMuka').value;
+            const jangkaWaktu = document.getElementById('jangkaWaktu').value;
+            const sukuBunga = document.getElementById('sukuBunga').value;
+            const angsuranPerBulan = document.getElementById('angsuranPerBulan')
+
+            const formData = new FormData();
+            formData.append('price', hargaProperti)
+            formData.append('downPayment', uangMuka)
+            formData.append('loanTerm', jangkaWaktu)
+            formData.append('interest', sukuBunga)
+            
+            fetch('http://localhost:3000/mortgage', {
+              method: 'POST',
+              body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+              angsuranPerBulan.innerHTML = data.mortgagePayment;
+            })
+          })
+      })
+    </script>
     </body>
     </html>
