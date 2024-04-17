@@ -12,6 +12,13 @@
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
     </script>
+    <script>
+        $(document).ready(function(){
+          $("#setsold").click(function(){
+            document.getElementById("status").innerHTML = "Sold";
+          });
+        });
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
   </head>
@@ -60,18 +67,23 @@
                 </a>
                 <div class="mt-[3%] py-[2%] bg-qq-secondary align-middle">
                     <div class="flex text-qq-primary font-semibold">
-                        <div class="w-[23%] text-2xl text-center">ID Listing</div>
+                        <div class="w-[20%] text-2xl text-center">ID Listing</div>
                         <div class="w-[23%] text-2xl text-center">Tgl Listing</div>
-                        <div class="w-[31%] text-2xl  text-center">Tgl Approve</div>
-                        <div class="w-[23%] text-2xl  text-center">Status</div>
+                        <div class="w-[30%] text-2xl  text-center">Tgl Approve</div>
+                        <div class="w-[17%] text-2xl  text-center">Status</div>
+                        <div class="w-[10%] text-2xl  text-center"></div>
                     </div>
                 </div>
                 <div class=" shadow-xl">
                     <div class=" py-[2%] align-middle flex text-qq-secondary">
-                        <div class="w-[23%] text-lg text-center">QQ-001</div>
+                        <div class="w-[20%] text-lg text-center">QQ-001</div>
                         <div class="w-[23%] text-lg text-center">22-1-2023</div>
-                        <div class="w-[31%] text-lg text-center">-</div>
-                        <div class="w-[23%] text-lg text-center font-semibold">Pending</div>
+                        <div class="w-[30%] text-lg text-center">-</div>
+                        <div id="status" class="w-[17%] text-lg text-center font-semibold">Active</div>
+                        
+                        <div class="w-[10%] text-lg text-center pr-[2%]">
+                            <button id="setsold" class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold" >Set Sold</button>
+                        </div>
                     </div>
                     <div class="border-2 border-black opacity-30"></div>
                     
