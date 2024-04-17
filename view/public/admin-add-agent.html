@@ -116,7 +116,8 @@
                 </div>
 
                 <div class=" py-[2%] align-middle flex text-qq-secondary">
-                    <button id="addButton" class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Add</button>
+                    <button id="addButton"
+                        class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Add</button>
                 </div>
                 <div class="border-2 border-black opacity-30"></div>
             </form>
@@ -168,27 +169,40 @@
 
                     const token = localStorage.getItem("authToken");
 
-                    fetch('http://localhost:3000/employee', {
-                        method: 'POST',
-                        headers: {
-                            'authorization':`Bearer ${token}`,
-                        },
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        const status = data.status;
-                        alert 
-                        if (status == 200) {
-                            alert('Agent successfully added!');
+                    event.preventDefault();
+
+                    // Create a new XMLHttpRequest object
+                    const xhr = new XMLHttpRequest();
+
+                    // Configure the request
+                    xhr.open('POST', 'http://localhost:3000/employee');
+
+                    xhr.setRequestHeader('authorization', `Bearer ${token}`);
+
+                    // Set up a listener to handle the response
+                    xhr.onload = function() {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            // Request was successful, handle response here
+                            alert('Agent added successfully');
                         } else {
-                            alert('Failed to add agent!1');
+                            // Request failed
+                            alert('Request failed with status:', xhr.status);
                         }
-                    })
-                    .catch(error => {
-                        alert('Error lol:', error);
-                    });
+                    };
+
+                    // Set up a listener to handle errors
+                    xhr.onerror = function() {
+                        alert('Request failed');
+                    };
+
+                    // Send the request with the FormData object as the body
+                    xhr.send(formData);
+                    const delay = Date.now() + 6000; 
+                    while (Date.now() < delay) {
+                        // Do nothing, just wait
+                    }
                 } catch (error) {
+                    
                 }
             });
         });
