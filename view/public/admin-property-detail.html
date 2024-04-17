@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Quantum Quarter | Admin Property Detail</title>
+    <link rel="stylesheet" href="./output.css">
+    <link rel="icon" type="image/png" href="./asset/qq-icon.png">
+    <script
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+  </head>
+  <body class="bg-qq-primary font-inter text-qq-secondary">
+    <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
+        <image src="./asset/qq-logo.png" class="pl-[2%]"></image>
+        <p class="text-white text-5xl pl-[2.3%] font-playfair">Admin | Property Detail</p>
+        <div class="ml-auto pr-[4%] flex items-center">
+            <a href="admin-dashboard.html"><image src="./asset/prev.png" class="pl-[2%]"></image></a>
+        </div>
+    </div>
+    <div class="mx-[26%]">
+        <div class="mt-[5%] py-[2%] bg-qq-secondary align-middle">
+            <div class="flex text-qq-primary font-semibold">
+                <div class="w-[20%] text-2xl text-center">Property Detail</div>
+            </div>
+        </div>
+        <div class="shadow-xl">
+            
+            <div class="pt-[5%] py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Title</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="title" type="text" class="pl-3 rounded-md" value="Title" min="0" readonly>
+                </label>
+            </div>
+            
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Description</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="desc" type="text" class="pl-3 rounded-md" value=". . ." min="0" readonly>
+                </label>
+            </div>
+
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Type</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="type" type="text" class="pl-3 rounded-md" value="House, Apartment, Villa, ..." min="0" readonly>
+                </label>
+            </div>
+            
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Area</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="area" type="text" class="pl-3 rounded-md" value="100" min="0" readonly>
+                </label>
+            </div>
+
+            
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Price</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="price" type="text" class="pl-3 rounded-md" value="1000000000" min="0" readonly>
+                </label>
+            </div>
+
+            
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Bedroom</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="bedroomCount" type="text" class="pl-3 rounded-md" value="1,2,3,..." min="0" readonly>
+                </label>
+            </div>
+
+            
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Bathroom</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="bathroomCount" type="text" class="pl-3 rounded-md" value="1,2,3,..." min="0" readonly>
+                </label>
+            </div>
+
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Land Area</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="landArea" type="text" class="pl-3 rounded-md" value="100" min="0" readonly>
+                </label>
+            </div>
+
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Garage</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="garage" type="text" class="pl-3 rounded-md" value="false, true" min="0" readonly>
+                </label>
+            </div>
+
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div class="w-[30%] text-2xl pl-[6%]">Floor Level</div>
+                <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
+                    <input id="floorLevel" type="text" class="pl-3 rounded-md" value="1,2,3,..." min="0" readonly>
+                </label>
+            </div>
+
+            <div class="grid grid-cols-2 gap-5 h-[6%] p-[2%] justify-center">
+                <div><image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah1.jpg"></image><p class=" text-center">Image 1</p></div>
+                <div><image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah2.jpg"></image><p class=" text-center">Image 2</p></div>
+                <div><image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image><p class=" text-center">Image 3</p></div>
+                <div><image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image><p class=" text-center">Image 4</p></div>
+                <div><image class="px-6" src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image><p class=" text-center">Image 5</p></div>
+            </div>
+
+            <div class="border-2 border-black opacity-30"></div>
+
+        </div>
+        
+    </div>
+  </body>
+</html>
