@@ -12,6 +12,11 @@
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
     </script>
+    <script>
+        $(function(){
+            $("#footer").load("footeraa.html"); 
+        });
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
   </head>
@@ -102,12 +107,13 @@
             </div>
 
             <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <button href="" class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center">Add</button>
+                <button href="" class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Add</button>
             </div>
             <div class="border-2 border-black opacity-30"></div>
 
         </div>
         
     </div>
+    <div id="footer"></div>
   </body>
 </html>
