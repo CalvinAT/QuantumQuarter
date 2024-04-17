@@ -12,6 +12,15 @@
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous">
     </script>
+    <script> 
+        function typeChanger() { 
+            if(document.getElementById("password").type == 'text'){
+                document.getElementById("password").type = 'password' 
+            }else{
+                document.getElementById("password").type = 'text'
+            }; 
+        } 
+      </script> 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
     
   </head>
@@ -30,12 +39,12 @@
                     <input id="password" type="password" class=" border-2 border-qq-secondary pl-3 rounded-md placeholder:text-inherit px-[16%] shadow-xl" placeholder="Password">
                 </label>
                 <div class="pl-[19%] pt-2 flex flex-row">
-                    <input id="checkboxPassword" type="checkbox" class="rounded-md placeholder:text-inherit"> <p class="pl-2 text-xs">Show Password</p>
+                    <input id="checkboxPassword" type="checkbox" class="rounded-md placeholder:text-inherit" onclick="typeChanger()"> <p class="pl-2 text-xs">Show Password</p>
                 </div>  
-        </div>
-        <div class=" py-[2%] align-middle flex text-qq-secondary" id = "sign-in">
-            <button href="" class="text-qq-primary bg-qq-secondary w-24 h-9 m-auto mb-[12%] my-2 text-center rounded-lg">Sign In</button>
-        </div>
+            </div>
+            <div class=" py-[2%] align-middle flex text-qq-secondary" id = "sign-in">
+                <button href="" class="text-qq-primary bg-qq-secondary w-24 h-9 m-auto mb-[12%] my-2 text-center rounded-lg">Sign In</button>
+            </div>
         </div>
         
         
