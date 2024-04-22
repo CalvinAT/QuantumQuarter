@@ -7,7 +7,7 @@ test('Property data integration test', async (t) => {
 
   // that's bad practice because it mutates the environment
   process.env.PORT = testPort
-  const { server } = await import('../../src/index.js')
+  const { server } = await import('../../app.js')
   
   const testServerAddress = `http://localhost:${testPort}/heroes`
 
