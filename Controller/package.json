@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "app.js"
   },
   "author": "",
@@ -23,5 +23,8 @@
     "nanoid": "^5.0.6",
     "nodemon": "^3.1.0",
     "shortid": "^2.2.16"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
