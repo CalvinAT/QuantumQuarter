@@ -9,11 +9,12 @@ async function login(req, res) {
     try {
         const pool = await connectToMySQL();
 
-        const results = await pool.query('SELECT * FROM employee WHERE email = ?', [email]);
-        
+        const [results] = await pool.query('SELECT * FROM employee WHERE email = ?', [email]);
+        console.log(results)
         if (results[0] !== undefined) {
             const employee = results[0];
-
+            console.log(employee.password);
+            console.log(employee.name)
             const passwordMatch = await bcrypt.compare(password, employee.password);
 
             if (passwordMatch) {
@@ -62,4 +63,9 @@ async function logout(req, res) {
     res.json({ message: 'Can not log out, no user logged on!' });
 }
 
-module.exports = { login, logout };
+async function tesTesting(req, res) {
+    res.status(200).json({ status: 200});
+}
+
+
+module.exports = { login, logout , tesTesting};
