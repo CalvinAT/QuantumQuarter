@@ -4,7 +4,7 @@ const multer = require('multer');
 
 const { addPropertyHandler, getPropertyHandler, setStatusPropertyHandler } = require('./handlers/propertyHandler')
 const { addEmployee, updateAgentProfile, getProfile } = require('./handlers/employeeHandler');
-const { login, logout } = require('./handlers/loginHandler');
+const { login, logout ,tesTesting} = require('./handlers/loginHandler');
 const countMortgageSimulation = require('./handlers/mortgageHandler');
 const {getFeedback, addFeedback} = require('./handlers/feedbackHandler')
 const upload = multer({ dest: 'uploads/' });
@@ -28,5 +28,7 @@ router.post('/mortgage', upload.none(), countMortgageSimulation)
 
 router.post('/feedback', upload.none(), addFeedback)
 router.get('/feedback', upload.none(), getFeedback)
+
+router.post('/test', upload.none(), tesTesting);
 
 module.exports = router;

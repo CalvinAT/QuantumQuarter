@@ -245,6 +245,12 @@ async function setStatusPropertyHandler(req, res) {
     try {
         const db = await connectToMongoDB.Get();
         const filter = { id: propertyId };
+        // Check if the property exists before updating it
+        const existingProperty = await db.collection('property').findOne(filter);
+        if (!existingProperty) {
+            res.status(404).json({ status: 404, message: 'Error: Property not found' });
+            return;
+        }
         if (method === 'PUT') { // admin accept property
             if(!checkUserType(authHeader, 0)){
                 throw new Error("Invalid Credentials!!");
