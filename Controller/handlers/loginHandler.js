@@ -10,11 +10,8 @@ async function login(req, res) {
         const pool = await connectToMySQL();
 
         const [results] = await pool.query('SELECT * FROM employee WHERE email = ?', [email]);
-        console.log(results)
         if (results[0] !== undefined) {
             const employee = results[0];
-            console.log(employee.password);
-            console.log(employee.name)
             const passwordMatch = await bcrypt.compare(password, employee.password);
 
             if (passwordMatch) {
@@ -41,7 +38,7 @@ async function login(req, res) {
             }
         } else {
             // no email found
-            res.json({ status: 401, message: 'Error: Invalid credentials' });
+            res.json({ status: 404, message: 'Error: Invalid credentials' });
         }
     } catch (error) {
         console.error('Error during login:', error);
