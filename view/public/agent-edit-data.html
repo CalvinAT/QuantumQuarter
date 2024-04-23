@@ -37,6 +37,12 @@
         <div class="shadow-xl">
             <div id="edit-data">
             </div>
+            <div class=" py-[2%] align-middle flex text-qq-secondary">
+                <div id="submit" class="hover:cursor-pointer bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center text-qq-primary pt-2">
+                    Confirm
+                </div>
+            </div>
+            <div class="border-2 border-black opacity-30"></div>
         </div>
         
     </div>
@@ -58,6 +64,7 @@
             .then(data => {
                 const agent = data.data[0]
                 const myDiv = document.getElementById('edit-data');
+                let htmlCode = '';
                 htmlCode += `
                 <div class=" py-[2%] mt-[3%] align-middle flex text-qq-secondary">
                         <div class="w-[30%] text-2xl pl-[6%]">Profile Picture</div>
@@ -90,7 +97,7 @@
                     <div class=" py-[2%] align-middle flex text-qq-secondary">
                         <div class="w-[30%] text-2xl pl-[6%]">Branch</div>
                         <p class="w-[40%] text-2xl pl-[3%] flex rounded-l-xl">
-                            ${agent.address}, ${agent.city}, ${agent.Province}
+                            ${agent.branch_id}
                         </p>
                     </div>
                     
@@ -126,7 +133,7 @@
                     <div class=" py-[2%] align-middle flex text-qq-secondary">
                         <div class="w-[30%] text-2xl pl-[6%]">Current Password</div>
                         <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                            <input id="currpassword" type="password" class="pl-3 rounded-md" value="${agent.password}" min="0">
+                            <input id="currpassword" type="password" class="pl-3 rounded-md" value="" min="0">
                         </label>
                     </div>
 
@@ -136,11 +143,6 @@
                             <input id="newpassword" type="password" class="pl-3 rounded-md" min="0">
                         </label>
                     </div>
-
-                    <div class=" py-[2%] align-middle flex text-qq-secondary">
-                        <button href="" class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center">Confirm</button>
-                    </div>
-                    <div class="border-2 border-black opacity-30"></div>
                 `
                 console.log(htmlCode)
                 myDiv.innerHTML = htmlCode
@@ -150,5 +152,46 @@
                 console.error('Error:', error);
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const agentLink = document.querySelector('a[href="agent-main.html"]');
+            // Cek apakah elemen anchor tersebut ditemukan
+            if (agentLink) {
+                // Tambahkan query parameters ke href
+                agentLink.href += `?agentId=${agentId}`;
+            }
+            document.getElementById('submit').addEventListener('click', function () {
+                alert('masuk sini')
+              const telp = document.getElementById("telp").value;
+              const whatsapp = document.getElementById('whatsapp').value;
+              const address = document.getElementById('address').value;
+              const email = document.getElementById('email').value;
+              const password = document.getElementById('currpassword').value;
+              const newPassword = document.getElementById('newpassword').value;
+    
+              const formData = new FormData();
+              formData.append('phoneNumber', telp)
+              formData.append('whatsapp', whatsapp)
+              formData.append('address', address)
+              formData.append('email', email)
+              formData.append('password', password)
+              formData.append('newPassword', newPassword)
+              
+              fetch('http://localhost:3000/agent', {
+                method: 'PUT',
+                headers: {
+                    'authorization': `Bearer ${token}`
+                },
+                body: formData
+              })
+              .then(response => response.json())
+              .then(data => {
+                if(data.status == '201') {
+                    alert("Profil berhasil diupdate")
+                }
+              })
+            })
+        })
+      </script>
   </body>
 </html>

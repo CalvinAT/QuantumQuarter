@@ -192,7 +192,7 @@ async function getProfile(req, res){
         const data = await pool.query(
             `SELECT * FROM employee 
             INNER JOIN agent 
-            ON employee.id = agent.id 
+            ON employee.id = agent.id
             WHERE employee.id = '${id}'`
         );
         res.status(201).json({ status: 201, data: data[0]});
