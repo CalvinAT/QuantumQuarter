@@ -13,7 +13,6 @@
         </script>
     <script>
         const queryParams = new URLSearchParams(window.location.search);
-
         if (queryParams.has('id')) {
             const propertyId = queryParams.get('id');
             $(function () {
@@ -22,7 +21,145 @@
                 $("#carousel1").load(`carousel-property.html?id=${propertyId}`);
             });
 
-            
+            const formData = new FormData();
+            formData.append('id', propertyId);
+            fetch('http://localhost:3000/getdetailedproperty', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const agent = data.agentResult;
+                    console.log(agent);
+                    const wa = agent.whatsapp.slice(1);
+                    const property = data.data;
+                    console.log(property);
+                    const myDiv = document.getElementById('results');
+                    let htmlCode = `<div class="w-[30%] pr-[3%]">
+                                        <div class="outline rounded-lg outline-qq-secondary text-center pt-4">
+                                            <p class="text-2xl font-bold ">${property.type} for sale</p>
+                                            <p class="font-semibold px-[17%] pt-3 justify-center">${property.title}</p>
+                                            <p class="font-light px-[17%] py-3">${property.area}</p>
+                                            <div class="flex-grow border-2 border-qq-secondary scale-75"></div>
+                                            <p class="font-light text-sm px-[14%] py-3">OFFERS OVER</p>
+                                            <p class="text-xl font-bold font-inter">Rp. ${property.price}</p>
+                                            <a href="index.html" class="cursor-default">
+                                                <div
+                                                    class="hover:cursor-pointer bg-qq-secondary text-white align-middle justify-center my-[3%] py-[1%] mx-[22%] text-xs">
+                                                    ENQUIRE NOW</div>
+                                            </a>
+                                            <div class="flex-grow border-2 my-[3%] border-qq-secondary"></div>
+                                            <div class="scale-90">
+                                                <image src="${agent.profile_path}" class=""></image>
+                                                <p class="text-xl font-bold font-inter text-left pt-[3%]">${agent.name}</p>
+                                                <p class="font-inter text-left pb-4">Quantum Quarters ${agent.province}</p>
+                                                <a href="mailto:${agent.email}">
+                                                    <p class="font-inter bg-qq-secondary rounded-full text-qq-primary py-1">Email ${agent.name}</p>
+                                                </a>
+                                                <a href="wa.me/+62${wa}">
+                                                    <p class="font-inter py-1 border-2 border-qq-secondary rounded-full my-2">Whatsapp</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-[70%]">
+                                        <carousel id="carousel1"></carousel>
+                                        <div class="flex flex-row h-[6%] p-[2%] justify-center">
+                                            <image class="px-6"
+                                                src="${property.images[0]}"></image>
+                                            <image class="px-6"
+                                                src="${property.images[1]}"></image>
+                                            <image class="px-6"
+                                                src="${property.images[2]}"></image>
+                                            <image class="px-6"
+                                                src="${property.images[3]}"></image>
+                                            <image class="px-6"
+                                                src="${property.images[4]}"></image>
+                                        </div>
+                                        <div class="flex-grow border-2 border-qq-secondary"></div>
+                                        <p class="text-2xl font-bold font-inter">${property.title}</p>
+                                        <p class="text-xl font-semibold font-inter my-[2%]">
+                                            ${property.desc}
+                                        </p>
+                                        <div class="flex-grow border-2 border-qq-secondary mb-[3%]"></div>
+                                        <p class="text-2xl font-bold font-inter">Specification</p>
+                                        <div class="flex flex-row  items-center py-[2%]">
+                                            <div class="w-[40%] flex flex-row h-12 items-center">
+                                                <div class="bg-qq-secondary rounded-2xl">
+                                                    <image src="./asset/Location.png" class="scale-75"></image>
+                                                </div>
+                                                <p class="pl-[3%] font-semibold">Area</p>
+                                            </div>
+                                            <p class="font-semibold">:&nbsp;</p>
+                                            <p class="font-semibold">${property.area}</p>
+                                        </div>
+                                        <div class="flex flex-row  items-center py-[2%]">
+                                            <div class="w-[40%] flex flex-row h-12 items-center">
+                                                <div class="bg-qq-secondary rounded-2xl">
+                                                    <image src="./asset/Home.png" class="scale-75"></image>
+                                                </div>
+                                                <p class="pl-[3%] font-semibold">Type</p>
+                                            </div>
+                                            <p class="font-semibold">:&nbsp;</p>
+                                            <p class="font-semibold">${property.type}</p>
+                                        </div>
+                                        <div class="flex flex-row  items-center py-[2%]">
+                                            <div class="w-[40%] flex flex-row h-12 items-center">
+                                                <div class="bg-qq-secondary rounded-2xl">
+                                                    <image src="./asset/Ruler.png" class="scale-75"></image>
+                                                </div>
+                                                <p class="pl-[3%] font-semibold">Land Size</p>
+                                            </div>
+                                            <p class="font-semibold">:&nbsp;</p>
+                                            <p class="font-semibold">${property.landArea}</p>
+                                        </div>
+                                        <div class="flex flex-row  items-center py-[2%]">
+                                            <div class="w-[40%] flex flex-row h-12 items-center">
+                                                <div class="bg-qq-secondary rounded-2xl">
+                                                    <image src="./asset/Sleeping in Bed.png" class="scale-75"></image>
+                                                </div>
+                                                <p class="pl-[3%] font-semibold">Bedroom</p>
+                                            </div>
+                                            <p class="font-semibold">:&nbsp;</p>
+                                            <p class="font-semibold">${property.bedroomCount}</p>
+                                        </div>
+                                        <div class="flex flex-row  items-center py-[2%]">
+                                            <div class="w-[40%] flex flex-row h-12 items-center">
+                                                <div class="bg-qq-secondary rounded-2xl">
+                                                    <image src="./asset/Bathtub.png" class="scale-75"></image>
+                                                </div>
+                                                <p class="pl-[3%] font-semibold">Bathroom</p>
+                                            </div>
+                                            <p class="font-semibold">:&nbsp;</p>
+                                            <p class="font-semibold">${property.bathroomCount}</p>
+                                        </div>
+                                        <div class="flex flex-row  items-center py-[2%]">
+                                            <div class="w-[40%] flex flex-row h-12 items-center">
+                                                <div class="bg-qq-secondary rounded-2xl">
+                                                    <image src="./asset/Garage.png" class="scale-75"></image>
+                                                </div>
+                                                <p class="pl-[3%] font-semibold">Garage</p>
+                                            </div>
+                                            <p class="font-semibold">:&nbsp;</p>
+                                            <p class="font-semibold">${property.garage}</p>
+                                        </div>
+                                        <div class="flex flex-row  items-center py-[2%]">
+                                            <div class="w-[40%] flex flex-row h-12 items-center">
+                                                <div class="bg-qq-secondary rounded-2xl">
+                                                    <image src="./asset/Stairs Up.png" class="scale-75"></image>
+                                                </div>
+                                                <p class="pl-[3%] font-semibold">Floor Level</p>
+                                            </div>
+                                            <p class="font-semibold">:&nbsp;</p>
+                                            <p class="font-semibold">${property.floorLevel}</p>
+                                        </div>
+                                    </div>`;
+                    myDiv.innerHTML = htmlCode
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                });
         } else {
             alert("Property not found");
             window.location.href = "index.html";
@@ -39,147 +176,8 @@
 
 <body class="bg-qq-primary font-inter text-qq-secondary">
     <header id="header"></header>
+    <div id="results" class="flex flex-row px-[10%] pt-20 font-inter">
 
-    <div id="overlaycarousel" class="hidden z-50 fixed t-0 l-0 w-[100%] h-[100%] bg-gray-600 bg-opacity-50">
-        <div id="carouselexit" class="fixed top-0 right-0 pr-[27%] pt-[5%] scale-50 hover:cursor-pointer">
-            <image src="./asset/x letter.png" class="shadow-inner scale-50 hover:cursor-pointer"></image>
-        </div>
-        <image class="px-[23%] pt-[3%] z-60"
-            src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
-    </div>
-    <div class="flex flex-row px-[10%] pt-20 font-inter">
-        <div class="w-[30%] pr-[3%]">
-            <div class="outline rounded-lg outline-qq-secondary text-center pt-4">
-                <p class="text-2xl font-bold ">House for sale</p>
-                <p class="font-semibold px-[17%] pt-3 justify-center">Rumah murga 2 lantai daerah jakarta selatanRumah
-                    murga 2 lantai daerah jakarta selatan</p>
-                <p class="font-light px-[17%] py-3">Jakarta Selatan, D. K. I Jakarta</p>
-                <div class="flex-grow border-2 border-qq-secondary scale-75"></div>
-                <p class="font-light text-sm px-[14%] py-3">OFFERS OVER</p>
-                <p class="text-xl font-bold font-inter">Rp. 3.500.000.000</p>
-                <a href="index.html" class="cursor-default">
-                    <div
-                        class="hover:cursor-pointer bg-qq-secondary text-white align-middle justify-center my-[3%] py-[1%] mx-[22%] text-xs">
-                        ENQUIRE NOW</div>
-                </a>
-                <div class="flex-grow border-2 my-[3%] border-qq-secondary"></div>
-                <div class="scale-90">
-                    <image src="./asset/agent1.png" class=""></image>
-                    <p class="text-xl font-bold font-inter text-left pt-[3%]">Jonathan Abigael Hermawan</p>
-                    <p class="font-inter text-left pb-4">Quantum Quarters Jakarta Selatan</p>
-                    <a href="www.google.com">
-                        <p class="font-inter bg-qq-secondary rounded-full text-qq-primary py-1">Call Jonathan Abigael
-                            Hermawan</p>
-                    </a>
-                    <a href="www.google.com">
-                        <p class="font-inter py-1 border-2 border-qq-secondary rounded-full my-2">Whatsapp</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="w-[70%]">
-            <carousel id="carousel1"></carousel>
-            <div class="flex flex-row h-[6%] p-[2%] justify-center">
-                <image class="px-6"
-                    src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah1.jpg"></image>
-                <image class="px-6"
-                    src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah2.jpg"></image>
-                <image class="px-6"
-                    src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
-                <image class="px-6"
-                    src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
-                <image class="px-6"
-                    src="https://storage.googleapis.com/quantum-quarters-property/House/kQ0xvHNm/rumah3.jpg"></image>
-            </div>
-            <div class="flex-grow border-2 border-qq-secondary"></div>
-            <p class="text-2xl font-bold font-inter">House for Sale in Jakarta Selatan, D.K.I Jakarta</p>
-            <p class="text-xl font-semibold font-inter my-[2%]">
-                Lokasi ramai<br>
-                Bebas banjir<br>
-                Rumah 2 lantai<br>
-                Cocok untuk rumah tinggal<br>
-                Posisi Strategis<br>
-                <br>
-                Dekat kemana mana<br>
-                Dekat Pusat Perbelanjaan,Kuliner,Pertokoan<br>
-                Dekat RS<br>
-                Dekat Sekolah<br>
-                <br>
-                Harga nego sampai deal :>
-            </p>
-            <div class="flex-grow border-2 border-qq-secondary mb-[3%]"></div>
-            <p class="text-2xl font-bold font-inter">Specification</p>
-            <div class="flex flex-row  items-center py-[2%]">
-                <div class="w-[40%] flex flex-row h-12 items-center">
-                    <div class="bg-qq-secondary rounded-2xl">
-                        <image src="./asset/Location.png" class="scale-75"></image>
-                    </div>
-                    <p class="pl-[3%] font-semibold">Listing Id</p>
-                </div>
-                <p class="font-semibold">:&nbsp;</p>
-                <p class="font-semibold">QQ-888</p>
-            </div>
-            <div class="flex flex-row  items-center py-[2%]">
-                <div class="w-[40%] flex flex-row h-12 items-center">
-                    <div class="bg-qq-secondary rounded-2xl">
-                        <image src="./asset/Home.png" class="scale-75"></image>
-                    </div>
-                    <p class="pl-[3%] font-semibold">Building Size</p>
-                </div>
-                <p class="font-semibold">:&nbsp;</p>
-                <p class="font-semibold">400 m²</p>
-            </div>
-            <div class="flex flex-row  items-center py-[2%]">
-                <div class="w-[40%] flex flex-row h-12 items-center">
-                    <div class="bg-qq-secondary rounded-2xl">
-                        <image src="./asset/Ruler.png" class="scale-75"></image>
-                    </div>
-                    <p class="pl-[3%] font-semibold">Land Size</p>
-                </div>
-                <p class="font-semibold">:&nbsp;</p>
-                <p class="font-semibold">200 m²</p>
-            </div>
-            <div class="flex flex-row  items-center py-[2%]">
-                <div class="w-[40%] flex flex-row h-12 items-center">
-                    <div class="bg-qq-secondary rounded-2xl">
-                        <image src="./asset/Sleeping in Bed.png" class="scale-75"></image>
-                    </div>
-                    <p class="pl-[3%] font-semibold">Bedroom</p>
-                </div>
-                <p class="font-semibold">:&nbsp;</p>
-                <p class="font-semibold">4</p>
-            </div>
-            <div class="flex flex-row  items-center py-[2%]">
-                <div class="w-[40%] flex flex-row h-12 items-center">
-                    <div class="bg-qq-secondary rounded-2xl">
-                        <image src="./asset/Bathtub.png" class="scale-75"></image>
-                    </div>
-                    <p class="pl-[3%] font-semibold">Bathroom</p>
-                </div>
-                <p class="font-semibold">:&nbsp;</p>
-                <p class="font-semibold">2</p>
-            </div>
-            <div class="flex flex-row  items-center py-[2%]">
-                <div class="w-[40%] flex flex-row h-12 items-center">
-                    <div class="bg-qq-secondary rounded-2xl">
-                        <image src="./asset/Garage.png" class="scale-75"></image>
-                    </div>
-                    <p class="pl-[3%] font-semibold">Carport</p>
-                </div>
-                <p class="font-semibold">:&nbsp;</p>
-                <p class="font-semibold">2</p>
-            </div>
-            <div class="flex flex-row  items-center py-[2%]">
-                <div class="w-[40%] flex flex-row h-12 items-center">
-                    <div class="bg-qq-secondary rounded-2xl">
-                        <image src="./asset/Stairs Up.png" class="scale-75"></image>
-                    </div>
-                    <p class="pl-[3%] font-semibold">Floor Level</p>
-                </div>
-                <p class="font-semibold">:&nbsp;</p>
-                <p class="font-semibold">2</p>
-            </div>
-        </div>
     </div>
     <div class="bg-qq-offcolor">
         <div class="ml-[3%] pt-[2%]">

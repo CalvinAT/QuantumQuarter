@@ -30,6 +30,7 @@
         const queryParameter = queryString.split('&');
         const parts = queryParameter[0].split('=');
         const agentId = decodeURIComponent(parts[1]);
+        document.getElementById('new-listing-button').innerHTML = `<a href="agent-add-listing.html?agentId=${agentId}" class="">New Listing</a>`;
         fetch('http://localhost:3000/getemployee', {
             method: 'POST',
             headers: {
@@ -164,7 +165,7 @@
         </div>
         <div class="w-[80%]">
             <div class="ml-[4%]">
-                    <div class="text-qq-secondary border-qq-secondary border-2 text-center align-middle w-[20%] rounded-full text-2xl py-[1%] hover:cursor-pointer">
+                    <div id="new-listing-button" class="text-qq-secondary border-qq-secondary border-2 text-center align-middle w-[20%] rounded-full text-2xl py-[1%] hover:cursor-pointer">
                         <a href="agent-add-listing.html" class="">New Listing</a>
                     </div>
                 <div class="mt-[3%] py-[2%] bg-qq-secondary align-middle">
