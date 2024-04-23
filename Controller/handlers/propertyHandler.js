@@ -226,6 +226,7 @@ async function getPropertyHandler(req, res) {
 }
 
 async function setStatusPropertyHandler(req, res) {
+    console.log("masuk 1")
     const authHeader = req.headers['authorization'];
     // check credentials
     if(authHeader === undefined){
@@ -243,6 +244,7 @@ async function setStatusPropertyHandler(req, res) {
     const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
     const year = currentDate.getFullYear();
     try {
+        console.log("masuk 2")
         const db = await connectToMongoDB.Get();
         const filter = { id: propertyId };
         // Check if the property exists before updating it
@@ -268,6 +270,7 @@ async function setStatusPropertyHandler(req, res) {
             res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
             addLog(req, employeeId, 1, "approve property");
         } else { // agent sold property
+            console.log("masuk 3")
             if(!checkUserType(authHeader, 1)){
                 throw new Error("Invalid Credentials!!");
             }

@@ -76,32 +76,6 @@
         });
     </script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('sold')) {
-            const soldId = urlParams.get('id');
-            const formData2 = new FormData();
-            formData2.append('propertyId', soldId);
-
-            fetch('http://localhost:3000/deleteproperty', {
-                method: 'POST',
-                headers: {'authorization' : `Bearer ${token}`},
-                body: formData2
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    const status = data.status;
-                    if(status == 200){
-                        alert('Property sold!');
-                        window.location.href=`agent-main.html?agentId=${agentId}`;
-                    } else {
-                        alert('Failed to update property status!');
-                        window.location.href=`agent-main.html?agentId=${agentId}`;
-                    }
-            });
-        }
-    </script>
-    <script>
         const formData = new FormData();
         formData.append('agent', agentId)
         console.log(agentId)
@@ -139,7 +113,7 @@
                         <div id="status" class="w-[17%] text-lg text-center font-semibold">${status}</div>`
                 if (status == 'Listed') {
                     htmlCodeListings += `<div class="w-[10%] text-lg text-center pr-[2%]">
-                <button class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold set-sold-btn" data-property-id="${propertyId}"><a href="agent-main.html?agentId=${agent}&sold=${propertyId}">Set Sold</a></button>
+                <button class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold set-sold-btn" data-property-id="${propertyId}">Set Sold</button>
             </div>`
                 }
 
@@ -151,12 +125,31 @@
         })
     </script>
     <script>
-        document.querySelectorAll('set-sold-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const propertyId = this.dataset.propertyId;
-            alert(propertyId)
-        });
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('set-sold-btn')) {
+            const propertyId = event.target.dataset.propertyId;
+            setPropertySold(propertyId);
+        }
     });
+
+    function setPropertySold(propertyId) {
+        const formDataSold = new FormData();
+        formDataSold.append('propertyId', propertyId)
+        fetch("http://localhost:3000/deleteproperty", {
+            method: 'POST',
+            headers: {
+                'authorization': `Bearer ${token}`
+            },
+            body: formDataSold
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.status == 200) {
+                alert(`Property dengan id = ${propertyId} sold`)
+                location.reload();
+            }
+        })
+    }
     </script>
   </head>
   <body class="bg-qq-primary font-inter text-qq-secondary">
