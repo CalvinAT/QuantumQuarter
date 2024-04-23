@@ -58,9 +58,9 @@
             </div>
             
             <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <div class="w-[30%] text-2xl pl-[6%]">Area</div>
+                <div class="w-[30%] text-2xl pl-[6%]">City</div>
                 <label class="w-[40%] text-2xl pl-[3%] flex bg-qq-primary text-gray-700 rounded-l-xl">
-                    <input id="area" type="text" class="pl-3 rounded-md" placeholder="100" min="0">
+                    <input id="area" type="text" class="pl-3 rounded-md" placeholder="Bandung, Jakarta,..." min="0">
                 </label>
             </div>
 
@@ -145,7 +145,7 @@
             </div>
 
             <div class=" py-[2%] align-middle flex text-qq-secondary">
-                <button href="" class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Confirm</button>
+                <button id="addButton" class="text-qq-primary bg-qq-secondary w-36 h-9 ml-auto mr-7 mt-5 text-center rounded-2xl">Confirm</button>
             </div>
             <div class="border-2 border-black opacity-30"></div>
 
@@ -153,5 +153,95 @@
         
     </div>
     <div id="footer"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('addButton').addEventListener('click', function () {
+                try {
+                    const formData = new FormData();
+
+                    const title = document.getElementById('title').value;
+                    formData.append('title', title);
+
+                    const desc = document.getElementById('desc').value;
+                    formData.append('desc', desc);
+
+                    const type = document.getElementById('type').value;
+                    formData.append('type', type);
+
+                    const area = document.getElementById('area').value;
+                    formData.append('area', area);
+
+                    const price = document.getElementById('price').value;
+                    formData.append('price', price);
+
+                    const bedroomCount = document.getElementById('bedroomCount').value;
+                    formData.append('bedroomCount', bedroomCount);
+
+                    const bathroomCount = document.getElementById('bathroomCount').value;
+                    formData.append('bathroomCount', bathroomCount);
+
+                    const landArea = document.getElementById('landArea').value;
+                    formData.append('landArea', landArea);
+
+                    const garage = document.getElementById('garage').value;
+                    formData.append('garage', garage);
+
+                    const floorLevel = document.getElementById('floorLevel').value;
+                    formData.append('floorLevel', floorLevel);
+
+                    const images = document.querySelectorAll('input[type="file"]');
+
+                    images.forEach((imageInput, index) => {
+                        const files = imageInput.files;
+                        if (files.length > 0) {
+                            for (const file of files) {
+                            formData.append('images', file, `image_${index}`);
+                            }
+                        }
+                    });
+
+                    const token = localStorage.getItem("authToken");
+
+                    event.preventDefault();
+
+                    // Create a new XMLHttpRequest object
+                    const xhr = new XMLHttpRequest();
+
+                    // Configure the request
+                    xhr.open('POST', 'http://localhost:3000/property');
+
+                    xhr.setRequestHeader('authorization', `Bearer ${token}`);
+
+                    // Set up a listener to handle the response
+                    xhr.onload = function() {
+                        if (xhr.status >= 200 && xhr.status < 300) {
+                            const jsonResponse = JSON.parse(xhr.responseText);
+                            const agentId = jsonResponse.agentId;
+                            alert('Property added successfully');
+                            window.location.href = `agent-main.html?agentId=${agentId}`;
+                        } else {
+                            // Request failed
+                            alert('Request failed with status:', xhr.status);
+                        }
+                    };
+
+                    // Set up a listener to handle errors
+                    xhr.onerror = function() {
+                        alert('Request failed');
+                    };
+
+                    // Send the request with the FormData object as the body
+                    xhr.send(formData);
+                    const delay = Date.now() + 3000; 
+                    while (Date.now() < delay) {
+                        // Do nothing, just wait
+                    }
+                } catch (error) {
+                    alert(error);
+                }
+                
+            });
+        });
+    </script>
   </body>
 </html>

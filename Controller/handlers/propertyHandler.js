@@ -103,7 +103,8 @@ async function addPropertyHandler(req, res) {
         res.status(201).json({ 
             status: 201, 
             message: 'Successfully add property listing request', 
-            uploadedFiles
+            uploadedFiles,
+            agentId: agent
         });
         addLog(req, agent, 1, "add property");
     } catch (error) {
@@ -125,7 +126,8 @@ async function getPropertyHandler(req, res) {
         landArea,
         garage,
         floorLevel,
-        requestedBy
+        requestedBy,
+        agent
     } = req.body;
     let query = {};
     try {
@@ -211,8 +213,10 @@ async function getPropertyHandler(req, res) {
                 query.status = 0; // by admin
             }
         }
-
-        console.log(query);
+        // check agent name
+        if (agent !== undefined) { 
+                query.agent = agent;
+        }
         // try to query to db
         const data = await db.collection('property').find(query).toArray();
         res.status(200).json({ status: 200, data });
@@ -222,6 +226,7 @@ async function getPropertyHandler(req, res) {
 }
 
 async function setStatusPropertyHandler(req, res) {
+    console.log("masuk 1")
     const authHeader = req.headers['authorization'];
     // check credentials
     if(authHeader === undefined){
@@ -239,8 +244,15 @@ async function setStatusPropertyHandler(req, res) {
     const month = ("0" + (currentDate.getMonth() + 1)).slice(-2);
     const year = currentDate.getFullYear();
     try {
+        console.log("masuk 2")
         const db = await connectToMongoDB.Get();
         const filter = { id: propertyId };
+        // Check if the property exists before updating it
+        const existingProperty = await db.collection('property').findOne(filter);
+        if (!existingProperty) {
+            res.status(404).json({ status: 404, message: 'Error: Property not found' });
+            return;
+        }
         if (method === 'PUT') { // admin accept property
             if(!checkUserType(authHeader, 0)){
                 throw new Error("Invalid Credentials!!");
@@ -255,10 +267,10 @@ async function setStatusPropertyHandler(req, res) {
             if(!result){
                 console.log('property not updated');
             }
-            console.log(result);
             res.status(200).json({ status: 200, message: 'Property berhasil diapprove' });
             addLog(req, employeeId, 1, "approve property");
         } else { // agent sold property
+            console.log("masuk 3")
             if(!checkUserType(authHeader, 1)){
                 throw new Error("Invalid Credentials!!");
             }
@@ -268,6 +280,7 @@ async function setStatusPropertyHandler(req, res) {
                 },
             };
             const result = await db.collection('property').updateOne(filter, updateDoc);
+            console.log(filter);
             res.status(200).json({ status: 200, message: 'Property sold' });
             addLog(req, employeeId, 1, "delist property");
         }
