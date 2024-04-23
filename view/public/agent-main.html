@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Quantum Quarter | Agent Dashboard</title>
     <link rel="stylesheet" href="./output.css">
     <link rel="icon" type="image/png" href="./asset/qq-icon.png">
-    <script
-    src="https://code.jquery.com/jquery-3.3.1.js"
-    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-    crossorigin="anonymous">
-    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+        integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous">
+        </script>
     <script>
-        $(document).ready(function(){
-          $("#setsold").click(function(){
-            document.getElementById("status").innerHTML = "Sold";
-          });
+        $(document).ready(function () {
+            $("#setsold").click(function () {
+                document.getElementById("status").innerHTML = "Sold";
+            });
         });
-        $(function(){
-            $("#footer").load("footeraa.html"); 
+        $(function () {
+            $("#footer").load("footeraa.html");
         });
-        
-    </script> 
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+        rel="stylesheet">
     <script>
         const token = localStorage.getItem("authToken");
         const queryString = window.location.search.substring(1);
         const queryParameter = queryString.split('&');
         const parts = queryParameter[0].split('=');
         const agentId = decodeURIComponent(parts[1]);
-        document.getElementById('new-listing-button').innerHTML = `<a href="agent-add-listing.html?agentId=${agentId}" class="">New Listing</a>`;
+        console.log(agentId)
         fetch('http://localhost:3000/getemployee', {
             method: 'POST',
             headers: {
                 'authorization': `Bearer ${token}`
             }
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-            const agent = data.data[0]
-            const myDiv = document.getElementById('results');
-            let htmlCodeProfile = '';
-            htmlCodeProfile += `<image src="${agent.profile_path}" class="border-6 border-qq-secondary w-full rounded-full"></image>
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                const agent = data.data[0]
+                const myDiv = document.getElementById('results');
+                let htmlCodeProfile = '';
+                htmlCodeProfile += `<image src="${agent.profile_path}" class="border-6 border-qq-secondary w-full rounded-full"></image>
             <p class="text-4xl text-center my-[3%]">${agent.name}</p>
             <div class="border-2 border-black opacity-30 scale-90 my-8"></div>
             <div class="items-center align-middle pl-[12%]">
@@ -69,12 +69,12 @@
             <a href="agent-edit-data.html?agentId=${agentId}" class="">
                 <div class="text-white bg-qq-secondary mx-12 my-[5%] mb-12 border-2 text-center align-middle rounded-full text-2xl py-[1%] hover:cursor-pointer">EDIT</div>
             </a>`
-            myDiv.innerHTML = htmlCodeProfile;
-        })
-        .catch(error => {
+                myDiv.innerHTML = htmlCodeProfile;
+            })
+            .catch(error => {
                 // Handle any errors
                 console.error('Error:', error);
-        });
+            });
     </script>
     <script>
         const formData = new FormData();
@@ -88,72 +88,73 @@
             },
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            const listingDiv = document.getElementById('listingResults')
-            console.log(data)
-            let htmlCodeListings = ''
-            for (const propertyKey in data.data){
-                const property = data.data[propertyKey];
-                const propertyId = property.id;
-                const listing_date = property.listingDate
-                const approved_date = property.approvedDate
-                const agent = property.agent;
-                let status = ''
-                if (property.status == 0) {
-                    status = 'Pending'
-                } else if (property.status == 1) {
-                    status = 'Listed'
-                } else if (property.status == 2) {
-                    status = 'Sold'
-                }
-                htmlCodeListings += `<div class=" py-[2%] align-middle flex text-qq-secondary">
+            .then(response => response.json())
+            .then(data => {
+                const listingDiv = document.getElementById('listingResults')
+                console.log(data)
+                let htmlCodeListings = ''
+                for (const propertyKey in data.data) {
+                    const property = data.data[propertyKey];
+                    const propertyId = property.id;
+                    const listing_date = property.listingDate
+                    const approved_date = property.approvedDate
+                    const agent = property.agent;
+                    let status = ''
+                    if (property.status == 0) {
+                        status = 'Pending'
+                    } else if (property.status == 1) {
+                        status = 'Listed'
+                    } else if (property.status == 2) {
+                        status = 'Sold'
+                    }
+                    htmlCodeListings += `<div class=" py-[2%] align-middle flex text-qq-secondary">
                         <div class="w-[20%] text-lg text-center">${propertyId}</div>
                         <div class="w-[23%] text-lg text-center">${listing_date}</div>
                         <div class="w-[30%] text-lg text-center">${approved_date}</div>
                         <div id="status" class="w-[17%] text-lg text-center font-semibold">${status}</div>`
-                if (status == 'Listed') {
-                    htmlCodeListings += `<div class="w-[10%] text-lg text-center pr-[2%]">
+                    if (status == 'Listed') {
+                        htmlCodeListings += `<div class="w-[10%] text-lg text-center pr-[2%]">
                 <button class="w-full rounded-2xl bg-qq-secondary text-qq-primary font-semibold set-sold-btn" data-property-id="${propertyId}">Set Sold</button>
             </div>`
-                }
+                    }
 
-                htmlCodeListings += `</div>
+                    htmlCodeListings += `</div>
                     <div class="border-2 border-black opacity-30"></div>`
 
-            }
-            listingDiv.innerHTML = htmlCodeListings;
-        })
+                }
+                listingDiv.innerHTML = htmlCodeListings;
+            })
     </script>
     <script>
-    document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('set-sold-btn')) {
-            const propertyId = event.target.dataset.propertyId;
-            setPropertySold(propertyId);
-        }
-    });
-
-    function setPropertySold(propertyId) {
-        const formDataSold = new FormData();
-        formDataSold.append('propertyId', propertyId)
-        fetch("http://localhost:3000/deleteproperty", {
-            method: 'POST',
-            headers: {
-                'authorization': `Bearer ${token}`
-            },
-            body: formDataSold
-        })
-        .then(response => response.json())
-        .then(data => {
-            if(data.status == 200) {
-                alert(`Property dengan id = ${propertyId} sold`)
-                location.reload();
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('set-sold-btn')) {
+                const propertyId = event.target.dataset.propertyId;
+                setPropertySold(propertyId);
             }
-        })
-    }
+        });
+
+        function setPropertySold(propertyId) {
+            const formDataSold = new FormData();
+            formDataSold.append('propertyId', propertyId)
+            fetch("http://localhost:3000/deleteproperty", {
+                method: 'POST',
+                headers: {
+                    'authorization': `Bearer ${token}`
+                },
+                body: formDataSold
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status == 200) {
+                        alert(`Property dengan id = ${propertyId} sold`)
+                        location.reload();
+                    }
+                })
+        }
     </script>
-  </head>
-  <body class="bg-qq-primary font-inter text-qq-secondary">
+</head>
+
+<body class="bg-qq-primary font-inter text-qq-secondary">
     <div class="flex flex-row bg-qq-secondary py-[3%] items-center">
         <image src="./asset/qq-logo.png" class="pl-[2%]"></image>
         <p class="text-white text-5xl pl-[2.3%] font-playfair">Agent | Dashboard</p>
@@ -165,9 +166,10 @@
         </div>
         <div class="w-[80%]">
             <div class="ml-[4%]">
-                    <div id="new-listing-button" class="text-qq-secondary border-qq-secondary border-2 text-center align-middle w-[20%] rounded-full text-2xl py-[1%] hover:cursor-pointer">
-                        <a href="agent-add-listing.html" class="">New Listing</a>
-                    </div>
+                <div
+                    class="text-qq-secondary border-qq-secondary border-2 text-center align-middle w-[20%] rounded-full text-2xl py-[1%] hover:cursor-pointer">
+                    <a href="agent-add-listing.html" class="">New Listing</a>
+                </div>
                 <div class="mt-[3%] py-[2%] bg-qq-secondary align-middle">
                     <div class="flex text-qq-primary font-semibold">
                         <div class="w-[20%] text-2xl text-center">ID Listing</div>
@@ -179,12 +181,13 @@
                 </div>
                 <div class=" shadow-xl">
                     <div id="listingResults">
-                    </div>  
+                    </div>
                 </div>
-                
+
             </div>
         </div>
     </div>
     <div id="footer"></div>
-  </body>
+</body>
+
 </html>
