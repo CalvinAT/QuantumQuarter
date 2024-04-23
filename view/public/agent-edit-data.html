@@ -122,5 +122,12 @@
         
     </div>
     <div id="footer"></div>
+    <script>
+        const token = localStorage.getItem("authToken");
+        const queryString = window.location.search.substring(1);
+        const queryParameter = queryString.split('&');
+        const parts = queryParameter[0].split('=');
+        const agentId = decodeURIComponent(parts[1]);
+    </script>
   </body>
 </html>

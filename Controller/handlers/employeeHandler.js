@@ -101,6 +101,8 @@ async function updateAgentProfile(req, res){
         whatsapp,
         address,
         email,
+        password,
+        newPassword
     } = req.body;
 
     try {
@@ -157,13 +159,14 @@ async function updateAgentProfile(req, res){
                 before = true;
             }
 
-            if(password !== undefined){
+            if(password !== undefined && newPassword !== undefined){
                 const passwordMatch = await bcrypt.compare(password, employee.password);
                 if(passwordMatch){
                     if (before) {
                         query2 += ', ';
                     }
-                    query2 += `password = '${password}'`;
+                    const hashedPassword = await bcrypt.hash(newPassword, 10);
+                    query2 += `password = '${hashedPassword}'`;
                     before = true;
                 }
             }
