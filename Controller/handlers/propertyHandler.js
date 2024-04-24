@@ -1,4 +1,4 @@
-const { connectToMongoDB }  = require('../dbConnection');
+const { connectToMongoDB, connectToMySQL }  = require('../dbConnection');
 const { getTokenData, checkUserType } = require('./authenticationHandler');
 const addLog = require('./logHandler');
 const propertyBuilder = require('../../Model/property');
@@ -225,6 +225,34 @@ async function getPropertyHandler(req, res) {
     }
 }
 
+async function getDetailedPropertyHandler(req, res) {
+    const {id} = req.body;
+    let query = {};
+    try {
+        const db = await connectToMongoDB.Get();
+        if (id !== undefined) {
+            query.id = id;
+        }
+        // try to query to db
+        const propertyData = await db.collection('property').find(query).toArray();
+        const data = propertyData[0]
+        const agentId = data.agent;
+        const pool = await connectToMySQL();
+        const agentData = await pool.query(
+            `SELECT * FROM employee 
+            INNER JOIN agent 
+            ON employee.id = agent.id 
+            INNER JOIN branch
+            ON branch.id = agent.branch_id 
+            WHERE employee.id = '${agentId}'`
+        );
+        const agentResult = agentData[0][0]
+        res.status(200).json({ status: 200, data, agentResult });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 async function setStatusPropertyHandler(req, res) {
     console.log("masuk 1")
     const authHeader = req.headers['authorization'];
@@ -290,4 +318,4 @@ async function setStatusPropertyHandler(req, res) {
     }
 }
 
-module.exports = { addPropertyHandler, getPropertyHandler, setStatusPropertyHandler };
+module.exports = { addPropertyHandler, getPropertyHandler, setStatusPropertyHandler, getDetailedPropertyHandler };

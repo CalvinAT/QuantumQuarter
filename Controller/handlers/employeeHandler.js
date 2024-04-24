@@ -6,6 +6,7 @@ const path = require('path');
 const {Storage} = require('@google-cloud/storage');
 
 const shortid = require('shortid');
+const { password } = require('../sqlConfig');
 const length = 8;
 
 async function addEmployee(req, res) {
@@ -98,6 +99,10 @@ async function updateAgentProfile(req, res){
     const {
         phoneNumber,
         whatsapp,
+        address,
+        email,
+        password,
+        newPassword
     } = req.body;
 
     try {
@@ -107,24 +112,68 @@ async function updateAgentProfile(req, res){
         }
 
         const { id } = getTokenData(authHeader);
-        let query = 'UPDATE agent SET ';
 
-        // check phone number input
-        if(phoneNumber !== undefined){
-            query += `phone_number = '${phoneNumber}'`;
-        }
-
-        // check whatsapp input
-        if(whatsapp !== undefined){
-            if(phoneNumber !== undefined){
-                query+= ', ';
-            }
-            query += `whatsapp = '${whatsapp}'`;
-        }
-
-        query += ` WHERE id = '${id}'`;
         const pool = await connectToMySQL();
-        await pool.query(query);
+
+        const [results] = await pool.query('SELECT * FROM employee WHERE id = ?', [id]);
+
+        const employee = results[0];
+
+        if (phoneNumber || whatsapp) {
+            let query1 = 'UPDATE agent SET ';
+
+            // check phone number input
+            if(phoneNumber !== undefined){
+                query1 += `phone_number = '${phoneNumber}'`;
+            }
+            
+            // check whatsapp input
+            if(whatsapp !== undefined){
+                if (phoneNumber !== undefined) {
+                    query1 += ', ';
+                }
+                query1 += `whatsapp = '${whatsapp}'`;
+            }
+
+            query1 += ` WHERE id = '${id}'`;
+            await pool.query(query1);
+        }
+        
+        if(address || email){
+            let query2 = 'UPDATE employee SET ';
+
+            let before = false;
+
+            // check address input
+            if(address !== undefined){
+                query2 += `address = '${address}'`;
+                before = true;
+            }
+            
+            // check email input
+            if(email !== undefined){
+                if (before) {
+                    query2 += ', ';
+                }
+                query2 += `email = '${email}'`;
+                before = true;
+            }
+
+            if(password !== undefined && newPassword !== undefined){
+                const passwordMatch = await bcrypt.compare(password, employee.password);
+                if(passwordMatch){
+                    if (before) {
+                        query2 += ', ';
+                    }
+                    const hashedPassword = await bcrypt.hash(newPassword, 10);
+                    query2 += `password = '${hashedPassword}'`;
+                    before = true;
+                }
+            }
+
+            query2 += ` WHERE id = '${id}'`;
+            await pool.query(query2);
+        }
 
         res.status(201).json({ status: 201, message: 'Agent data successfully updated' });
     } catch (error) {
@@ -143,7 +192,7 @@ async function getProfile(req, res){
         const data = await pool.query(
             `SELECT * FROM employee 
             INNER JOIN agent 
-            ON employee.id = agent.id 
+            ON employee.id = agent.id
             WHERE employee.id = '${id}'`
         );
         res.status(201).json({ status: 201, data: data[0]});

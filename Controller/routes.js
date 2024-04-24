@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 
-const { addPropertyHandler, getPropertyHandler, setStatusPropertyHandler } = require('./handlers/propertyHandler')
-const { addEmployee, updateAgentProfile, getProfile } = require('./handlers/employeeHandler');
+const { addPropertyHandler, getPropertyHandler, setStatusPropertyHandler, getDetailedPropertyHandler } = require('./handlers/propertyHandler')
+const { addEmployee, updateAgentProfile, getProfile, getAgent } = require('./handlers/employeeHandler');
 const { login, logout ,tesTesting} = require('./handlers/loginHandler');
 const countMortgageSimulation = require('./handlers/mortgageHandler');
 const {getFeedback, addFeedback} = require('./handlers/feedbackHandler')
@@ -13,6 +13,8 @@ router.post('/property', upload.array('images',5), addPropertyHandler);
 router.post('/getproperty', upload.none(), getPropertyHandler);
 router.put('/property', upload.none(), setStatusPropertyHandler);
 router.post('/deleteproperty', upload.none(), setStatusPropertyHandler);
+
+router.post('/getdetailedproperty', upload.none(), getDetailedPropertyHandler);
 
 router.post('/employee', upload.single('image'), addEmployee);
 
