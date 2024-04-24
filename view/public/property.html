@@ -33,6 +33,15 @@
                     const agent = data.agentResult;
                     const wa = agent.whatsapp.slice(1);
                     const property = data.data;
+                    if(property.bedroomCount == undefined || property.bedroomCount == NaN){
+                        property.bedroomCount = 'not available';
+                    } 
+                    if(property.bathroomCount == undefined || property.bathroomCount == NaN){
+                        property.bathroomCount = 'not available';
+                    } 
+                    if(property.floorLevel == undefined || property.floorLevel == ''){
+                        property.floorLevel = '1';
+                    } 
                     let garage = '';
                     if (property.garage == "true") {
                         garage = "available"
