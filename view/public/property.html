@@ -13,6 +13,7 @@
         </script>
     <script>
         const queryParams = new URLSearchParams(window.location.search);
+        let property
         if (queryParams.has('id')) {
             const propertyId = queryParams.get('id');
             $(function () {
@@ -30,10 +31,14 @@
                 .then(response => response.json())
                 .then(data => {
                     const agent = data.agentResult;
-                    console.log(agent);
                     const wa = agent.whatsapp.slice(1);
                     const property = data.data;
-                    console.log(property);
+                    let garage = '';
+                    if (property.garage == "true") {
+                        garage = "available"
+                    } else {
+                        garage = "not available"
+                    }
                     const myDiv = document.getElementById('results');
                     let htmlCode = `<div class="w-[30%] pr-[3%]">
                                         <div class="outline rounded-lg outline-qq-secondary text-center pt-4">
@@ -88,7 +93,7 @@
                                                 <div class="bg-qq-secondary rounded-2xl">
                                                     <image src="./asset/Location.png" class="scale-75"></image>
                                                 </div>
-                                                <p class="pl-[3%] font-semibold">Area</p>
+                                                <p class="pl-[3%] font-semibold">City</p>
                                             </div>
                                             <p class="font-semibold">:&nbsp;</p>
                                             <p class="font-semibold">${property.area}</p>
@@ -141,7 +146,7 @@
                                                 <p class="pl-[3%] font-semibold">Garage</p>
                                             </div>
                                             <p class="font-semibold">:&nbsp;</p>
-                                            <p class="font-semibold">${property.garage}</p>
+                                            <p class="font-semibold">${garage}</p>
                                         </div>
                                         <div class="flex flex-row  items-center py-[2%]">
                                             <div class="w-[40%] flex flex-row h-12 items-center">
@@ -166,6 +171,98 @@
         }
     </script>
     <script>
+        const propertyId = queryParams.get('id');
+        const formData2 = new FormData();
+        formData2.append('requestedBy', '1');
+        fetch('http://localhost:3000/getproperty', {
+            method: 'POST',
+            body: formData2
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                const myDiv = document.getElementById('other');
+                let htmlCode = '';
+                let count = 0;
+                for (const propertyKey in data.data) {
+                    if(count == 2){
+                        break;
+                    }
+                    const property = data.data[propertyKey];
+                    let propertyIds = property.id;
+                    if (propertyId != property.id){
+                        count++;
+                        let title = property.title;
+                        let price = property.price;
+                        let landArea = property.landArea;
+                        let imgPath = property.images[0];
+                        let area = property.area;
+                        let type = property.type;
+                        let floorLevel = property.floorLevel;
+                        if (floorLevel == undefined) {
+                            floorLevel = 1;
+                        };
+                        let bedroomCount = property.bedroomCount;
+                        let bedroomImg = 'BedBlue.png';
+                        if (bedroomCount == undefined) {
+                            bedroomCount = 0;
+                            bedroomImg = 'Bed-not.png';
+                        };
+                        let bathroomCount = property.bathroomCount;
+                        let bathroomImg = 'BathBlue.png';
+                        if (bathroomCount == undefined) {
+                            bathroomCount = 0;
+                            bathroomImg = 'Bathtub-not.png'
+                        }
+                        let garage = property.garage;
+                        let garageImg = 'GarageBlue.png';
+                        if (garage == undefined) {
+                            garageImg = 'Garage-not.png';
+                        }
+                        htmlCode += `<a href="property.html?id=${propertyIds}"
+                                        class="bg-white flex rounded-3xl mx-[5%] my-[3%] hover:decoration-inherit hover:no-underline">
+                                        <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
+                                            <image class="rounded-tl-3xl pb-2" src="${imgPath}"></image>
+                                            <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary">${title}</p>
+                                            <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
+                                                <p class="text-2xl">Rp.${price}</p>
+                                                <p class="ml-auto text-xl pr-[4%]">${landArea}m²</p>
+                                            </div>
+                                        </div>
+                                        <div class="text-center align-middle w-[23%] text-qq-secondary">
+                                            <p class="font-inter text-xl font-semibold pt-[25%]">${type}</p>
+                                            <div class="flex align-middle font-inter items-center font-semibold pl-[12%]">
+                                                <image class="h-[20%] scale-75" src="./asset/${bedroomImg}"></image>
+                                                <p class="font-inter text-3xl pl-2 pt-[17%]">${bedroomCount}</p>
+                                            </div>
+                                            <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[8%]">
+                                                <image class="h-[20%] scale-75" src="./asset/${bathroomImg}"></image>
+                                                <p class="font-inter text-3xl pl-3 pt-[10%]">${bathroomCount}</p>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-0 scale-90 items-center">
+                                                <image src="./asset/${garageImg}" class="pt-2"></image>
+                                                <div>
+                                                    <image src="./asset/FloorBlue.png"></image>
+                                                    <div class="absolute inset-0 flex justify-center items-center">
+                                                        <div class="text-white pl-20 pr-2 pb-4 text-xl font-bold">${floorLevel}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pt-[20%] font-bold justify-end">
+                                                ${area}
+                                            </div>
+                                        </div>
+                                    </a>`;
+                    }
+                }
+                myDiv.innerHTML = htmlCode;
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error('Error:', error);
+            });
+    </script>
+    <script>
         $(document).ready(function () {
             $("#carouselexit").click(function () {
                 $("#overlaycarousel").toggle();
@@ -181,42 +278,10 @@
     </div>
     <div class="bg-qq-offcolor">
         <div class="ml-[3%] pt-[2%]">
-            <p class="font-bold text-xl">Similar Listings</p>
+            <p class="font-bold text-xl">Other Listings</p>
             <div class="flex-grow border-3 border-qq-tertiary w-[12%] mb-[1%]"></div>
-            <div id="results" class="grid grid-cols-2 gap-10 px-[7%] py-[2%]">
-                <a href="property.html?id=${propertyId}" class="bg-white flex rounded-3xl mx-[5%] my-[3%] hover:decoration-inherit hover:no-underline">
-                    <div class="w-[80%] bg-qq-secondary rounded-l-3xl">
-                        <image class="rounded-tl-3xl pb-2" src="${imgPath}"></image>
-                        <p class="text-xl bg-qq-secondary pl-[4%] pt-2 text-qq-primary" >${title}</p>
-                        <div class="flex items-center font-inter  pl-[4%] pb-2 text-qq-primary">
-                            <p class="text-2xl">Rp.${price}</p>
-                            <p class="ml-auto text-xl pr-[4%]">${landArea}m²</p>
-                        </div>
-                    </div>
-                    <div class="text-center align-middle w-[23%] text-qq-secondary">
-                        <p class="font-inter text-xl font-semibold pt-[25%]">${type}</p>
-                        <div class="flex align-middle font-inter items-center font-semibold pl-[12%]">
-                            <image class="h-[20%] scale-75" src="./asset/${bedroomImg}"></image>
-                            <p class="font-inter text-3xl pl-4 pt-[17%]">${bedroomCount}</p>
-                        </div>
-                        <div class="flex align-middle font-inter items-center font-semibold py-[10%] pl-[8%]">
-                            <image class="h-[20%] scale-75" src="./asset/${bathroomImg}"></image>
-                            <p class="font-inter text-3xl pl-5 pt-[10%]">${bathroomCount}</p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-0 scale-90 items-center">
-                            <image src="./asset/${garageImg}" class="pt-2"></image>
-                            <div>
-                                <image src="./asset/FloorBlue.png"></image>
-                                <div class="absolute inset-0 flex justify-center items-center">
-                                    <div class="text-white pl-20 pr-2 pb-4 text-xl font-bold">${floorLevel}</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pt-[20%] font-bold justify-end">
-                            ${area}
-                        </div>
-                    </div>
-                </a>
+            <div id="other" class="grid grid-cols-2 gap-10 px-[7%] py-[2%]">
+                
             </div>
         </div>
     </div>
